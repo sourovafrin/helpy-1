@@ -33,7 +33,7 @@ async def start():
         vp = sourov.get_voting_power()
         if vp >=99.5:
             for perm in acc.comment_history():
-                if str(perm) == last_com
+                if str(perm) == last_com:
                     break
                 else:
                     comments.append(perm)
