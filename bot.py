@@ -19,7 +19,7 @@ stm = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://w
 sourov = Account("sourov", steem_instance=stm)
 acc = Account("mrcheisen", steem_instance=stm)
 
-last_com = "<Comment @mrcheisen/re-black-man-homeless-heart-part-1-20190413t213522942z>"
+last_com = "<Comment @mrcheisen/re-itikna09-colorful-puddings-20190414t060636786z>"
 
 def glo(met):
     global last_com
@@ -32,7 +32,7 @@ async def start():
         stm = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'], keys=[SV])
         comments = []
         vp = sourov.get_voting_power()
-        if vp >=99.5:
+        if vp >=99.7:
             for perm in acc.comment_history():
                 if str(perm) == last_com:
                     break
@@ -47,15 +47,15 @@ async def start():
             if len(comments) == 0:
                 await client.say("<@404376297624567810> Vp is going waste. I will cut rewards from you :rage:\nBy the way when you comment, start the bot again by this command: `?start`. Stopping......")
                 runn = False
-                
             else:
                 for comment in comments:
                     comm=Comment(comment,steem_instance=stm)
                     comm.upvote(100,"sourov")
                     await client.say("Successfully upvoted `{}`".format(comm))
+                    await asyncio.sleep(5)
                     break
         else:
-            wait_time=(99.51-vp)*4300
+            wait_time=(99.71-vp)*4300
             msg=wait_time/60
             hr=msg/60
             await client.say("Next upvote in `{}` minutes or `{}` hours".format(msg,hr))
