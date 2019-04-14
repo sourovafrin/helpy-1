@@ -27,7 +27,8 @@ def glo(met):
 
 @client.command()
 async def start():
-    while True:
+    runn = True
+    while runn:
         stm = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'], keys=[SV])
         comments = []
         vp = sourov.get_voting_power()
@@ -43,8 +44,10 @@ async def start():
                 await client.say("<@404376297624567810> I have only 1 more comment left to upvote. You better write some comment")
             if len(comments) == 1:
                 await client.say("<@404376297624567810> I don't see any comment to upvote. Please, do hurry and comment.\nOtherwise, vp will go waste")
-            if len(comments)==0:
-                await client.say("<@404376297624567810> Vp is going waste. I will cut rewards from you :rage:")
+            if len(comments) == 0:
+                await client.say("<@404376297624567810> Vp is going waste. I will cut rewards from you :rage:\nBy the way when you comment, start the bot again by this command: `?start`. Stopping......")
+                runn = False
+                
             else:
                 for comment in comments:
                     comm=Comment(comment,steem_instance=stm)
@@ -55,7 +58,8 @@ async def start():
         else:
             wait_time=(99.51-vp)*4300
             msg=wait_time/60
-            await client.say("Next upvote in `{}` minutes".format(msg))
+            hr=msg/60
+            await client.say("Next upvote in `{}` minutes or `{}` hours".format(msg,hr))
             await asyncio.sleep(wait_time)
 
 @start.error
