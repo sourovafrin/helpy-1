@@ -52,7 +52,6 @@ async def start():
                 for comment in comments:
                     comm=Comment(comment,steem_instance=stm)
                     comm.upvote(100,"sourov")
-                    glo(str(comment))
                     await client.say("Successfully upvoted `{}`".format(comm))
                     break
         else:
