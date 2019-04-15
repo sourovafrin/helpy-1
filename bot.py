@@ -19,14 +19,10 @@ stm = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://w
 sourov = Account("sourov", steem_instance=stm)
 acc = Account("mrcheisen", steem_instance=stm)
 
-last_com = "<Comment @mrcheisen/re-itikna09-colorful-puddings-20190414t060636786z>"
-
-def glo(met):
-    global last_com
-    last_com=met
 
 @client.command()
-async def start():
+async def start(memo):
+    last_com = memo
     runn = True
     while runn:
         stm = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'], keys=[SV])
@@ -52,6 +48,7 @@ async def start():
                     comm=Comment(comment,steem_instance=stm)
                     comm.upvote(100,"sourov")
                     await client.say("Successfully upvoted `{}`".format(comm))
+                    last_com = comm
                     await asyncio.sleep(5)
                     break
         else:
@@ -61,10 +58,7 @@ async def start():
             await client.say("Next upvote in `{}` minutes or `{}` hours".format(msg,hr))
             await asyncio.sleep(wait_time)
 
-@start.error
-async def on_command_error(error,ctx):
-    if isinstance(error, Exception, ):
-        await client.say(error)
+
         
         
 @client.command()
