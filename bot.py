@@ -3,6 +3,7 @@ from beem.account import Account
 from beem.comment import Comment
 from beem import Steem
 import asyncio
+import time
 import os
 
 SV=os.environ.get('SV')
@@ -19,16 +20,20 @@ stm = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://w
 sourov = Account("sourov", steem_instance=stm)
 acc = Account("mrcheisen", steem_instance=stm)
 
+last_com="<Comment @mrcheisen/re-lost108-dharma-initiative-meme-station-131-20190414t135913773z>"
+
+def glo(met):
+    global last_com
+    last_com=met
 
 @client.command()
-async def start(memo):
-    last_com = memo
+async def start():
     runn = True
     while runn:
         stm = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'], keys=[SV])
         comments = []
         vp = sourov.get_voting_power()
-        if vp >=94.7:
+        if vp >=99.9:
             for perm in acc.comment_history():
                 if str(perm) == last_com:
                     break
@@ -47,18 +52,21 @@ async def start(memo):
                 for comment in comments:
                     comm=Comment(comment,steem_instance=stm)
                     comm.upvote(100,"sourov")
+                    glo(str(comment))
                     await client.say("Successfully upvoted `{}`".format(comm))
-                    last_com = comm
-                    await asyncio.sleep(5)
+                    time.sleep(5)
                     break
         else:
-            wait_time=(99.71-vp)*4300
+            wait_time=(99.91-vp)*4300
             msg=wait_time/60
             hr=msg/60
             await client.say("Next upvote in `{}` minutes or `{}` hours".format(msg,hr))
             await asyncio.sleep(wait_time)
 
-
+@start.error
+async def on_command_error(error,ctx):
+    if isinstance(error, Exception, ):
+        await client.say(error)
         
         
 @client.command()
