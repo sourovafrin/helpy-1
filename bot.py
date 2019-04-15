@@ -28,7 +28,7 @@ async def start(memo):
         stm = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'], keys=[SV])
         comments = []
         vp = sourov.get_voting_power()
-        if vp >=99.7:
+        if vp >=94.7:
             for perm in acc.comment_history():
                 if str(perm) == last_com:
                     break
