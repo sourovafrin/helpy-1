@@ -14,7 +14,6 @@ ignore_list= ['holger80']
 
 print("Running")
 for data in blockchain.stream('vote'):
-    print(data)
     asyncio.sleep(1)
     if data['voter'] == 'holger80':
         author = data['author']
