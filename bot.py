@@ -12,7 +12,7 @@ wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://w
 blockchain = Blockchain(steem_instance=wls,mode='head')
 ignore_list= ['holger80']
 
-
+print("Running")
 for data in blockchain.stream('vote'):
     print(data)
     asyncio.sleep(1)
@@ -31,7 +31,7 @@ for data in blockchain.stream('vote'):
             account = Account('sourov')
             post = Comment(main_perm,steem_instance=wls)
             try:
-                post.upvote(weight=vote_percent, 'sourov')
+                post.upvote(weight=vote_percent, voter='sourov')
                 post_age = post.time_elapsed()
             except Exception as e:
                 print(e)
