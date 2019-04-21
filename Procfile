@@ -1,1 +1,1 @@
-worker: npm2 start bot.py --interpreter=python3
+worker: pm2 start bot.py --interpreter=python3
