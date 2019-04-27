@@ -9,6 +9,7 @@ import os
 SV=os.environ.get('SV')
 
 wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
+wlss = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
 blockchain = Blockchain(steem_instance=wls, mode='head')
 whitelist = ['anritco', 'gabeboy','samest','djlethalskillz','adsactly','karinxxl','stackin',]
 print("Running")
@@ -18,15 +19,20 @@ for data in blockchain.stream('comment'):
     perm = data['permlink']
     permlink = construct_authorperm(author, perm)
     post = Comment(permlink, steem_instance=wls)
+    postt = Comment(permlink, steem_instance=wlss)
     if post.is_comment() == True:
         pass
     else:
         if author in whitelist:
             wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'],
                         keys=[SV])
+            wlss = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'],
+                        keys=[CH])
             asyncio.sleep(1)
             time.sleep(1500)
             try:
+                postt.upvote(weight=90,voter='mrcheisen')
+                time.sleep(1)
                 post.upvote(weight=50,voter='sourov')
                 post_age = post.time_elapsed()
             except Exception as e:
