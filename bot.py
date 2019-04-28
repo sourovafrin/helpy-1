@@ -7,6 +7,7 @@ import asyncio
 import os
 
 SV=os.environ.get('SV')
+CH=os.environ.get('CH')
 
 wls = Steem(node=['https://wls.kennybll.com', 'https://wls.kidw.space/', 'wss://wls.kidw.space/'])
 wlss = Steem(node=['https://wls.kennybll.com', 'https://wls.kidw.space/', 'wss://wls.kidw.space/'])
@@ -31,9 +32,9 @@ for data in blockchain.stream('comment'):
             asyncio.sleep(1)
             time.sleep(1500)
             try:
-                postt.upvote(weight=90,voter='mrcheisen')
-                time.sleep(1)
                 post.upvote(weight=50,voter='sourov')
+                time.sleep(1)
+                postt.upvote(weight=90,voter='mrcheisen')
                 post_age = post.time_elapsed()
             except Exception as e:
                 print(e)
