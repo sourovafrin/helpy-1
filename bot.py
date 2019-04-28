@@ -8,8 +8,8 @@ import os
 
 SV=os.environ.get('SV')
 
-wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
-wlss = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
+wls = Steem(node=['https://wls.kennybll.com', 'https://wls.kidw.space/', 'wss://wls.kidw.space/'])
+wlss = Steem(node=['https://wls.kennybll.com', 'https://wls.kidw.space/', 'wss://wls.kidw.space/'])
 blockchain = Blockchain(steem_instance=wls, mode='head')
 whitelist = ['anritco', 'gabeboy','samest','djlethalskillz','adsactly','karinxxl','stackin',]
 print("Running")
