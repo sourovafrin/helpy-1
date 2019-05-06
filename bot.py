@@ -27,7 +27,7 @@ for data in blockchain.stream('comment'):
             asyncio.sleep(1)
             time.sleep(1200)
             try:
-                post.upvote(weight=80,voter='sourov')
+                post.upvote(weight=30,voter='sourov')
                 post_age = post.time_elapsed()
             except Exception as e:
                 print(e)
