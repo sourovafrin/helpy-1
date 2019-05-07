@@ -7,7 +7,7 @@ import asyncio
 import os
 
 CH=os.environ.get('CH')
-CH=os.environ.get('SV')
+SV=os.environ.get('SV')
 
 wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
 blockchain = Blockchain(steem_instance=wls, mode='head')
@@ -24,7 +24,7 @@ for data in blockchain.stream('comment'):
     else:
         if author in whitelist:
             wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'],
-                        keys=[CH])
+                        keys=[CH,SV])
             asyncio.sleep(1)
             time.sleep(1200)
             try:
