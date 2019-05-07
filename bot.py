@@ -24,7 +24,7 @@ for data in blockchain.stream('comment'):
     else:
         if author in whitelist:
             wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'],
-                        keys=[CH,SV])
+                        keys=[CH])
             asyncio.sleep(1)
             time.sleep(1200)
             try:
