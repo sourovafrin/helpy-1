@@ -10,7 +10,7 @@ CH=os.environ.get('CH')
 
 wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
 blockchain = Blockchain(steem_instance=wls, mode='head')
-whitelist = ['anritco','samest','karinxxl','stackin','milkbox.esp','derangedvisions','tedtv','dangyver','ladyfont','azizbd','muh543']
+whitelist = ['anritco','samest','karinxxl','stackin','milkbox.esp','derangedvisions','zakaria','tedtv','dangyver','ladyfont','azizbd','muh543']
 print("Running")
 for data in blockchain.stream('comment'):
     time.sleep(1)
