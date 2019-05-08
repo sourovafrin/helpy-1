@@ -26,7 +26,7 @@ for data in blockchain.stream('comment'):
             wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'],
                         keys=[CH,SV])
             asyncio.sleep(1)
-            time.sleep(1200)
+            time.sleep(1500)
             try:
                 post.upvote(weight=30,voter='sourov')
                 post_age = post.time_elapsed()
