@@ -28,7 +28,7 @@ for data in blockchain.stream('comment'):
             asyncio.sleep(1)
             time.sleep(1500)
             try:
-                post.upvote(weight=30,voter='sourov')
+                post.upvote(weight=20,voter='sourov')
                 post_age = post.time_elapsed()
                 if author == 'mrcheisen':
                     pass
