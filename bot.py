@@ -33,7 +33,7 @@ for data in blockchain.stream('comment'):
                 if author == 'mrcheisen':
                     pass
                 else:
-                    post.upvote(weight=10,voter='mrcheisen')
+                    post.upvote(weight=70,voter='mrcheisen')
             except Exception as e:
                 print(e)
             print("Upvoted {}\nTime elapsed {}\n\n*************************".format(permlink,post_age))
