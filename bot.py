@@ -34,7 +34,7 @@ for data in blockchain.stream('comment'):
                     pass
                 else:
                     post.upvote(weight=60,voter='mrcheisen')
-                    post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up th good work ✌",author="mrcheisen")
+                    post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌",author="mrcheisen")
             except Exception as e:
                 print(e)
             print("Upvoted {}\nTime elapsed {}\n\n*************************".format(permlink,post_age))
