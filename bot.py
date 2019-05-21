@@ -28,12 +28,12 @@ for data in blockchain.stream('comment'):
             asyncio.sleep(1)
             time.sleep(1500)
             try:
-                post.upvote(weight=20,voter='sourov')
+                post.upvote(weight=10,voter='sourov')
                 post_age = post.time_elapsed()
                 if author == 'mrcheisen':
                     pass
                 else:
-                    post.upvote(weight=40,voter='mrcheisen')
+                    post.upvote(weight=60,voter='mrcheisen')
             except Exception as e:
                 print(e)
             print("Upvoted {}\nTime elapsed {}\n\n*************************".format(permlink,post_age))
