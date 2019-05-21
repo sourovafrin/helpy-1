@@ -11,7 +11,7 @@ SV=os.environ.get('SV')
 
 wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
 blockchain = Blockchain(steem_instance=wls, mode='head')
-whitelist = ['anritco','samest','karinxxl','stackin','thebugiq','derangedvisions','zakaria','tedtv','dangyver','ladyfont','azizbd','muh543','chilix','sardart']
+whitelist = ['anritco','samest','karinxxl','stackin','thebugiq','zakaria','tedtv','dangyver','ladyfont','azizbd','muh543','chilix','sardart']
 print("Running")
 for data in blockchain.stream('comment'):
     time.sleep(1)
@@ -34,6 +34,7 @@ for data in blockchain.stream('comment'):
                     pass
                 else:
                     post.upvote(weight=60,voter='mrcheisen')
+                    post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up th good work ✌",author="mrcheisen")
             except Exception as e:
                 print(e)
             print("Upvoted {}\nTime elapsed {}\n\n*************************".format(permlink,post_age))
