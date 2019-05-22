@@ -33,7 +33,7 @@ for data in blockchain.stream('comment'):
                 if author == 'mrcheisen':
                     pass
                 else:
-                    post.upvote(weight=60,voter='mrcheisen')
+                    post.upvote(weight=70,voter='mrcheisen')
                     post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌",author="mrcheisen")
             except Exception as e:
                 print(e)
