@@ -27,6 +27,9 @@ for data in blockchain.stream('comment'):
             wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'], keys=[CH,SV])
             asyncio.sleep(1)
             time.sleep(1790)
+            print(post)
+            post.clear_cache()
+            post.refresh()
             reward = float(post.reward)
             print("Reward before upvote {}".format(reward))
             if reward <= 0.1:
