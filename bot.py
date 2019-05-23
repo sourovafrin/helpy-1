@@ -43,16 +43,22 @@ def check():
                 wt = 30
             elif reward <= 0.4:
                 wt = 15
-            else:
+            elif reward <= 1:
                 wt = 10
+            else:
+                wt = 1
             try:
-                post.upvote(weight=60, voter='mrcheisen')
-                time.sleep(1)
-                post.upvote(weight=wt, voter='sourov')
-                if author not in cmnt:
-                    post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌\nReply `@sourov stop` in case you don't want comment anymore.", author="mrcheisen")
-                print("Upvoted {}\nTime elapsed {}\n\n*************************".format(perms, age))
-                record.delete_one({"link": perms})
+                if wt == 1:
+                    record.delete_one({"link": perms})
+                else:
+                    post.upvote(weight=60, voter='mrcheisen')
+                    time.sleep(1)
+                    post.upvote(weight=wt, voter='sourov')
+                    if author not in cmnt:
+                        post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌\nReply `@sourov stop` in case you don't want comment anymore.", author="mrcheisen")
+                        
+                    print("Upvoted {}\nTime elapsed {}\n\n*************************".format(perms, age))
+                    record.delete_one({"link": perms})
             except Exception as e:
                 print(e)
         else:
