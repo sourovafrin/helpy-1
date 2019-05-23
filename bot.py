@@ -26,6 +26,7 @@ print("Running")
 def check():
     for i in record.find():
         perms = i['link']
+        wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
         post = Comment(perms, steem_instance=wls)
         age = post.time_elapsed()
         if age > thresold:
