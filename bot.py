@@ -11,8 +11,8 @@ SV=os.environ.get('SV')
 
 wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
 blockchain = Blockchain(steem_instance=wls, mode='head')
-whitelist = ['anritco','samest','karinxxl','stackin','thebugiq','zakaria','tedtv','dangyver','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin']
-cmnt = ['thebugiq','haejin']
+whitelist = ['anritco','samest','karinxxl','stackin','thebugiq','zakaria','tedtv','dangyver','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12']
+cmnt = ['thebugiq']
 print("Running")
 for data in blockchain.stream('comment'):
     author = data['author']
@@ -25,10 +25,7 @@ for data in blockchain.stream('comment'):
         if author in whitelist:
             wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'], keys=[CH,SV])
             asyncio.sleep(1)
-            if author == 'haejin':
-                time.sleep(1400)
-            else:
-                time.sleep(1790)
+            time.sleep(1790)
             reward = float(post.reward)
             if reward == 0:
                 wt = 100
