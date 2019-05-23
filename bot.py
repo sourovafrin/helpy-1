@@ -9,7 +9,7 @@ import os
 CH=os.environ.get('CH')
 SV=os.environ.get('SV')
 
-wls = Steem(node=['https://rpc2.wls.services/', 'https://rpc3.wls.services/', 'wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
+wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
 blockchain = Blockchain(steem_instance=wls, mode='head')
 whitelist = ['anritco','samest','karinxxl','stackin','thebugiq','zakaria','tedtv','dangyver','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12']
 cmnt = ['thebugiq']
