@@ -27,9 +27,8 @@ for data in blockchain.stream('comment'):
             asyncio.sleep(1)
             time.sleep(1790)
             reward = float(post.reward)
-            if reward == 0:
-                wt = 100
-            elif reward <= 0.1:
+            print("Reward before upvote {}".format(reward))
+            if reward <= 0.1:
                 wt = 90
             elif reward <= 0.2:
                 wt = 70
