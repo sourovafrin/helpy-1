@@ -17,9 +17,9 @@ record = db.wls_link
 
 wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
 blockchain = Blockchain(steem_instance=wls, mode='head')
-whitelist = ['anritco','samest','karinxxl','stackin','thebugiq','zakaria','tedtv','dangyver','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12']
-cmnt = ['thebugiq']
-thresold = timedelta(minutes=29, seconds=30)
+whitelist = ['anritco','samest','karinxxl','stackin','thebugiq','zakaria','tedtv','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','arepadigital','caminante','bmbk','exe8422','backpackingmonk','termite','peman85','heeyahnuh']
+cmnt = ['thebugiq','haejin']
+thresold = timedelta(minutes=29)
 print("Running")
 
 
@@ -34,6 +34,7 @@ def check():
             post.clear_cache()
             post.refresh()
             reward = float(post.reward)
+            print("Post link: {}".format(perms))
             print("Reward before upvote {}".format(reward))
             if reward <= 0.1:
                 wt = 90
@@ -57,7 +58,7 @@ def check():
                     if author not in cmnt:
                         post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌\nReply `@sourov stop` in case you don't want comment anymore.", author="mrcheisen")
                         
-                    print("Upvoted {}\nTime elapsed {}\n\n*************************".format(perms, age))
+                    print("Upvoted\nTime elapsed {}\n\n*************************".format(age))
                     record.delete_one({"link": perms})
             except Exception as e:
                 print(e)
