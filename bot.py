@@ -38,14 +38,18 @@ def check():
             print("Time elapsed {}".format(age))
             print("Reward before upvote {}".format(reward))
             if reward <= 0.1:
-                wt = 90
+                wt = 100
             elif reward <= 0.2:
-                wt = 70
+                wt = 75
             elif reward <= 0.3:
-                wt = 30
+                wt = 50
             elif reward <= 0.4:
-                wt = 15
+                wt = 30
             elif reward <= 1:
+                wt = 20
+            elif reward <= 1.5:
+                wt = 15
+            elif reward <= 2:
                 wt = 10
             else:
                 wt = 1
