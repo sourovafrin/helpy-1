@@ -35,6 +35,7 @@ def check():
             post.refresh()
             reward = float(post.reward)
             print("Post link: {}".format(perms))
+            print("Time elapsed {}".format(age))
             print("Reward before upvote {}".format(reward))
             if reward <= 0.1:
                 wt = 90
@@ -51,13 +52,14 @@ def check():
             try:
                 if wt == 1:
                     record.delete_one({"link": perms})
+                    print("Didn't upvoted\n\nxxxxxxxxxxxxxxxxxxxxxxxxx")
                 else:
                     post.upvote(weight=100, voter='mrcheisen')
                     time.sleep(1)
                     post.upvote(weight=wt, voter='sourov')
                     if post.author not in cmnt:
                         post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌\nReply `@sourov stop` in case you don't want comment anymore.", author="mrcheisen")
-                    print("Upvoted\nTime elapsed {}\n\n*************************".format(age))
+                    print("Upvoted\n\n*************************")
                     record.delete_one({"link": perms})
             except Exception as e:
                 e = str(e)
