@@ -52,7 +52,7 @@ def check():
                 if wt == 1:
                     record.delete_one({"link": perms})
                 else:
-                    post.upvote(weight=90, voter='mrcheisen')
+                    post.upvote(weight=100, voter='mrcheisen')
                     time.sleep(1)
                     post.upvote(weight=wt, voter='sourov')
                     if author in cmnt:
