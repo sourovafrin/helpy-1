@@ -18,7 +18,7 @@ record = db.wls_link
 wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
 blockchain = Blockchain(steem_instance=wls, mode='head')
 whitelist = ['anritco','samest','karinxxl','stackin','thebugiq','zakaria','tedtv','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','arepadigital','caminante','backpackingmonk','termite','peman85','heeyahnuh']
-cmnt = ['thebugiq', 'haejin']
+cmnt = ['thebugiq', 'haejin', 'backpackingmonk']
 thresold = timedelta(minutes=29)
 print("Running")
 
