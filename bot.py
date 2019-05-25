@@ -55,9 +55,7 @@ def check():
                     post.upvote(weight=100, voter='mrcheisen')
                     time.sleep(1)
                     post.upvote(weight=wt, voter='sourov')
-                    if author in cmnt:
-                        pass
-                    else:
+                    if post.author not in cmnt:
                         post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌\nReply `@sourov stop` in case you don't want comment anymore.", author="mrcheisen")
                     print("Upvoted\nTime elapsed {}\n\n*************************".format(age))
                     record.delete_one({"link": perms})
