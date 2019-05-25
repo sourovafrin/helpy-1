@@ -62,7 +62,10 @@ def check():
                     print("Upvoted\nTime elapsed {}\n\n*************************".format(age))
                     record.delete_one({"link": perms})
             except Exception as e:
-                print(e)
+                e = str(e)
+                print("Following error :{}".format(e))
+                if e == 'You have already voted in a similar way.':
+                    record.delete_one({"link": perms})
         else:
             break
 
