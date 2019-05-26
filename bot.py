@@ -19,7 +19,6 @@ wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://w
 blockchain = Blockchain(steem_instance=wls, mode='head')
 whitelist = ['anritco','samest','karinxxl', 'heyimsnuffles', 'chrisrendon', 'theunion', 'zhanavic69', 'al-desnudo', 'uche-nna', 'samprock', 'marinella', 'joseph1956', 'stackin','thebugiq','zakaria','tedtv','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','caminante','backpackingmonk','termite','peman85','heeyahnuh']
 cmnt = ['thebugiq', 'haejin', 'backpackingmonk', 'marinella', 'al-desnudo']
-thresold = timedelta(minutes=29)
 print("Running")
 
 
@@ -29,9 +28,11 @@ def check():
         wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
         post = Comment(perms, steem_instance=wls)
         age = post.time_elapsed()
-        au = post.author
+        au = str(post.author)
         if au == 'haejin':
             thresold = timedelta(minutes=24)
+        else:
+            thresold = timedelta(minutes=29)
         if age > thresold:
             wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'], keys=[CH, SV])
             post.clear_cache()
