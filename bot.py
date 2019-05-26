@@ -88,5 +88,6 @@ for data in blockchain.stream('comment'):
     post = Comment(permlink, steem_instance=wls)
 
     if post.is_comment() == False and author in whitelist:
+        print("A new post has been found and thrown into database.\nAuthor: {}".format(author))
         link = {"link": permlink}
         record.insert_one(link)
