@@ -56,9 +56,9 @@ def check():
             try:
                 if wt == 1:
                     record.delete_one({"link": perms})
-                    print("Didn't upvoted\n\nxxxxxxxxxxxxxxxxxxxxxxxxx")
+                    print("xxxxxxxxxxxxxxxxxxxxxxxxx\nDidn't upvoted\nxxxxxxxxxxxxxxxxxxxxxxxxx")
                 else:
-                    post.upvote(weight=100, voter='mrcheisen')
+                    post.upvote(weight=80, voter='mrcheisen')
                     time.sleep(1)
                     post.upvote(weight=wt, voter='sourov')
                     if post.author not in cmnt:
