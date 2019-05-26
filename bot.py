@@ -29,6 +29,9 @@ def check():
         wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
         post = Comment(perms, steem_instance=wls)
         age = post.time_elapsed()
+        au = post.author
+        if au == 'haejin':
+            thresold = timedelta(minutes=26)
         if age > thresold:
             wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'], keys=[CH, SV])
             post.clear_cache()
