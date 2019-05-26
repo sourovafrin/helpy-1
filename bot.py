@@ -31,7 +31,7 @@ def check():
         age = post.time_elapsed()
         au = post.author
         if au == 'haejin':
-            thresold = timedelta(minutes=26)
+            thresold = timedelta(minutes=24)
         if age > thresold:
             wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'], keys=[CH, SV])
             post.clear_cache()
