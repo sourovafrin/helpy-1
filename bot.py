@@ -62,7 +62,7 @@ def check():
                     record.delete_one({"link": perms})
                     print("xxxxxxxxxxxxxxxxxxxxxxxxx\nDidn't upvoted\nxxxxxxxxxxxxxxxxxxxxxxxxx")
                 else:
-                    post.upvote(weight=80, voter='mrcheisen')
+                    post.upvote(weight=70, voter='mrcheisen')
                     time.sleep(1)
                     post.upvote(weight=wt, voter='sourov')
                     if post.author not in cmnt:
@@ -74,6 +74,9 @@ def check():
                 print("Following error :{}".format(e))
                 if e == 'You have already voted in a similar way.':
                     record.delete_one({"link": perms})
+                elif e == 'You may only comment once every 20 seconds.':
+                    time.sleep(18)
+                    post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌\nReply `@sourov stop` in case you don't want comment anymore.", author="mrcheisen")
         else:
             break
 
