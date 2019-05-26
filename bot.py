@@ -17,7 +17,7 @@ record = db.wls_link
 
 wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
 blockchain = Blockchain(steem_instance=wls, mode='head')
-whitelist = ['anritco','samest','karinxxl', 'chrisrendon', 'theunion', 'zhanavic69', 'al-desnudo', 'uche-nna', 'samprock', 'marinella', 'joseph1956', 'stackin','thebugiq','zakaria','tedtv','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','arepadigital','caminante','backpackingmonk','termite','peman85','heeyahnuh']
+whitelist = ['anritco','samest','karinxxl', 'heyimsnuffles', 'chrisrendon', 'theunion', 'zhanavic69', 'al-desnudo', 'uche-nna', 'samprock', 'marinella', 'joseph1956', 'stackin','thebugiq','zakaria','tedtv','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','arepadigital','caminante','backpackingmonk','termite','peman85','heeyahnuh']
 cmnt = ['thebugiq', 'haejin', 'backpackingmonk', 'marinella', 'al-desnudo']
 thresold = timedelta(minutes=29)
 print("Running")
