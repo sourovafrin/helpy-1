@@ -332,13 +332,13 @@ def st():
                         card_id = ii['uid']
                         seller = ii['player']
                         market_id = ii['market_id']
-                        card_number = ii['card_detail_id']
+                        card_number = str(ii['card_detail_id'])
                         is_gold = ii['gold']
                         edit = ii['edition']
                         card_price = float(ii['buy_price']) 
-                        if int(edit) == 1 and card_price <= di[idd]:
+                        if int(edit) == 1 and card_price <= di[card_number]:
                             Thread(target=send, args=(market_id, seller, card_price)).start()
-                        elif int(edit) == 0 and card_price <= dic[idd]:
+                        elif int(edit) == 0 and card_price <= dic[card_number]:
                             Thread(target=send, args=(market_id, seller, card_price)).start()
                         if int(edit) == 0:
                             edition = "Alpha"
