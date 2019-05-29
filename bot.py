@@ -307,6 +307,7 @@ def st():
                             price_dict.append(each['buy_price'])
                     second_min = float(min(price_dict))
                     percent = round(100 - (card_price / second_min * 100), 3)
+                    print(name, card_price, second_min, percent, edition)
                     if second_min > card_price:
                         if card_price < 0.5:
                             per = 25
@@ -321,24 +322,22 @@ def st():
                         sbd_send = round(card_price / sbd_price, 3)
                         message = """.
 
-    **Card name**: {}
-    **Card id**: {}
-    **Price**: **{}**
-    **Second Lowest**: {}
-    **Cheaper**: **{}%**
-    **Seller**: {}
-    **Edition**: {}
-    **Gold**: {}
-    **Cooldown**: {}
+**Card name**: {}
+**Card id**: {}
+**Price**: **{}**
+**Second Lowest**: {}
+**Cheaper**: **{}%**
+**Seller**: {}
+**Edition**: {}
+**Gold**: {}
+**Cooldown**: {}
 
-    **Buy instant**: `..transfer {} sbd sm-market sm_market_purchase:{}:sourovafrin`
+**Buy instant**: `..transfer {} sbd sm-market sm_market_purchase:{}:sourovafrin`
 
     . 
                         """.format(name, card_id, card_price, second_min, percent, seller, edition, is_gold, cooldown,
                                    sbd_send, market_id)
-                        webhook = DiscordWebhook(
-                            url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_',
-                            content=message)
+                        webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_',content=message)
                         webhook.execute()
 
 
