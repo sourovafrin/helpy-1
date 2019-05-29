@@ -302,7 +302,7 @@ def st():
                     print(card_number, is_gold, edit)
                     for each in market_detail:
                         if each['card_detail_id'] == card_number and each['gold'] == is_gold and each['edition'] == edit:
-                            second_min = float(each['low_price']
+                            second_min = float(each['low_price'])
                     percent = round(100 - (card_price / second_min * 100), 3)
                     print(name, card_price, second_min, percent, edition)
                     if second_min > card_price:
