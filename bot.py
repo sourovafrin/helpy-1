@@ -351,22 +351,22 @@ def st():
                         name = car_name_by_id[str(card_number)]
                         market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
                         for each in market_detail:
-                            if each['card_detail_id'] == card_number and each['gold'] == is_gold and each['edition'] == edit:
+                            if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
                                 second_min = float(each['low_price'])
-                                percent = round(100 - (card_price / second_min * 100), 3)
-                                if second_min > card_price:
-                                    if card_price < 0.5:
-                                        per = 25
-                                    elif card_price < 2:
-                                        per = 20
-                                    else:
-                                         per = 15
-                                else:
-                                    break
-                                if percent > per:
-                                    sbd_price = requests.get("https://steemmonsters.com/purchases/settings").json()['sbd_price']
-                                    sbd_send = round(card_price / sbd_price, 3)
-                                    message = """.....
+                        percent = round(100 - (card_price / second_min * 100), 3)
+                        if second_min > card_price:
+                            if card_price < 0.5:
+                                per = 25
+                            elif card_price < 2:
+                                per = 20
+                            else:
+                                per = 15
+                        else:
+                            break
+                        if percent > per:
+                            sbd_price = requests.get("https://steemmonsters.com/purchases/settings").json()['sbd_price']
+                            sbd_send = round(card_price / sbd_price, 3)
+                            message = """.....
 
 **Card name**: {}
 **Card id**: {}
@@ -375,15 +375,15 @@ def st():
 **Cheaper**: **{}%**
 **Seller**: {}
 **Edition**: {}
-**Gold**: {}
+ **Gold**: {}
 <@397972596207124480>
 
 **Buy instant**: `..transfer {} sbd sm-market sm_market_purchase:{}:sourovafrin`
 **Verify**: `..verify {}`
 
 .....""".format(name, card_id, card_price, second_min, percent, seller, edition, is_gold, sbd_send, market_id, market_id)
-                                    webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_',content=message)
-                                    webhook.execute()
+                            webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_', content=message)
+                            webhook.execute()
         except Exception as e:
             print("Error found: {}".format(e))
 
