@@ -125,7 +125,7 @@ def check():
 def in():
     for data in blockchain.stream('comment'):
         if int(record.count_documents({})) > 0:
-            Thread(target=wait, args=(check)).start()
+            Thread(target=check, args=()).start()
         else:
             time.sleep(1)
         author = data['author']
