@@ -122,7 +122,7 @@ def check():
             break
 
 
-def in():
+def inn():
     for data in blockchain.stream('comment'):
         if int(record.count_documents({})) > 0:
             Thread(target=check, args=()).start()
@@ -140,5 +140,5 @@ def in():
 
 
 if __name__ == '__main__':
-    t1 = Thread(target=in, args=())
+    t1 = Thread(target=inn, args=())
     t1.start()
