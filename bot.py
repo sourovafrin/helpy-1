@@ -122,17 +122,23 @@ def check():
             break
 
 
-for data in blockchain.stream('comment'):
-    if int(record.count_documents({})) > 0:
-        check()
-    else:
-        time.sleep(1)
-    author = data['author']
-    perm = data['permlink']
-    permlink = construct_authorperm(author, perm)
-    post = Comment(permlink, steem_instance=wls)
+def in():
+    for data in blockchain.stream('comment'):
+        if int(record.count_documents({})) > 0:
+            Thread(target=wait, args=(check)).start()
+        else:
+            time.sleep(1)
+        author = data['author']
+        perm = data['permlink']
+        permlink = construct_authorperm(author, perm)
+        post = Comment(permlink, steem_instance=wls)
 
-    if post.is_comment() == False and author in whitelist:
-        print("A new post has been found and thrown into database.\nAuthor: {}".format(author))
-        link = {"link": permlink}
-        record.insert_one(link)
+        if post.is_comment() == False and author in whitelist:
+            print("A new post has been found and thrown into database.\nAuthor: {}".format(author))
+            link = {"link": permlink}
+            record.insert_one(link)
+
+
+if __name__ == '__main__':
+    t1 = Thread(target=in, args=())
+    t1.start()
