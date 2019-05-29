@@ -28,6 +28,7 @@ cmnt = ['thebugiq', 'haejin', 'backpackingmonk', 'marinella', 'al-desnudo', 'sar
 special = ['anritco', 'heyimsnuffles', 'marinella', 'joseph1956', 'thebugiq', 'ladyfont', 'muh543', 'haejin', 'backpackingmonk']
 
 di = {'16': .55,
+      '15': .03,
        '5': .42,
       '49': .45,
       '27': .42,
