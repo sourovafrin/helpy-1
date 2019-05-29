@@ -298,7 +298,6 @@ def st():
                             edition = "Reward"
                         card_price = float(ii['buy_price'])
                         name = car_name_by_id[str(card_number)]
-                        cooldown = "False" if ii['last_used_block'] == 'null' else "True"
                         market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
                         for each in market_detail:
                             if each['card_detail_id'] == card_number and each['gold'] == is_gold and each['edition'] == edit:
@@ -326,13 +325,12 @@ def st():
 **Seller**: {}
 **Edition**: {}
 **Gold**: {}
-**Cooldown**: {}
+<@397972596207124480>
     
 **Buy instant**: `..transfer {} sbd sm-market sm_market_purchase:{}:sourovafrin`
     
 .....
-                            """.format(name, card_id, card_price, second_min, percent, seller, edition, is_gold, cooldown,
-                                       sbd_send, market_id)
+                            """.format(name, card_id, card_price, second_min, percent, seller, edition, is_gold, sbd_send, market_id)
                             webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_',content=message)
                             webhook.execute()
     except Exception as e:
