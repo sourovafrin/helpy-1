@@ -278,7 +278,7 @@ def st():
     for detail in chain.stream(['custom_json']):
         if detail['id'] == 'sm_sell_cards':
             for i in ast.literal_eval(detail['json']):
-                time.sleep(2)
+                time.sleep(1)
                 for ii in requests.get("https://steemmonsters.com/cards/find?ids=" + i['cards'][0]).json():
                     card_id = ii['uid']
                     seller = ii['player']
@@ -298,14 +298,11 @@ def st():
                     name = car_name_by_id[str(card_number)]
                     cooldown = "False" if ii['last_used_block'] == 'null' else "True"
                     time.sleep(1)
-                    market_detail = requests.get('https://steemmonsters.com/market/for_sale_by_card?card_detail_id={}&gold={}&edition={}'.format(
-                            card_number, is_gold, edit)).json()
-                    price_dict = []
+                    market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
+                    print(card_number, is_gold, edit)
                     for each in market_detail:
-                        time.sleep(0.001)
-                        if each != market_id:
-                            price_dict.append(each['buy_price'])
-                    second_min = float(min(price_dict))
+                        if each['card_detail_id'] == card_number and each['gold'] == is_gold and each['edition'] == edit:
+                            second_min = float(each['low_price']
                     percent = round(100 - (card_price / second_min * 100), 3)
                     print(name, card_price, second_min, percent, edition)
                     if second_min > card_price:
