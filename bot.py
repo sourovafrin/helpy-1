@@ -1,4 +1,5 @@
 from beem.steem import Steem
+from beem.account import Account
 from beem.blockchain import Blockchain
 from beem.comment import Comment
 from beem.utils import construct_authorperm
@@ -14,6 +15,7 @@ import os
 CH = os.environ.get('CH')
 SV = os.environ.get('SV')
 MD = os.environ.get('MD')
+AF = os.environ.get('AF')
 
 client = MongoClient(MD)
 db = client.get_database("wls_db")
@@ -142,6 +144,36 @@ def inn():
             print("A new post has been found and thrown into database.\nAuthor: {}".format(author))
             link = {"link": permlink}
             record.insert_one(link)
+            
+def send(market_id, seller, card_price):
+    try:
+        b = True
+        lin = "https://steemmonsters.com/market/status?id=" + market_id
+        while b:
+            lock = requests.get(lin).json()['locked_by']
+            buyer = requests.get(lin).json()['purchaser']
+            if lock == None:
+                pass
+            elif lock == 'sourovafrin' and buyer == None:
+                ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
+                am = round(card_price / ra, 3)
+                webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> I bough something.')
+                webhook.execute()
+                memoo = "sm_market_sale:" + market_id + ":sourovafrin"
+                amm = round(am - am * 0.05, 3)
+                stm = Steem(keys=AF)
+                acc = Account("svirus",steem_instance=stm)
+                acc.transfer(seller, amm, 'SBD', memoo)
+                acc.transfer('sourovafrin', 1, 'SBD', "Return")
+                b = False
+            else:
+                webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> {} bough something'.format(lock))
+                webhook.execute()
+                b = False
+    except Exception as e:
+        print("Error in send: {}".format(e))
+
+    
 
 def st():
     car_name_by_id = {"1": "Goblin Shaman",
@@ -287,6 +319,11 @@ def st():
                         card_number = ii['card_detail_id']
                         is_gold = ii['gold']
                         edit = ii['edition']
+                        card_price = float(ii['buy_price']) 
+                        if int(edit) == 1 and card_price <= di[idd]:
+                            Thread(target=send, args=(market_id, seller, card_price)).start()
+                        elif int(edit) == 0 and price <= dic[idd]:
+                            Thread(target=send, args=(market_id, seller, card_price)).start()
                         if int(edit) == 0:
                             edition = "Alpha"
                         elif int(edit) == 1:
@@ -295,7 +332,6 @@ def st():
                             edition = "Promo"
                         else:
                             edition = "Reward"
-                        card_price = float(ii['buy_price'])
                         name = car_name_by_id[str(card_number)]
                         market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
                         for each in market_detail:
