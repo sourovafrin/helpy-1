@@ -28,7 +28,6 @@ cmnt = ['thebugiq', 'haejin', 'backpackingmonk', 'marinella', 'al-desnudo', 'sar
 special = ['anritco', 'heyimsnuffles', 'marinella', 'joseph1956', 'thebugiq', 'ladyfont', 'muh543', 'haejin', 'backpackingmonk']
 
 di = {'16': .55,
-      '15': .03,
        '5': .42,
       '49': .45,
       '27': .42,
@@ -178,7 +177,7 @@ def send(market_id, seller, card_price):
                 webhook.execute()
                 memoo = "sm_market_sale:" + market_id + ":sourovafrin"
                 amm = round(am - am * 0.05, 3)
-                stm = Steem(keys=AF)
+                stm = Steem(node= 'https://api.steemit.com/', keys=AF)
                 acc = Account("svirus",steem_instance=stm)
                 acc.transfer(seller, amm, 'SBD', memoo)
                 acc.transfer('sourovafrin', 1, 'SBD', "Return")
