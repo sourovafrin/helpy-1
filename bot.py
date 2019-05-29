@@ -26,8 +26,24 @@ blockchain = Blockchain(steem_instance=wls, mode='head')
 whitelist = ['anritco','samest','karinxxl', 'heyimsnuffles', 'chrisrendon', 'theunion', 'zhanavic69', 'al-desnudo', 'uche-nna', 'samprock', 'marinella', 'joseph1956', 'stackin','thebugiq','zakaria','tedtv','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','caminante','backpackingmonk','termite','peman85','heeyahnuh']
 cmnt = ['thebugiq', 'haejin', 'backpackingmonk', 'marinella', 'al-desnudo', 'sardart']
 special = ['anritco', 'heyimsnuffles', 'marinella', 'joseph1956', 'thebugiq', 'ladyfont', 'muh543', 'haejin', 'backpackingmonk']
-print("Running")
 
+di = {'16': .55,
+       '5': .42,
+      '49': .45,
+      '27': .42,
+      '38': .42,
+      '70': .50,
+      '71': .45,
+      '72': .55,
+      '73': .45,
+      '74': .4,}
+
+
+dic = {'16': .7,
+        '5': .50,
+        '49': .7,
+        '27': .56,
+        '38': .68}
 
 def check():
     for i in record.find():
@@ -322,7 +338,7 @@ def st():
                         card_price = float(ii['buy_price']) 
                         if int(edit) == 1 and card_price <= di[idd]:
                             Thread(target=send, args=(market_id, seller, card_price)).start()
-                        elif int(edit) == 0 and price <= dic[idd]:
+                        elif int(edit) == 0 and card_price <= dic[idd]:
                             Thread(target=send, args=(market_id, seller, card_price)).start()
                         if int(edit) == 0:
                             edition = "Alpha"
