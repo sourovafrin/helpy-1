@@ -127,6 +127,7 @@ def check():
 
 
 def inn():
+    print("start wls")
     for data in blockchain.stream('comment'):
         if int(record.count_documents({})) > 0:
             Thread(target=check, args=()).start()
@@ -271,9 +272,9 @@ def st():
                       "130": "Archmage Arius",
                       }
 
-    stm = Steem()
+    stm = Steem(node= "https://api.steemit.com")
     chain = Blockchain(stm, "head")
-    print("started")
+    print("started sm")
     for detail in chain.stream(['custom_json']):
         if detail['id'] == 'sm_sell_cards':
             for i in ast.literal_eval(detail['json']):
@@ -295,11 +296,12 @@ def st():
                     card_price = float(ii['buy_price'])
                     name = car_name_by_id[str(card_number)]
                     cooldown = "False" if ii['last_used_block'] == 'null' else "True"
-                    market_detail = requests.get(
-                        'https://steemmonsters.com/market/for_sale_by_card?card_detail_id={}&gold={}&edition={}'.format(
+                    time.sleep(1)
+                    market_detail = requests.get('https://steemmonsters.com/market/for_sale_by_card?card_detail_id={}&gold={}&edition={}'.format(
                             card_number, is_gold, edit)).json()
                     price_dict = []
                     for each in market_detail:
+                        time.sleep(0.001)
                         if each != market_id:
                             price_dict.append(each['buy_price'])
                     second_min = float(min(price_dict))
