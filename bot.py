@@ -5,6 +5,9 @@ from beem.utils import construct_authorperm
 from pymongo import MongoClient
 from datetime import timedelta
 from threading import Thread
+from discord_webhook import DiscordWebhook
+import requests
+import ast
 import time
 import os
 
@@ -139,7 +142,203 @@ def inn():
             link = {"link": permlink}
             record.insert_one(link)
 
+car_name_by_id = {"1": "Goblin Shaman",
+"2": "Giant Roc",
+"3": "Kobold Miner",
+"4": "Fire Beetle",
+"5": "Malric Inferno",
+"6": "Serpentine Soldier",
+"7": "Pit Ogre",
+"8": "Cerberus",
+"9": "Fire Demon",
+"10": "Serpent of the Flame",
+"11": "Elemental Phoenix",
+"12": "Pirate Captain",
+"13": "Spineback Turtle",
+"14": "Crustacean King",
+"15": "Sabre Shark",
+"16": "Alric Stormbringer",
+"17": "Medusa",
+"18": "Water Elemental",
+"19": "Frozen Soldier",
+"20": "Mischievous Mermaid",
+"21": "Naga Warrior",
+"22": "Frost Giant",
+"23": "Flesh Golem",
+"24": "Goblin Sorcerer",
+"25": "Rexxie",
+"26": "Minotaur Warrior",
+"27": "Lyanna Natura",
+"28": "Earth Elemental",
+"29": "Stone Golem",
+"30": "Stonesplitter Orc",
+"31": "Magi of the Forest",
+"32": "Swamp Thing",
+"33": "Spirit of the Forest",
+"34": "Divine Healer",
+"35": "Feral Spirit",
+"36": "Silvershield Knight",
+"37": "Silvershield Warrior",
+"38": "Tyrus Paladium",
+"39": "Peacebringer",
+"40": "Silvershield Paladin",
+"41": "Clay Golem",
+"42": "Defender of Truth",
+"43": "Air Elemental",
+"44": "Angel of Light",
+"45": "Animated Corpse",
+"46": "Haunted Spider",
+"47": "Skeleton Assassin",
+"48": "Spineback Wolf",
+"49": "Zintar Mortalis",
+"50": "Haunted Spirit",
+"51": "Twisted Jester",
+"52": "Undead Priest",
+"53": "Dark Enchantress",
+"54": "Screaming Banshee",
+"55": "Lord of Darkness",
+"56": "Selenia Sky",
+"57": "Lightning Dragon",
+"58": "Chromatic Dragon",
+"59": "Gold Dragon",
+"60": "Peaceful Giant",
+"61": "Grumpy Dwarf",
+"62": "Elven Cutthroat",
+"63": "Centaur",
+"64": "Cocatrice",
+"65": "Cyclops",
+"66": "Enchanted Pixie",
+"67": "Raging Impaler",
+"68": "Magi Sphinx",
+"69": "Hydra",
+"70": "Talia Firestorm",
+"71": "Xia Seachan",
+"72": "Xander Foxwood",
+"73": "Kiara Lightbringer",
+"74": "Jarlax the Undead",
+"75": "Dragon Whelp",
+"76": "Royal Dragon Archer",
+"77": "Shin-Lo",
+"78": "Neb Seni",
+"79": "Highland Archer",
+"80": "Rusty Android",
+"81": "Hobgoblin",
+"82": "Lord Arianthus",
+"83": "Sea Genie",
+"84": "Divine Sorceress",
+"85": "Mushroom Seer",
+"86": "Vampire",
+"87": "Flame Imp",
+"88": "Daria Dragonscale",
+"89": "Sacred Unicorn",
+"90": "Wood Nymph",
+"91": "Creeping Ooze",
+"92": "Phantom Soldier",
+"93": "Pirate Archer",
+"94": "Naga Fire Wizard",
+"95": "Brownie",
+"96": "Silvershield Archers",
+"97": "Goblin Mech",
+"98": "Ruler of the Seas",
+"99": "Skeletal Warrior",
+"100": "Imp Bowman",
+"101": "Crystal Werewolf",
+"102": "Javelin Thrower",
+"103": "Sea Monster",
+"104": "Prismatic Energy",
+"105": "Undead Minotaur",
+"106": "Exploding Dwarf",
+"107": "Manticore",
+"108": "Black Dragon",
+"109": "Crypt Mancer",
+"110": "Plado Emberstorm",
+"111": "Valnamor",
+"112": "Prince Rennyn",
+"113": "The Peakrider",
+"118": "Armorsmith",
+"119": "Silvershield Bard",
+"120": "Goblin Chef",
+"121": "Minotaur Warlord",
+"122": "Electric Eels",
+"123": "Mermaid Healer",
+"124": "Undead Archer",
+"125": "Corrupted Pegasus",
+"126": "Molten Ogre",
+"127": "Lord of Fire",
+"128": "Enchanted Defender",
+"129": "Dwarven Wizard",
+"130": "Archmage Arius",
+}
+
+
+stm = Steem()
+chain = Blockchain(stm,"head")
+print("started steem as well")
+for detail in chain.stream(['custom_json']):
+    if detail['id'] == 'sm_sell_cards':
+        for i in ast.literal_eval(detail['json']):
+            for ii in requests.get("https://steemmonsters.com/cards/find?ids=" + i['cards'][0]).json():
+                card_id = ii['uid']
+                seller = ii['player']
+                market_id = ii['market_id']
+                card_number = ii['card_detail_id']
+                is_gold = ii['gold']
+                edit =  ii['edition']
+                if int(edit) == 0:
+                    edition = "Alpha"
+                elif int(edit) == 1:
+                    edition = "Beta"
+                elif int(edit) == 2:
+                    edition = "Promo"
+                else:
+                    edition = "Reward"
+                card_price = float(ii['buy_price'])
+                name = car_name_by_id[str(card_number)]
+                cooldown = "False" if ii['last_used_block'] == 'null' else "True"
+                market_detail = requests.get('https://steemmonsters.com/market/for_sale_by_card?card_detail_id={}&gold={}&edition={}'.format(card_number, is_gold, edit)).json()
+                price_dict = []
+                for each in market_detail:
+                    if each != market_id:
+                        price_dict.append(each['buy_price'])
+                second_min = float(min(price_dict))
+                percent = round(100 - (card_price / second_min * 100), 3)
+                if second_min > card_price:
+                    if card_price < 0.5:
+                        per = 25
+                    elif card_price < 2:
+                        per = 20
+                    else:
+                        per = 15
+                else:
+                    break
+                if percent > per:
+                    sbd_price = requests.get("https://steemmonsters.com/purchases/settings").json()['sbd_price']
+                    sbd_send = round(card_price/sbd_price, 3)
+                    message = """.
+                    
+**Card name**: {}
+**Card id**: {}
+**Price**: **{}**
+**Second Lowest**: {}
+**Cheaper**: **{}%**
+**Seller**: {}
+**Edition**: {}
+**Gold**: {}
+**Cooldown**: {}
+                    
+**Buy instant**: `..transfer {} sbd sm-market sm_market_purchase:{}:sourovafrin`
+
+. 
+                    """.format(name, card_id, card_price, second_min, percent, seller, edition, is_gold, cooldown, sbd_send, market_id)
+                    webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_',content=message)
+                    webhook.execute()
+
+
+            
+
 
 if __name__ == '__main__':
     t1 = Thread(target=inn, args=())
     t1.start()
+    t2= Thread(target=st, args=())
+    t2.start()
