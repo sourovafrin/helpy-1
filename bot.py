@@ -356,11 +356,11 @@ def st():
                         percent = round(100 - (card_price / second_min * 100), 3)
                         if second_min > card_price:
                             if card_price < 0.5:
-                                per = 25
-                            elif card_price < 2:
                                 per = 20
-                            else:
+                            elif card_price < 2:
                                 per = 15
+                            else:
+                                per = 10
                         else:
                             break
                         if percent > per:
@@ -371,17 +371,17 @@ def st():
 **Card name**: {}
 **Card id**: {}
 **Price**: **{}**
-**Second Lowest**: {}
 **Cheaper**: **{}%**
+**Second Lowest**: {}
 **Seller**: {}
 **Edition**: {}
- **Gold**: {}
+**Gold**: {}
 <@397972596207124480>
 
-**Buy instant**: `..transfer {} sbd sm-market sm_market_purchase:{}:sourovafrin`
+**Buy instant**: `..transfer {} sbd sm-market sm_market_purchase:{}`
 **Verify**: `..verify {}`
 
-.....""".format(name, card_id, card_price, second_min, percent, seller, edition, is_gold, sbd_send, market_id, market_id)
+.....""".format(name, card_id, card_price, percent, second_min, seller, edition, is_gold, sbd_send, market_id, market_id)
                             webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_', content=message)
                             webhook.execute()
         except Exception as e:
