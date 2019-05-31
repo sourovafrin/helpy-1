@@ -182,6 +182,7 @@ def send(market_id, seller, card_price):
                 acc.transfer(seller, amm, 'SBD', memoo)
                 b = False
             else:
+                time.sleep(2)
                 acc = Account("svirus",steem_instance=stm)
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
