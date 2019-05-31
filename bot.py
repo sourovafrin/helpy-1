@@ -387,6 +387,10 @@ def st():
                       "128": "Enchanted Defender",
                       "129": "Dwarven Wizard",
                       "130": "Archmage Arius",
+                      "114": "Delwyn Dragonscale",
+                      "115": "Dragonling Bowman",
+                      "116": "Fiendish Harpy",
+                      "117": "Red Dragon"
                       }
 
     
@@ -406,7 +410,6 @@ def st():
                         is_gold = ii['gold']
                         edit = ii['edition']
                         card_price = float(ii['buy_price'])
-                        print(seller)
                         if card_number in di:
                             if card_price <= di[card_number] and int(edit) == 1:
                                 Thread(target=send, args=(market_id, seller, card_price)).start()
