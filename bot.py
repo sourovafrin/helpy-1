@@ -397,6 +397,7 @@ def st():
         try:
             if detail['id'] == 'sm_sell_cards':
                 for i in ast.literal_eval(detail['json']):
+                    print(i)
                     time.sleep(2)
                     for ii in requests.get("https://steemmonsters.com/cards/find?ids=" + i['cards'][0]).json():
                         card_id = ii['uid']
