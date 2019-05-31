@@ -424,7 +424,7 @@ def st():
                             if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
                                 second_min = float(each['low_price'])
                         percent = round(100 - (card_price / second_min * 100), 3)
-                        per = 15
+                        per = 0
                         if percent > per:
                             sbd_price = requests.get("https://steemmonsters.com/purchases/settings").json()['sbd_price']
                             sbd_send = round(card_price / sbd_price, 3)
