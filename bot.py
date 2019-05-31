@@ -115,7 +115,7 @@ def check():
         age = post.time_elapsed()
         au = str(post.author)
         if au == 'haejin':
-            thresold = timedelta(minutes=23)
+            thresold = timedelta(minutes=22)
         else:
             thresold = timedelta(minutes=29)
         if age > thresold:
