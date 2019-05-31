@@ -407,9 +407,9 @@ def st():
                         edit = ii['edition']
                         card_price = float(ii['buy_price'])
                         print(seller)
-                        if int(edit) == 1 and card_price <= di[card_number]:
+                        if card_price <= di[card_number] and int(edit) == 1:
                             Thread(target=send, args=(market_id, seller, card_price)).start()
-                        elif int(edit) == 0 and card_price <= dic[card_number]:
+                        elif card_price <= dic[card_number] and int(edit) == 0:
                             Thread(target=send, args=(market_id, seller, card_price)).start()
                         else:
                             print("gotcha")
