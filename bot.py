@@ -242,7 +242,7 @@ def send(market_id, seller, card_price):
                 stm = Steem(node= 'https://api.steemit.com/', keys=AF)
                 acc = Account("svirus",steem_instance=stm)
                 acc.transfer(seller, amm, 'SBD', memoo)
-                time.sleep(3)
+                time.sleep(4)
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
                 acc.transfer('sourovafrin', sbd, 'SBD', "Return of extra")
