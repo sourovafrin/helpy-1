@@ -406,13 +406,13 @@ def st():
                         is_gold = ii['gold']
                         edit = ii['edition']
                         card_price = float(ii['buy_price'])
+                        print(edit)
                         if int(edit) == 1 and card_price <= di[card_number]:
                             Thread(target=send, args=(market_id, seller, card_price)).start()
                         elif int(edit) == 0 and card_price <= dic[card_number]:
                             Thread(target=send, args=(market_id, seller, card_price)).start()
                         else:
                             pass
-                        print(edit)
                         if int(edit) == 0:
                             edition = "Alpha"
                         elif int(edit) == 1:
@@ -422,7 +422,6 @@ def st():
                         else:
                             edition = "Reward"
                         name = car_name_by_id[str(card_number)]
-                        print(name)
                         market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
                         for each in market_detail:
                             if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
