@@ -412,6 +412,7 @@ def st():
                             Thread(target=send, args=(market_id, seller, card_price)).start()
                         else:
                             pass
+                        print(edit)
                         if int(edit) == 0:
                             edition = "Alpha"
                         elif int(edit) == 1:
