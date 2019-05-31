@@ -243,7 +243,7 @@ def send(market_id, seller, card_price):
                 acc = Account("svirus",steem_instance=stm)
                 acc.transfer(seller, amm, 'SBD', memoo)
                 time.sleep(0.5)
-                acc.transfer('sourovafrin', 3, 'SBD', "Return of extra")
+                acc.transfer('sourovafrin', 4, 'SBD', "Return of extra")
                 b = False
             else:
                 time.sleep(3)
