@@ -247,6 +247,7 @@ def send(market_id, seller, card_price):
                 b = False
             else:
                 time.sleep(3)
+                stm = Steem(node= 'https://api.steemit.com/', keys=AF)
                 acc = Account("svirus",steem_instance=stm)
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
