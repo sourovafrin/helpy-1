@@ -425,8 +425,6 @@ def st():
                                 second_min = float(each['low_price'])
                         percent = round(100 - (card_price / second_min * 100), 3)
                         per = 15
-                        else:
-                            break
                         if percent > per:
                             sbd_price = requests.get("https://steemmonsters.com/purchases/settings").json()['sbd_price']
                             sbd_send = round(card_price / sbd_price, 3)
