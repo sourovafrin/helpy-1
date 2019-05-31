@@ -419,6 +419,7 @@ def st():
                         else:
                             edition = "Reward"
                         name = car_name_by_id[str(card_number)]
+                        print(name)
                         market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
                         for each in market_detail:
                             if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
