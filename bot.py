@@ -23,7 +23,7 @@ record = db.wls_link
 
 wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
 blockchain = Blockchain(steem_instance=wls, mode='head')
-whitelist = ['anritco','samest','karinxxl', 'heyimsnuffles', 'chrisrendon', 'theunion', 'zhanavic69', 'al-desnudo', 'uche-nna', 'samprock', 'marinella', 'joseph1956', 'stackin','thebugiq','zakaria','tedtv','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','caminante','backpackingmonk','termite','peman85','heeyahnuh']
+whitelist = ['anritco','samest','karinxxl', 'heyimsnuffles', 'chrisrendon', 'theunion', 'zhanavic69', 'al-desnudo', 'uche-nna', 'samprock', 'marinella', 'joseph1956', 'stackin','thebugiq','zakaria','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','caminante','backpackingmonk','termite','peman85','heeyahnuh']
 cmnt = ['thebugiq', 'haejin', 'backpackingmonk', 'marinella', 'al-desnudo', 'sardart']
 special = ['anritco', 'heyimsnuffles', 'marinella', 'joseph1956', 'thebugiq', 'ladyfont', 'muh543', 'haejin', 'backpackingmonk']
 
@@ -171,15 +171,15 @@ def check():
                 print("Time elapsed {}".format(age))
                 print("Reward before upvote {}".format(reward))
                 if reward <= 0.1:
-                    wt = 60
-                elif reward <= 0.2:
                     wt = 50
+                elif reward <= 0.2:
+                    wt = 40
                 elif reward <= 0.3:
-                    wt = 30
+                    wt = 25
                 elif reward <= 0.4:
-                    wt = 15
-                elif reward <= 1:
                     wt = 10
+                elif reward <= 1:
+                    wt = 5
                 else:
                     wt = 1
                 try:
@@ -187,7 +187,7 @@ def check():
                         record.delete_one({"link": perms})
                         print("xxxxxxxxxxxxxxxxxxxxxxxxx\nDidn't upvoted\nxxxxxxxxxxxxxxxxxxxxxxxxx")
                     else:
-                        post.upvote(weight=70, voter='mrcheisen')
+                        post.upvote(weight=40, voter='mrcheisen')
                         time.sleep(1)
                         post.upvote(weight=wt, voter='sourov')
                         if post.author not in cmnt:
