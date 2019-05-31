@@ -412,8 +412,6 @@ def st():
                                 Thread(target=send, args=(market_id, seller, card_price)).start()
                             elif card_price <= dic[card_number] and int(edit) == 0:
                                 Thread(target=send, args=(market_id, seller, card_price)).start()
-                        else:
-                            pass
                         if int(edit) == 0:
                             edition = "Alpha"
                         elif int(edit) == 1:
