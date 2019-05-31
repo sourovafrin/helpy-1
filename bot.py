@@ -406,12 +406,13 @@ def st():
                         is_gold = ii['gold']
                         edit = ii['edition']
                         card_price = float(ii['buy_price'])
-                        print(edit)
+                        print(seller)
                         if int(edit) == 1 and card_price <= di[card_number]:
                             Thread(target=send, args=(market_id, seller, card_price)).start()
                         elif int(edit) == 0 and card_price <= dic[card_number]:
                             Thread(target=send, args=(market_id, seller, card_price)).start()
                         else:
+                            print("gotcha")
                             pass
                         if int(edit) == 0:
                             edition = "Alpha"
