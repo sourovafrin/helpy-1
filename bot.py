@@ -232,18 +232,21 @@ def send(market_id, seller, card_price):
             buyer = requests.get(lin).json()['purchaser']
             if lock == None:
                 pass
-            elif lock == 'sourovafrin' and buyer == None:
+            elif lock == 'eftikhan' and buyer == None:
                 ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
                 am = round(card_price / ra, 3)
                 webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> I bough something.')
                 webhook.execute()
-                memoo = "sm_market_sale:" + market_id + ":sourovafrin"
+                memoo = "sm_market_sale:" + market_id + ":eftikhan"
                 amm = round(am - am * 0.05, 3)
                 stm = Steem(node= 'https://api.steemit.com/', keys=AF)
                 acc = Account("svirus",steem_instance=stm)
                 acc.transfer(seller, amm, 'SBD', memoo)
-                time.sleep(0.5)
-                acc.transfer('sourovafrin', 4, 'SBD', "Return of extra")
+                time.sleep(5)
+                acc = Account("svirus",steem_instance=stm)
+                inf = acc.get_balances()
+                sbd = float(inf['available'][1])
+                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by eftikhan")
                 b = False
             else:
                 time.sleep(3)
