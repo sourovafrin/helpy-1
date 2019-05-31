@@ -180,13 +180,17 @@ def send(market_id, seller, card_price):
                 stm = Steem(node= 'https://api.steemit.com/', keys=AF)
                 acc = Account("svirus",steem_instance=stm)
                 acc.transfer(seller, amm, 'SBD', memoo)
+                time.sleep(3)
+                inf = acc.get_balances()
+                sbd = float(inf['available'][1])
+                acc.transfer('sourovafrin', sbd, 'SBD', "Return of extra")
                 b = False
             else:
-                time.sleep(2)
+                time.sleep(3)
                 acc = Account("svirus",steem_instance=stm)
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
-                acc.transfer('sourovafrin', sbd, 'SBD', "Return")
+                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}".format(lock))
                 webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> {} bough something'.format(lock))
                 webhook.execute()
                 b = False
