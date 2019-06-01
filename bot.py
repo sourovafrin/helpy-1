@@ -239,7 +239,7 @@ def send(market_id, seller, card_price):
                 webhook.execute()
                 memoo = "sm_market_sale:" + market_id + ":eftikhan"
                 amm = round(am - am * 0.05, 3)
-                stm = Steem(node= 'https://api.steemit.com/', keys=AF)
+                stm = Steem(node= ['https://api.steemit.com/', 'https://anyx.io'], keys=AF)
                 acc = Account("svirus",steem_instance=stm)
                 acc.transfer(seller, amm, 'SBD', memoo)
                 time.sleep(5)
@@ -250,7 +250,7 @@ def send(market_id, seller, card_price):
                 b = False
             else:
                 time.sleep(3)
-                stm = Steem(node= 'https://api.steemit.com/', keys=AF)
+                stm = Steem(node= ['https://api.steemit.com/', 'https://anyx.io'],, keys=AF)
                 acc = Account("svirus",steem_instance=stm)
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
@@ -413,11 +413,14 @@ def st():
                         is_gold = ii['gold']
                         edit = ii['edition']
                         card_price = float(ii['buy_price'])
-                        if card_number in di:
-                            if card_price <= di[card_number] and int(edit) == 1:
-                                Thread(target=send, args=(market_id, seller, card_price)).start()
-                            elif card_price <= dic[card_number] and int(edit) == 0:
-                                Thread(target=send, args=(market_id, seller, card_price)).start()
+                        try:
+                            if card_number in di:
+                                if card_price <= di[card_number] and int(edit) == 1:
+                                    Thread(target=send, args=(market_id, seller, card_price)).start()
+                                elif card_price <= dic[card_number] and int(edit) == 0:
+                                    Thread(target=send, args=(market_id, seller, card_price)).start()
+                        except Exception as e:
+                            pass
                         if int(edit) == 0:
                             edition = "Alpha"
                         elif int(edit) == 1:
