@@ -246,7 +246,7 @@ def send(market_id, seller, card_price):
                 acc = Account("svirus",steem_instance=stm)
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
-                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by eftikhan")
+                acc.transfer('eftikhan', sbd, 'SBD', "Card is locked by eftikhan")
                 b = False
             else:
                 time.sleep(3)
@@ -254,7 +254,7 @@ def send(market_id, seller, card_price):
                 acc = Account("svirus",steem_instance=stm)
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
-                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}".format(lock))
+                acc.transfer('eftikhan', sbd, 'SBD', "Card is locked by {}".format(lock))
                 webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> {} bough something'.format(lock))
                 webhook.execute()
                 b = False
