@@ -144,10 +144,17 @@ def check():
                 else:
                     wt = 1
                 try:
+                    list = (post.get_votes(True))
+                    voters = []
+                    for i in list:
+                        voters.append(i['voter'])
                     if wt == 1:
                         record.delete_one({"link": perms})
                         print("xxxxxxxxxxxxxxxxxxxxxxxxx\nDidn't upvoted\nxxxxxxxxxxxxxxxxxxxxxxxxx")
+                    elif 'sourov' in voters:
+                        record.delete_one({"link": perms})
                     else:
+                        
                         post.upvote(weight=wt, voter='sourov')
                         time.sleep(1)
                         post.upvote(weight=50, voter='mrcheisen')
@@ -183,9 +190,15 @@ def check():
                 else:
                     wt = 1
                 try:
+                    list = (post.get_votes(True))
+                    voters = []
+                    for i in list:
+                        voters.append(i['voter'])
                     if wt == 1:
                         record.delete_one({"link": perms})
                         print("xxxxxxxxxxxxxxxxxxxxxxxxx\nDidn't upvoted\nxxxxxxxxxxxxxxxxxxxxxxxxx")
+                    elif 'sourov' in voters:
+                        record.delete_one({"link": perms})
                     else:
                         post.upvote(weight=40, voter='mrcheisen')
                         time.sleep(1)
