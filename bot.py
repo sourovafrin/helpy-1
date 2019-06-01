@@ -128,19 +128,19 @@ def check():
                 print("Time elapsed {}".format(age))
                 print("Reward before upvote {}".format(reward))
                 if reward <= 0.05:
-                    wt = 90
+                    wt = 50
                 elif reward <= 0.1:
-                    wt = 80
-                elif reward <= 0.3:
-                    wt = 60
-                elif reward <= 0.4:
                     wt = 40
-                elif reward <= 1:
+                elif reward <= 0.3:
                     wt = 20
-                elif reward <= 1.5:
+                elif reward <= 0.4:
                     wt = 15
-                elif reward <= 2:
+                elif reward <= 1:
                     wt = 10
+                elif reward <= 1.5:
+                    wt = 7
+                elif reward <= 2:
+                    wt = 3
                 else:
                     wt = 1
                 try:
@@ -178,11 +178,11 @@ def check():
                 print("Time elapsed {}".format(age))
                 print("Reward before upvote {}".format(reward))
                 if reward <= 0.1:
-                    wt = 50
+                    wt = 30
                 elif reward <= 0.2:
-                    wt = 40
+                    wt = 20
                 elif reward <= 0.3:
-                    wt = 25
+                    wt = 15
                 elif reward <= 0.4:
                     wt = 10
                 elif reward <= 1:
