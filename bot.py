@@ -455,7 +455,7 @@ def st():
                         if percent > per:
                             sbd_price = requests.get("https://steemmonsters.com/purchases/settings").json()['sbd_price']
                             sbd_send = round(card_price / sbd_price, 3)
-                            message = """.....
+                            message = """/....
 
 **Card name**: {}
 **Card id**: {}
@@ -470,7 +470,7 @@ def st():
 **Buy instant**: `..transfer {} sbd sm-market sm_market_purchase:{}`
 **Verify**: `..verify {}`
 
-.....""".format(name, card_id, card_price, percent, second_min, seller, edition, is_gold, sbd_send, market_id, market_id)
+..../""".format(name, card_id, card_price, percent, second_min, seller, edition, is_gold, sbd_send, market_id, market_id)
                             webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_', content=message)
                             webhook.execute()
         except Exception as e:
