@@ -417,8 +417,8 @@ def st():
         try:
             if detail['id'] == 'sm_sell_cards':
                 for i in ast.literal_eval(detail['json']):
-                    time.sleep(2)
-                    for ii in requests.get("https://steemmonsters.com/cards/find?ids=" + i['cards'][0]).json():
+                    res = requests.get("https://steemmonsters.com/cards/find?ids=" + i['cards'][0]).json()
+                    for ii in res:
                         card_id = ii['uid']
                         seller = ii['player']
                         market_id = ii['market_id']
@@ -428,7 +428,7 @@ def st():
                         try:
                             card_price = float(ii['buy_price'])
                         except Exception as e:
-                            pass
+                            break
                         try:
                             if card_number in di:
                                 if card_price <= di[card_number] and int(edit) == 1:
