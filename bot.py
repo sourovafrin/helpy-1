@@ -22,7 +22,7 @@ client = MongoClient(MD)
 db = client.get_database("wls_db")
 record = db.wls_link
 
-wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
+wls = Steem(node=['https://wls.kennybll.com', 'wss://wls.kidw.space/', 'https://wls.kidw.space/'])
 blockchain = Blockchain(steem_instance=wls, mode='head')
 whitelist = ['anritco','samest','karinxxl', 'heyimsnuffles', 'chrisrendon', 'theunion', 'zhanavic69', 'al-desnudo', 'uche-nna', 'samprock', 'marinella', 'joseph1956', 'stackin','thebugiq','zakaria','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','caminante','backpackingmonk','termite','peman85','heeyahnuh']
 cmnt = ['thebugiq', 'haejin', 'backpackingmonk', 'marinella', 'al-desnudo', 'sardart']
