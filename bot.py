@@ -425,7 +425,10 @@ def st():
                         card_number = str(ii['card_detail_id'])
                         is_gold = ii['gold']
                         edit = ii['edition']
-                        card_price = float(ii['buy_price'])
+                        try:
+                            card_price = float(ii['buy_price'])
+                        except Exception as e:
+                            pass
                         try:
                             if card_number in di:
                                 if card_price <= di[card_number] and int(edit) == 1:
