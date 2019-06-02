@@ -488,7 +488,7 @@ def st():
 
 
 if __name__ == '__main__':
-    #t1 = Thread(target=inn, args=())
-    #1.start()
+    t1 = Thread(target=inn, args=())
+    t1.start()
     t2= Thread(target=st, args=())
     t2.start()
