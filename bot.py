@@ -21,8 +21,8 @@ client = MongoClient(MD)
 db = client.get_database("wls_db")
 record = db.wls_link
 
-wls = Steem(node='ws://wls.fullnode.nl:8090')
-blockchain = Blockchain(steem_instance=wls, mode='head')
+#wls = Steem(node='ws://wls.fullnode.nl:8090')
+#blockchain = Blockchain(steem_instance=wls, mode='head')
 whitelist = ['anritco','samest','karinxxl', 'heyimsnuffles', 'chrisrendon', 'theunion', 'zhanavic69', 'al-desnudo', 'uche-nna', 'samprock', 'marinella', 'joseph1956', 'stackin','thebugiq','zakaria','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','caminante','backpackingmonk','termite','peman85','heeyahnuh']
 cmnt = ['thebugiq', 'haejin', 'backpackingmonk', 'marinella', 'al-desnudo', 'sardart']
 special = ['anritco', 'heyimsnuffles', 'marinella', 'joseph1956', 'thebugiq', 'ladyfont', 'muh543', 'haejin', 'backpackingmonk']
@@ -241,6 +241,10 @@ def send(market_id, seller, card_price):
         b = True
         lin = "https://steemmonsters.com/market/status?id=" + market_id
         while b:
+2019-06-03T15:36:11.414548+00:00 app[worker.1]: Lost connection or internal error on node: ws://wls.fullnode.nl:8090 (21/100) 
+2019-06-03T15:36:11.414552+00:00 app[worker.1]: 
+2019-06-03T15:36:11.414688+00:00 app[worker.1]: Retrying in 10 seconds
+2019-06-03T15:36:11.414711+00:00 app[worker.1]: 
             lock = requests.get(lin).json()['locked_by']
             buyer = requests.get(lin).json()['purchaser']
             if lock == None:
