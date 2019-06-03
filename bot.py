@@ -128,19 +128,19 @@ def check():
                 print("Time elapsed {}".format(age))
                 print("Reward before upvote {}".format(reward))
                 if reward <= 0.05:
-                    wt = 50
+                    wt = 80
                 elif reward <= 0.1:
-                    wt = 40
+                    wt = 60
                 elif reward <= 0.3:
-                    wt = 20
+                    wt = 40
                 elif reward <= 0.4:
-                    wt = 15
+                    wt = 30
                 elif reward <= 1:
-                    wt = 10
+                    wt = 20
                 elif reward <= 1.5:
-                    wt = 7
+                    wt = 15
                 elif reward <= 2:
-                    wt = 3
+                    wt = 10
                 else:
                     wt = 1
                 try:
@@ -157,7 +157,7 @@ def check():
                         
                         post.upvote(weight=wt, voter='sourov')
                         time.sleep(1)
-                        post.upvote(weight=50, voter='mrcheisen')
+                        post.upvote(weight=45, voter='mrcheisen')
                         if post.author not in cmnt:
                             post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌\nReply `@sourov stop` in case you don't want comment anymore.", author="mrcheisen")
                         print("Upvoted\n\n*************************")
@@ -178,15 +178,15 @@ def check():
                 print("Time elapsed {}".format(age))
                 print("Reward before upvote {}".format(reward))
                 if reward <= 0.1:
-                    wt = 30
+                    wt = 50
                 elif reward <= 0.2:
-                    wt = 20
+                    wt = 35
                 elif reward <= 0.3:
-                    wt = 15
+                    wt = 20
                 elif reward <= 0.4:
-                    wt = 10
+                    wt = 15
                 elif reward <= 1:
-                    wt = 5
+                    wt = 10
                 else:
                     wt = 1
                 try:
@@ -200,7 +200,7 @@ def check():
                     elif 'sourov' in voters:
                         record.delete_one({"link": perms})
                     else:
-                        post.upvote(weight=40, voter='mrcheisen')
+                        post.upvote(weight=45, voter='mrcheisen')
                         time.sleep(1)
                         post.upvote(weight=wt, voter='sourov')
                         if post.author not in cmnt:
