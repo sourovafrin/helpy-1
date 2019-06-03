@@ -111,7 +111,7 @@ dic = {'16': .7,
 def check():
     for i in record.find():
         perms = i['link']
-        wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'])
+        wls = Steem(node='ws://wls.fullnode.nl:8090', 'https://wls.kennybll.com'])
         post = Comment(perms, steem_instance=wls)
         age = post.time_elapsed()
         au = str(post.author)
@@ -120,7 +120,7 @@ def check():
         else:
             thresold = timedelta(minutes=29)
         if age > thresold:
-            wls = Steem(node=['wss://wls.kidw.space/', 'https://wls.kidw.space/', 'https://wls.kennybll.com'], keys=[CH, SV])
+            wls = Steem(node='ws://wls.fullnode.nl:8090', keys=[CH, SV])
             if au in special:
                 post.clear_cache()
                 post.refresh()
