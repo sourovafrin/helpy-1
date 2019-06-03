@@ -1,6 +1,6 @@
 from beem.steem import Steem
 from beem.account import Account
-#from beem.nodelist import NodeList
+from beem.nodelist import NodeList
 from beem.blockchain import Blockchain
 from beem.comment import Comment
 from beem.utils import construct_authorperm
