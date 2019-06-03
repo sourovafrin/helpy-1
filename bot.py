@@ -111,7 +111,7 @@ dic = {'16': .7,
 def check():
     for i in record.find():
         perms = i['link']
-        wls = Steem(node='ws://wls.fullnode.nl:8090', 'https://wls.kennybll.com'])
+        wls = Steem(node='ws://wls.fullnode.nl:8090')
         post = Comment(perms, steem_instance=wls)
         age = post.time_elapsed()
         au = str(post.author)
