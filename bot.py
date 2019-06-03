@@ -1,6 +1,6 @@
 from beem.steem import Steem
 from beem.account import Account
-from beem.nodelist import NodeList
+#from beem.nodelist import NodeList
 from beem.blockchain import Blockchain
 from beem.comment import Comment
 from beem.utils import construct_authorperm
@@ -417,7 +417,7 @@ def st():
     
     nodelist = NodeList()
     nodelist.update_nodes()
-    stm = Steem(node= nodelist.get_nodes())
+    stm = Steem(node= 'https://api.steemit.com')
     chain = Blockchain(stm, "head")
     print("started sm")
     for detail in chain.stream(['custom_json']):
