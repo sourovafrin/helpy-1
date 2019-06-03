@@ -240,11 +240,7 @@ def send(market_id, seller, card_price):
     try:
         b = True
         lin = "https://steemmonsters.com/market/status?id=" + market_id
-        while b:
-2019-06-03T15:36:11.414548+00:00 app[worker.1]: Lost connection or internal error on node: ws://wls.fullnode.nl:8090 (21/100) 
-2019-06-03T15:36:11.414552+00:00 app[worker.1]: 
-2019-06-03T15:36:11.414688+00:00 app[worker.1]: Retrying in 10 seconds
-2019-06-03T15:36:11.414711+00:00 app[worker.1]: 
+        while b: 
             lock = requests.get(lin).json()['locked_by']
             buyer = requests.get(lin).json()['purchaser']
             if lock == None:
