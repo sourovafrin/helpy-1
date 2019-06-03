@@ -22,7 +22,7 @@ client = MongoClient(MD)
 db = client.get_database("wls_db")
 record = db.wls_link
 
-wls = Steem(node=['https://wls.kennybll.com', 'wss://wls.kidw.space/', 'https://wls.kidw.space/'])
+wls = Steem(node='ws://wls.fullnode.nl:8090')
 blockchain = Blockchain(steem_instance=wls, mode='head')
 whitelist = ['anritco','samest','karinxxl', 'heyimsnuffles', 'chrisrendon', 'theunion', 'zhanavic69', 'al-desnudo', 'uche-nna', 'samprock', 'marinella', 'joseph1956', 'stackin','thebugiq','zakaria','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','caminante','backpackingmonk','termite','peman85','heeyahnuh']
 cmnt = ['thebugiq', 'haejin', 'backpackingmonk', 'marinella', 'al-desnudo', 'sardart']
@@ -425,6 +425,7 @@ def st():
             if detail['id'] == 'sm_sell_cards':
                 for i in ast.literal_eval(detail['json']):
                     res = requests.get("https://steemmonsters.com/cards/find?ids=" + i['cards'][0]).json()
+                    print(res)
                     for ii in res:
                         card_id = ii['uid']
                         seller = ii['player']
@@ -488,7 +489,7 @@ def st():
 
 
 if __name__ == '__main__':
-    #t1 = Thread(target=inn, args=())
-    #t1.start()
+    t1 = Thread(target=inn, args=())
+    t1.start()
     t2= Thread(target=st, args=())
     t2.start()
