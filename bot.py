@@ -252,7 +252,7 @@ def send(market_id, seller, card_price):
                 webhook.execute()
                 memoo = "sm_market_sale:" + market_id + ":eftikhan"
                 amm = round(am - am * 0.05, 3)
-                stm = Steem(node=["htttps://anyx.io","https://api.steemit.com","https://steemd.privex.io","https://rpc.steemviz.com"], keys=AF)
+                stm = Steem(node=["https://anyx.io/","https://api.steemit.com","https://steemd.privex.io","https://rpc.steemviz.com"], keys=AF)
                 acc = Account("svirus",steem_instance=stm)
                 acc.transfer(seller, amm, 'SBD', memoo)
                 time.sleep(5)
@@ -263,7 +263,7 @@ def send(market_id, seller, card_price):
                 b = False
             else:
                 time.sleep(3)
-                stm = Steem(node=["htttps://anyx.io","https://api.steemit.com","https://steemd.privex.io","https://rpc.steemviz.com"], keys=AF)
+                stm = Steem(node=["https://anyx.io","https://api.steemit.com","https://steemd.privex.io","https://rpc.steemviz.com"], keys=AF)
                 acc = Account("svirus",steem_instance=stm)
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
@@ -410,7 +410,7 @@ def st():
                       }
 
     
-    stm = Steem(node=["htttps://anyx.io", "https://api.steemit.com","https://steemd.privex.io","https://rpc.steemviz.com"])
+    stm = Steem(node=["https://anyx.io", "https://api.steemit.com","https://steemd.privex.io","https://rpc.steemviz.com"])
     chain = Blockchain(stm, "head")
     print("started sm")
     for detail in chain.stream(['custom_json']):
