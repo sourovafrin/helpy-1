@@ -73,7 +73,7 @@ di = {'16': .6,
       '49': .55,
       '27': .5,
       '38': .45,
-      '70': .50,
+      '70': .45,
       '71': .45,
       '72': .55,
       '73': .45,
@@ -436,7 +436,7 @@ def st():
                             if card_number in di:
                                 if card_price <= di[card_number] and int(edit) == 1:
                                     Thread(target=send, args=(market_id, seller, card_price)).start()
-                                elif card_price <= dic[card_number] and int(edit) == 0:
+                                #elif card_price <= dic[card_number] and int(edit) == 0:
                                     Thread(target=send, args=(market_id, seller, card_price)).start()
                         except Exception as e:
                             pass
@@ -456,9 +456,10 @@ def st():
                         percent = round(100 - (card_price / second_min * 100), 3)
                         per = 10
                         if percent > per:
-                            sbd_price = requests.get("https://steemmonsters.com/purchases/settings").json()['sbd_price']
-                            sbd_send = round(card_price / sbd_price, 3)
-                            message = """/....
+                            if second_min > 0.05:
+                                sbd_price = requests.get("https://steemmonsters.com/purchases/settings").json()['sbd_price']
+                                sbd_send = round(card_price / sbd_price, 3)
+                                message = """/....
 
 **Card name**: {}
 **Card id**: {}
@@ -471,6 +472,7 @@ def st():
 <@397972596207124480>
 
 **Buy instant**: `..transfer {} sbd sm-market sm_market_purchase:{}`
+**For admin only:** `..transfer {} sbd svirus sm_market_purchase:{}`
 **Verify**: `..verify {}`
 
 ..../""".format(name, card_id, card_price, percent, second_min, seller, edition, is_gold, sbd_send, market_id, market_id)
