@@ -457,9 +457,10 @@ def st():
                         percent = round(100 - (card_price / second_min * 100), 3)
                         per = 10
                         if percent > per:
-                            sbd_price = requests.get("https://steemmonsters.com/purchases/settings").json()['sbd_price']
-                            sbd_send = round(card_price / sbd_price, 3)
-                            message = """/....
+                            if second_min > 0.06:
+                                sbd_price = requests.get("https://steemmonsters.com/purchases/settings").json()['sbd_price']
+                                sbd_send = round(card_price / sbd_price, 3)
+                                message = """/....
 
 **Card name**: {}
 **Card id**: {}
@@ -475,9 +476,9 @@ def st():
 **For admin only:** `..transfer {} sbd svirus sm_market_purchase:{}`
 **Verify**: `..verify {}`
 
-..../""".format(name, card_id, card_price, percent, second_min, seller, edition, is_gold, sbd_send, market_id, market_id)
-                            webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_', content=message)
-                            webhook.execute()
+..../""".format(name, card_id, card_price, percent, second_min, seller, edition, is_gold, sbd_send, market_id, sbd_send, market_id, market_id)
+                                webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_', content=message)
+                                webhook.execute()
         except Exception as e:
             print("Error found: {}".format(e))
 
