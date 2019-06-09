@@ -438,7 +438,7 @@ def st():
                                 if card_price <= di[card_number] and int(edit) == 1:
                                     Thread(target=send, args=(market_id, seller, card_price)).start()
                                 #elif card_price <= dic[card_number] and int(edit) == 0:
-                                    Thread(target=send, args=(market_id, seller, card_price)).start()
+                                    #Thread(target=send, args=(market_id, seller, card_price)).start()
                         except Exception as e:
                             pass
                         if int(edit) == 0:
@@ -477,8 +477,8 @@ def st():
 **Verify**: `..verify {}`
 
 ..../""".format(name, card_id, card_price, percent, second_min, seller, edition, is_gold, sbd_send, market_id, market_id)
-                            webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_', content=message)
-                            webhook.execute()
+                                webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_', content=message)
+                                webhook.execute()
         except Exception as e:
             print("Error found: {}".format(e))
 
