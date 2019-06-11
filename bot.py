@@ -237,7 +237,7 @@ def inn():
             record.insert_one(link)
             
 def send(market_id, seller, card_price):
-    stm = Steem(node="https://api.steemit.com", keys=AF)
+    stm = Steem(node="https://steemd.minnowsupportproject.org/", keys=AF)
     acc = Account("svirus",steem_instance=stm)   
     try:
         b = True
@@ -409,7 +409,7 @@ def st():
                       }
 
     
-    stm = Steem(node="https://api.steemit.com")
+    stm = Steem(node="https://steemd.minnowsupportproject.org/")
     chain = Blockchain(stm, "head")
     print("started sm")
     for detail in chain.stream(['custom_json']):
