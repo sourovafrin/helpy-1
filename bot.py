@@ -245,10 +245,10 @@ def send(market_id, seller, card_price):
         while b:
             time.sleep(5)
             lock = requests.get(lin).json()['locked_by']
-            buyer = requests.get(lin).json()['purchaser']
-            if lock == None:
+            buyer = str(requests.get(lin).json()['purchaser'])
+            if lock == 'None':
                 pass
-            elif lock == 'eftikhan' and buyer == None:
+            elif lock == 'eftikhan' and buyer == 'None':
                 ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
                 am = round(card_price / ra, 3)
                 webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> I bough something.')
