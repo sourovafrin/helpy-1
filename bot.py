@@ -247,8 +247,7 @@ def send(market_id, seller, card_price):
             lock = requests.get(lin).json()['locked_by']
             buyer = requests.get(lin).json()['purchaser']
             if lock == None:
-                webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> Locked by none. Please check and buy instant\nMarket id: `{}`'.format(market_id))
-                webhook.execute()
+                pass
             elif lock == 'eftikhan' and buyer == None:
                 ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
                 am = round(card_price / ra, 3)
@@ -261,19 +260,13 @@ def send(market_id, seller, card_price):
                 acc = Account("svirus",steem_instance=stm)
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
-                try:
-                    sbd = sbd - 1
-                except Exception as e:
-                    pass
+                sbd = sbd - 1
                 acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by eftikhan")
                 b = False
             else:
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
-                try:
-                    sbd = sbd - 1
-                except Exception as e:
-                    pass
+                sbd = sbd - 1
                 acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}".format(lock))
                 webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> {} bough something'.format(lock))
                 webhook.execute()
@@ -438,7 +431,7 @@ def st():
                         try:
                             card_price = float(ii['buy_price'])
                         except Exception as e:
-                            pass
+                            break
                         try:
                             if card_number in di:
                                 if card_price <= di[card_number] and int(edit) == 1:
