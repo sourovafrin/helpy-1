@@ -243,7 +243,6 @@ def send(market_id, seller, card_price):
         b = True
         lin = "https://steemmonsters.com/market/status?id=" + market_id
         while b:
-            time.sleep(5)
             lock = requests.get(lin).json()['locked_by']
             buyer = str(requests.get(lin).json()['purchaser'])
             if lock == 'None':
@@ -435,6 +434,7 @@ def st():
                         try:
                             if card_number in di:
                                 if card_price <= di[card_number] and int(edit) == 1:
+                                    time.sleep(5)
                                     t3 = Thread(target=send, args=(market_id, seller, card_price))
                                     t3.start()
                                 #elif card_price <= dic[card_number] and int(edit) == 0:
