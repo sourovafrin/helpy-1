@@ -247,7 +247,7 @@ def send(market_id, seller, card_price):
             lock = requests.get(lin).json()['locked_by']
             buyer = requests.get(lin).json()['purchaser']
             if lock == None:
-                webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> Locked by none. Please check and buy instant\nMarket id: `{}`'.format(market_id)
+                webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> Locked by none. Please check and buy instant\nMarket id: `{}`'.format(market_id))
                 webhook.execute()
             elif lock == 'eftikhan' and buyer == None:
                 ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
