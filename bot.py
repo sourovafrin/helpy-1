@@ -430,15 +430,16 @@ def st():
                         try:
                             card_price = float(ii['buy_price'])
                         except Exception as e:
+                            print("Breaking due to None. Seller: {}".format(seller))
                             break
                         try:
                             if card_number in di:
                                 if card_price <= di[card_number] and int(edit) == 1:
-                                    time.sleep(5)
+                                    time.sleep(2)
                                     t3 = Thread(target=send, args=(market_id, seller, card_price))
                                     t3.start()
-                                #elif card_price <= dic[card_number] and int(edit) == 0:
-                                    #Thread(target=send, args=(market_id, seller, card_price)).start()
+                                else:
+                                   pass
                         except Exception as e:
                             pass
                         if int(edit) == 0:
