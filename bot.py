@@ -435,7 +435,7 @@ def st():
                         try:
                             if card_number in di:
                                 if card_price <= di[card_number] and int(edit) == 1:
-                                    time.sleep(2)
+                                    time.sleep(4)
                                     t3 = Thread(target=send, args=(market_id, seller, card_price))
                                     t3.start()
                                 else:
