@@ -17,7 +17,7 @@ SV = os.environ.get('SV')
 MD = os.environ.get('MD')
 AF = os.environ.get('AF')
 WB = os.environ.get('WB')
-MUWB = os.environ.get('MU')
+MU = os.environ.get('MU')
 
 client = MongoClient(MD)
 db = client.get_database("wls_db")
