@@ -16,6 +16,8 @@ CH = os.environ.get('CH')
 SV = os.environ.get('SV')
 MD = os.environ.get('MD')
 AF = os.environ.get('AF')
+WB = os.environ.get('WB')
+MUWB = os.environ.get('MU')
 
 client = MongoClient(MD)
 db = client.get_database("wls_db")
@@ -253,7 +255,7 @@ def send(market_id, seller, card_price):
             elif lock == 'sourovafrin' and buyer == 'None':
                 ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
                 am = round(card_price / ra, 3)
-                webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> I bough something.')
+                webhook = DiscordWebhook(url=WB,content='<@397972596207124480> I bough something.')
                 webhook.execute()
                 memoo = "sm_market_sale:" + market_id + ":sourovafrin"
                 amm = round(am - am * 0.05, 3)
@@ -270,7 +272,7 @@ def send(market_id, seller, card_price):
                 sbd = float(inf['available'][1])
                 sbd = sbd - 1
                 acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}".format(lock))
-                webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> {} bough something'.format(lock))
+                webhook = DiscordWebhook(url=WB, content='<@397972596207124480> {} bough something'.format(lock))
                 webhook.execute()
                 b = False
     except Exception as e:
@@ -481,7 +483,7 @@ def st():
 **Verify**: `..verify {}`
 
 ..../""".format(name, card_id, card_price, percent, second_min, seller, edition, is_gold, sbd_send, market_id, sbd_send, market_id, market_id)
-                                webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/583245496546623489/AIQUHD2eRwtlR9ntw3Mpl8qbn3q85EQU3qQBIoHFBaZrbVK_iM772FAUspQ6oxk3FyP_', content=message)
+                                webhook = DiscordWebhook(url=MU, content=message)
                                 webhook.execute()
         except Exception as e:
             print("Error found: {}".format(e))
