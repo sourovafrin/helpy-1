@@ -74,6 +74,9 @@ di = {'16': .6,
       '27': .5,
       '38': .5,
       '70': .45,
+      '32': .4,
+      '31': .4,
+      '42': .5,
       '71': .45,
       '72': .55,
       '73': .45,
@@ -86,13 +89,13 @@ di = {'16': .6,
       '10': .38,
       '11': 1.5,
       '20': .50,
-      '21': .25,
-      '22': 1.2,
+      '82': 2,
+      '22': 1.5,
+      '33': 2,
+      '98': 2,
       '32': .35,
-      '33': 2.5,
-      '42': .3,
       '43': .5,
-      '44': 1.3,
+      '44': 1.8,
       '53': .25,
       '54': .25,
       '55': 1.5,
@@ -247,12 +250,12 @@ def send(market_id, seller, card_price):
             buyer = str(requests.get(lin).json()['purchaser'])
             if lock == 'None':
                 pass
-            elif lock == 'eftikhan' and buyer == 'None':
+            elif lock == 'sourovafrin' and buyer == 'None':
                 ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
                 am = round(card_price / ra, 3)
                 webhook = DiscordWebhook(url='https://discordapp.com/api/webhooks/582590527103434765/sAT1ZNhY8ZfmzN0uqnzCMMTfJghjH4y1DAatfIEXo4NrOj8zbFQ0XhXOlNTiR_B6Hc-x',content='<@397972596207124480> I bough something.')
                 webhook.execute()
-                memoo = "sm_market_sale:" + market_id + ":eftikhan"
+                memoo = "sm_market_sale:" + market_id + ":sourovafrin"
                 amm = round(am - am * 0.05, 3)
                 acc.transfer(seller, amm, 'SBD', memoo)
                 time.sleep(2)
@@ -260,7 +263,7 @@ def send(market_id, seller, card_price):
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
                 sbd = sbd - 1
-                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by eftikhan")
+                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by sourovafrin")
                 b = False
             else:
                 inf = acc.get_balances()
@@ -434,7 +437,7 @@ def st():
                             break
                         try:
                             if card_number in di:
-                                if card_price <= di[card_number] and int(edit) == 1:
+                                if card_price <= di[card_number]:
                                     time.sleep(4)
                                     t3 = Thread(target=send, args=(market_id, seller, card_price))
                                     t3.start()
