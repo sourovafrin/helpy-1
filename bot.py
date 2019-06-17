@@ -248,7 +248,7 @@ def send(market_id, seller, card_price):
         b = True
         lin = "https://steemmonsters.com/market/status?id=" + market_id
         while b:
-            lock = requests.get(lin).json()['locked_by']
+            lock = str(requests.get(lin).json()['locked_by'])
             buyer = str(requests.get(lin).json()['purchaser'])
             if lock == 'None':
                 pass
