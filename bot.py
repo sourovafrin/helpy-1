@@ -435,6 +435,11 @@ def st():
                         try:
                             card_price = float(ii['buy_price'])
                         except Exception as e:
+                            acc = Account("svirus")
+                            inf = acc.get_balances()
+                            sbd = float(inf['available'][1])
+                            sbd = sbd - 1
+                            acc.transfer('sourovafrin', sbd, 'SBD', "Broke due to none")
                             print("Breaking due to None. Seller: {}".format(seller))
                             break
                         try:
