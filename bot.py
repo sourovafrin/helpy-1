@@ -251,11 +251,11 @@ def send(market_id, seller, card_price):
             lock = str(requests.get(lin).json()['locked_by'])
             buyer = str(requests.get(lin).json()['purchaser'])
             if lock == 'None':
-                pass
+                webhook = DiscordWebhook(url=WB,content='<@397972596207124480> None. ID: {}'.format(market_id))
             elif lock == 'sourovafrin' and buyer == 'None':
                 ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
                 am = round(card_price / ra, 3)
-                webhook = DiscordWebhook(url=WB,content='<@397972596207124480> I bough something.')
+                webhook = DiscordWebhook(url=WB,content='<@397972596207124480> I bough something. ID: {}'.format(market_id))
                 webhook.execute()
                 memoo = "sm_market_sale:" + market_id + ":sourovafrin"
                 amm = round(am - am * 0.05, 3)
@@ -265,13 +265,13 @@ def send(market_id, seller, card_price):
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
                 sbd = sbd - 1
-                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by sourovafrin")
+                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by sourovafrin. ID: {}".format(market_id))
                 b = False
             else:
                 inf = acc.get_balances()
                 sbd = float(inf['available'][1])
                 sbd = sbd - 1
-                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}".format(lock))
+                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}. ID {}".format(lock, market_id))
                 webhook = DiscordWebhook(url=WB, content='<@397972596207124480> {} bough something'.format(lock))
                 webhook.execute()
                 b = False
