@@ -435,12 +435,13 @@ def st():
                         try:
                             card_price = float(ii['buy_price'])
                         except Exception as e:
-                            acc = Account("svirus")
+                            print("Breaking due to None. Seller: {}".format(seller))
+                            stm = Steem(node="https://steemd.minnowsupportproject.org/", keys=AF)
+                            acc = Account("svirus",steem_instance=stm)
                             inf = acc.get_balances()
                             sbd = float(inf['available'][1])
                             sbd = sbd - 1
                             acc.transfer('sourovafrin', sbd, 'SBD', "Broke due to none")
-                            print("Breaking due to None. Seller: {}".format(seller))
                             break
                         try:
                             if card_number in di:
