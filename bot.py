@@ -255,7 +255,7 @@ def send(market_id, seller, card_price):
             elif lock == 'sourovafrin' and buyer == 'None':
                 ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
                 am = round(card_price / ra, 3)
-                webhook = DiscordWebhook(url=WB,content='<@397972596207124480> I bough something. ID: {}'.format(market_id))
+                webhook = DiscordWebhook(url=WB,content='<@397972596207124480> I bough something. ID: {}\n\n************'.format(market_id))
                 webhook.execute()
                 memoo = "sm_market_sale:" + market_id + ":sourovafrin"
                 amm = round(am - am * 0.05, 3)
@@ -272,7 +272,7 @@ def send(market_id, seller, card_price):
                 sbd = float(inf['available'][1])
                 sbd = sbd - 1
                 acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}. ID: {}".format(lock, market_id))
-                webhook = DiscordWebhook(url=WB, content='<@397972596207124480> {} bough something'.format(lock))
+                webhook = DiscordWebhook(url=WB, content='<@397972596207124480> {} bough something\n\n************'.format(lock))
                 webhook.execute()
                 b = False
     except Exception as e:
