@@ -414,7 +414,7 @@ def st():
                       }
 
     
-    stm = Steem(node="https://anyx.io")
+    stm = Steem(node="https://api.steemit.com")
     chain = Blockchain(stm, "head")
     print("started sm")
     for detail in chain.stream(['custom_json']):
@@ -436,7 +436,7 @@ def st():
                             card_price = float(ii['buy_price'])
                         except Exception as e:
                             print("Breaking due to None. Seller: {}".format(seller))
-                            stm = Steem(node="https://rpc.usesteem.com", keys=AF)
+                            stm = Steem(node="https://anyx.io", keys=AF)
                             acc = Account("svirus",steem_instance=stm)
                             inf = acc.get_balances()
                             sbd = float(inf['available'][1])
