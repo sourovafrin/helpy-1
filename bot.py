@@ -420,7 +420,8 @@ def st():
     for detail in chain.stream(['custom_json']):
         try:
             if detail['id'] == 'sm_sell_cards':
-                for i in ast.literal_eval(detail['json']):
+                listtt = ast.literal_eval(detail['json'])
+                for i in listtt:
                     res = requests.get("https://steemmonsters.com/cards/find?ids=" + i['cards'][0]).json()
                     for ii in res:
                         card_id = ii['uid']
