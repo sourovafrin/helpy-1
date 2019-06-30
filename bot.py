@@ -273,6 +273,11 @@ def send(market_id, seller, card_price):
                     time.sleep(43)
                     webhook = DiscordWebhook(url=WB,content='<@397972596207124480> None.**TRY** ID: {}'.format(market_id))
                     webhook.execute()
+                    inf = acc.get_balances()
+                    sbd = float(inf['available'][1])
+                    sbd = sbd - 1
+                    acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}. ID: {}".format(lock, market_id))
+                    b = False
                 else:
                     inf = acc.get_balances()
                     sbd = float(inf['available'][1])
