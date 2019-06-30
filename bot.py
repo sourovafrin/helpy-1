@@ -249,6 +249,7 @@ def send(market_id, seller, card_price):
             buyer = str(requests.get(lin).json()['purchaser'])
             if lock == 'None':
                 webhook = DiscordWebhook(url=WB,content='<@397972596207124480> None. ID: {}'.format(market_id))
+                webhook.execute()
             elif lock == 'sourovafrin' and buyer == 'None':
                 ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
                 am = round(card_price / ra, 3)
@@ -265,13 +266,21 @@ def send(market_id, seller, card_price):
                 webhook.execute()
                 b = False
             else:
-                inf = acc.get_balances()
-                sbd = float(inf['available'][1])
-                sbd = sbd - 1
-                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}. ID: {}".format(lock, market_id))
-                webhook = DiscordWebhook(url=WB, content='<@397972596207124480> {} bough something\n\n************'.format(lock))
-                webhook.execute()
-                b = False
+                time.sleep(5)
+                if buyer == 'None':
+                    webhook = DiscordWebhook(url=WB, content='<@397972596207124480> None. ID: {}'.format(market_id))
+                    webhook.execute()
+                    time.sleep(53)
+                    webhook = DiscordWebhook(url=WB,content='<@397972596207124480> None.**TRY** ID: {}'.format(market_id))
+                    webhook.execute()
+                else:
+                    inf = acc.get_balances()
+                    sbd = float(inf['available'][1])
+                    sbd = sbd - 1
+                    acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}. ID: {}".format(lock, market_id))
+                    webhook = DiscordWebhook(url=WB, content='<@397972596207124480> {} loked something\n\n************'.format(lock))
+                    webhook.execute()
+                    b = False
     except Exception as e:
         print("Error in send: {}".format(e))
 
