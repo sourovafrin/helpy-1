@@ -266,11 +266,11 @@ def send(market_id, seller, card_price):
                 webhook.execute()
                 b = False
             else:
-                time.sleep(5)
+                time.sleep(10)
                 if buyer == 'None':
                     webhook = DiscordWebhook(url=WB, content='<@397972596207124480> None. ID: {}'.format(market_id))
                     webhook.execute()
-                    time.sleep(53)
+                    time.sleep(43)
                     webhook = DiscordWebhook(url=WB,content='<@397972596207124480> None.**TRY** ID: {}'.format(market_id))
                     webhook.execute()
                 else:
@@ -278,7 +278,7 @@ def send(market_id, seller, card_price):
                     sbd = float(inf['available'][1])
                     sbd = sbd - 1
                     acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}. ID: {}".format(lock, market_id))
-                    webhook = DiscordWebhook(url=WB, content='<@397972596207124480> {} loked something\n\n************'.format(lock))
+                    webhook = DiscordWebhook(url=WB, content='<@397972596207124480> {} locked something\n\n************'.format(lock))
                     webhook.execute()
                     b = False
     except Exception as e:
