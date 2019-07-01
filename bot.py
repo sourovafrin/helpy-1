@@ -244,13 +244,11 @@ def send(market_id, seller, card_price):
     try:
         b = True
         lin = "https://steemmonsters.com/market/status?id=" + market_id
+        time.sleep(5)
         while b:
             lock = str(requests.get(lin).json()['locked_by'])
             buyer = str(requests.get(lin).json()['purchaser'])
-            if lock == 'None':
-                webhook = DiscordWebhook(url=WB,content='<@397972596207124480> None. ID: {}'.format(market_id))
-                webhook.execute()
-            elif lock == 'sourovafrin' and buyer == 'None':
+            if lock == 'sourovafrin' and buyer == 'None':
                 ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
                 am = round(card_price / ra, 3)
                 memoo = "sm_market_sale:" + market_id + ":sourovafrin"
@@ -270,8 +268,10 @@ def send(market_id, seller, card_price):
                 if buyer == 'None':
                     webhook = DiscordWebhook(url=WB, content='<@397972596207124480> None. ID: {}'.format(market_id))
                     webhook.execute()
-                    time.sleep(43)
-                    webhook = DiscordWebhook(url=WB,content='<@397972596207124480> None.**TRY** ID: {}'.format(market_id))
+                    time.sleep(35)
+                    webhook = DiscordWebhook(url=WB,content='..verify {}'.format(market_id))
+                    webhook.execute()
+                    webhook = DiscordWebhook(url=WB,content='```..transfer 1 sbd sm-market sm_market_purchase:{}```'.format(market_id))
                     webhook.execute()
                     inf = acc.get_balances()
                     sbd = float(inf['available'][1])
