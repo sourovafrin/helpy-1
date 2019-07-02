@@ -239,7 +239,7 @@ def inn():
             record.insert_one(link)
             
 def send(market_id, seller, card_price):
-    stm = Steem(node="https://api.steemit.com", keys=AF)
+    stm = Steem(node="https://steemd.minnowsupportproject.org", keys=AF)
     acc = Account("svirus",steem_instance=stm)   
     try:
         b = True
@@ -262,7 +262,7 @@ def send(market_id, seller, card_price):
                 acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by sourovafrin. ID: {}".format(market_id))
                 webhook = DiscordWebhook(url=WB,content='<@397972596207124480> I bough something. ID: {}\n\n************'.format(market_id))
                 webhook.execute()
-                break
+                b = False
             else:
                 time.sleep(10)
                 if buyer == 'None':
