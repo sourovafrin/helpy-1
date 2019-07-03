@@ -243,8 +243,8 @@ def send(market_id, seller, card_price):
     acc = Account("svirus",steem_instance=stm)   
     try:
         b = True
-        lin = "https://steemmonsters.com/market/status?id=" + market_id
         time.sleep(5)
+        lin = "https://steemmonsters.com/market/status?id=" + market_id
         while b:
             lock = str(requests.get(lin).json()['locked_by'])
             buyer = str(requests.get(lin).json()['purchaser'])
