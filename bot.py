@@ -237,7 +237,7 @@ def inn():
             print("A new post has been found and thrown into database.\nAuthor: {}".format(author))
             link = {"link": permlink}
             record.insert_one(link)
-            
+"""            
 def send(market_id, seller, card_price):
     stm = Steem(node="https://steemd.minnowsupportproject.org", keys=AF)
     acc = Account("svirus",steem_instance=stm)   
@@ -288,7 +288,7 @@ def send(market_id, seller, card_price):
                     b = False
     except Exception as e:
         print("Error in send: {}".format(e))
-
+"""
     
 
 def st():
@@ -425,7 +425,7 @@ def st():
                       }
 
     
-    stm = Steem(node="https://api.steemit.com")
+    stm = Steem(node="https://steemd.minnowsupportproject.org")
     chain = Blockchain(stm, "head")
     print("started sm")
     for detail in chain.stream(['custom_json']):
@@ -448,23 +448,7 @@ def st():
                             card_price = float(ii['buy_price'])
                         except Exception as e:
                             print("Breaking due to None. Seller: {}".format(seller))
-                            stm = Steem(node="https://anyx.io", keys=AF)
-                            acc = Account("svirus",steem_instance=stm)
-                            inf = acc.get_balances()
-                            sbd = float(inf['available'][1])
-                            sbd = sbd - 1
-                            acc.transfer('sourovafrin', sbd, 'SBD', "Broke due to none")
                             break
-                        try:
-                            if card_number in di:
-                                if card_price <= di[card_number]:
-                                    time.sleep(4)
-                                    t3 = Thread(target=send, args=(market_id, seller, card_price))
-                                    t3.start()
-                                else:
-                                   pass
-                        except Exception as e:
-                            pass
                         if int(edit) == 0:
                             edition = "Alpha"
                         elif int(edit) == 1:
