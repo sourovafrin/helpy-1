@@ -480,11 +480,10 @@ def st():
 **Gold**: {}
 <@397972596207124480>
 
-**Buy instant**: `..transfer {} sbd sm-market sm_market_purchase:{}`
-**For admin only:** `..transfer {} sbd svirus sm_market_purchase:{}`
+**Buy instant for 3% cashback**: `..transfer {} sbd svirus sm_market_purchase:{}`
 **Verify**: `..verify {}`
 
-..../""".format(name, card_id, card_price, percent, second_min, seller, edition, is_gold, sbd_send, market_id, sbd_send, market_id, market_id)
+..../""".format(name, card_id, card_price, percent, second_min, seller, edition, is_gold, sbd_send, market_id, market_id)
                                 webhook = DiscordWebhook(url=MU, content=message)
                                 webhook.execute()
         except Exception as e:
