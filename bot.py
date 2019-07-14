@@ -434,7 +434,7 @@ def st():
                                 sbd_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus", "amount": stmc_sbd, "memo": memo})
                                 thumbnail_link = thumbnail_generator(edition, name, is_gold)
                                 embed = Embed(color=15105817)
-                                embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller), value="Edition: **{}** Gold: **{}**\nPrice: **{}$** Cheaper: **{}%** Second Lowest: {}$".format(edition, is_gold, card_price, percent, second_min))
+                                embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller), value="Edition: **{}**,  Gold: **{}**\nPrice: **{}$**,  Cheaper: **{}%**,  Second Lowest: {}$".format(edition, is_gold, card_price, percent, second_min))
                                 embed.set_thumbnail(thumbnail_link)
                                 embed.add_field(name="**Commands to buy(3% cashback)**", value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(steem_send, memo, sbd_send, memo))
                                 embed.add_field(name="**Steemconnect link to buy(3% cashback)**", value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link, sbd_link))
