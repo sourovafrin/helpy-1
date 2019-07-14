@@ -219,7 +219,7 @@ def thumbnail_generator(edition, name):
         if edition == "Beta" or edition == "Reward":
             check = 0
             link = "https://s3.amazonaws.com/steemmonsters/cards_beta/"
-            for i in b:
+            for i in name_parts:
                 check += 1
                 link += i
                 if check == lent:
@@ -230,7 +230,7 @@ def thumbnail_generator(edition, name):
         else:
             check = 0
             link = "https://s3.amazonaws.com/steemmonsters/cards_v2.2/"
-            for i in b:
+            for i in name_parts:
                 check += 1
                 link += i
                 if check == lent:
