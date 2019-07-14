@@ -437,6 +437,7 @@ def st():
                                 embed.set_thumbnail(thumbnail_link)
                                 embed.add_field(name="**Commands to buy(3% cashback)**", value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(steem_send, memo, sbd_send, memo))
                                 embed.add_field(name="**Steemconnect link to buy(3% cashback)**", value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link, sbd_link))
+                                embed.add_field(name="**Verification**", value="**Verify**: `..verify {}`".format(market_id))
                                 hook.send(embed=embed)
                                 hook.close()
         except Exception as e:
