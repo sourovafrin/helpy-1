@@ -241,6 +241,8 @@ def thumbnail_generator(edition, name, is_gold):
                         link += "_gold.png"
                     else:
                         link += ".png"
+                else:
+                    link += "%20"
             return link
     except Exception as e:
         print("Error in thumbnail generation: {}.\nCard edition: {} and Card name: {}".format(e,edition,name))
@@ -400,6 +402,8 @@ def st():
                             market_id = ii['market_id']
                         except Exception as e:
                             print("Breaking from market_id {}.\nSeller: {}".format(e, seller))
+                            break
+                        if market_id is None:
                             break
                         card_number = str(ii['card_detail_id'])
                         is_gold = ii['gold']
