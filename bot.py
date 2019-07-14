@@ -432,7 +432,7 @@ def st():
                                 embed = Embed(color=15105817)
                                 embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller), value="Edition: **{}** Gold: **{}**\nPrice: **{}$** Cheaper: **{}%** Second Lowest: {}$".format(edition, is_gold, card_price, percent, second_min))
                                 embed.set_thumbnail(thumbnail_link)
-                                embed.add_field(name="**Commands to buy(3% cashback)**", value="**STEEM**: `..transfer {} steem svirus sm_market_purchase:e6fdb3e5f1e70bd7b40355fed3541110ae03f783-0`\n\n**SBD**: `..transfer {} sbd svirus sm_market_purchase:e6fdb3e5f1e70bd7b40355fed3541110ae03f783-0`".format(steem_send, sbd_send))
+                                embed.add_field(name="**Commands to buy(3% cashback)**", value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(steem_send, memo, sbd_send, memo))
                                 embed.add_field(name="**Steemconnect link to buy(3% cashback)**", value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link, sbd_link))
                                 hook.send(embed=embed)
                                 hook.close()
