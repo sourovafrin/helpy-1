@@ -212,7 +212,7 @@ def send(market_id, seller, card_price):
         print("Error in send: {}".format(e))
 """
 
-def thumbnail_generator(edition, name):
+def thumbnail_generator(edition, name, is_gold):
     try:
         name_parts = name.split(" ")
         lent = len(name_parts)
@@ -223,7 +223,10 @@ def thumbnail_generator(edition, name):
                 check += 1
                 link += i
                 if check == lent:
-                    link += ".png"
+                    if is_gold is True:
+                        link += "_gold.png"
+                    else:
+                        link += ".png"
                 else:
                     link += "%20"
             return link
@@ -234,9 +237,10 @@ def thumbnail_generator(edition, name):
                 check += 1
                 link += i
                 if check == lent:
-                    link += ".png"
-                else:
-                    link += "%20"
+                    if is_gold is True:
+                        link += "_gold.png"
+                    else:
+                        link += ".png"
             return link
     except Exception as e:
         print("Error in thumbnail generation: {}.\nCard edition: {} and Card name: {}".format(e,edition,name))
@@ -428,7 +432,7 @@ def st():
                                 stmconnect = SteemConnect()
                                 steem_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus", "amount": stmc_steem, "memo": memo})
                                 sbd_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus", "amount": stmc_sbd, "memo": memo})
-                                thumbnail_link = thumbnail_generator(edition, name)
+                                thumbnail_link = thumbnail_generator(edition, name, is_gold)
                                 embed = Embed(color=15105817)
                                 embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller), value="Edition: **{}** Gold: **{}**\nPrice: **{}$** Cheaper: **{}%** Second Lowest: {}$".format(edition, is_gold, card_price, percent, second_min))
                                 embed.set_thumbnail(thumbnail_link)
