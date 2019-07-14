@@ -384,7 +384,10 @@ def st():
             if detail['id'] == 'sm_sell_cards':
                 listtt = ast.literal_eval(detail['json'])
                 for i in listtt:
-                    res = requests.get("https://steemmonsters.com/cards/find?ids=" + i['cards'][0]).json()
+                    cardddd = i['cards'][0]
+                    linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
+                    res = requests.get(linkk)
+                    res = res.json()
                     for ii in res:
                         card_id = ii['uid']
                         seller = ii['player']
@@ -398,7 +401,7 @@ def st():
                         try:
                             card_price = float(ii['buy_price'])
                         except Exception as e:
-                            print("Breaking due to None. Seller: {}".format(seller))
+                            print("Breaking due to {}.\nSeller: {}".format(e, seller))
                             break
                         if int(edit) == 0:
                             edition = "Alpha"
