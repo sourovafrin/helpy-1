@@ -6,7 +6,8 @@ from beem.utils import construct_authorperm
 from pymongo import MongoClient
 from datetime import timedelta
 from threading import Thread
-from discord_webhook import DiscordWebhook
+from dhooks import Webhook, Embed
+from beem.steemconnect import SteemConnect
 import requests
 import ast
 import time
@@ -22,92 +23,14 @@ MU = os.environ.get('MU')
 client = MongoClient(MD)
 db = client.get_database("wls_db")
 record = db.wls_link
-
+hook = Webhook(url= MU)
+"""
 #wls = Steem(node='ws://wls.fullnode.nl:8090')
 #blockchain = Blockchain(steem_instance=wls, mode='head')
 whitelist = ['anritco','samest','karinxxl', 'heyimsnuffles', 'chrisrendon', 'theunion', 'zhanavic69', 'al-desnudo', 'uche-nna', 'samprock', 'marinella', 'joseph1956', 'stackin','thebugiq','zakaria','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','caminante','backpackingmonk','termite','peman85','heeyahnuh']
 cmnt = ['thebugiq', 'haejin', 'backpackingmonk', 'marinella', 'al-desnudo', 'sardart']
 special = ['anritco', 'heyimsnuffles', 'marinella', 'joseph1956', 'thebugiq', 'ladyfont', 'muh543', 'haejin', 'backpackingmonk']
 
-"""
-alric = 16
-infarno = 5
-zinter = 49
-lyanna = 27
-tyrus = 38
-talia = 70
-jarlax = 74
-seachan = 71
-foxwood = 72
-kiara = 73
-plado = 110
-Valnamor = 111
-Rennyn = 112
-Peakrider = 113
-Mancer = 109
-Selenia = 56
-62: Elven Cutthroat
-64: Cocatrice
-66: Enchanted Pixie
-68: Magi Sphinx
-9: Fire Demon
-10: Serpent of the Flame
-11: Elemental Phoenix
-20: Mischievous Mermaid
-21: Naga Warrior
-22: Frost Giant
-32: Swamp Thing
-33: Spirit of the Forest
-42: Defender of Truth
-43: Air Elemental
-44: Angel of Light
-53: Dark Enchantress
-54: Screaming Banshee
-55: Lord of Darkness
-57: Lightning Dragon
-58: Chromatic Dragon
-59: Gold Dragon
-"""
-
-
-di = {'16': .8,
-       '5': .45,
-      '49': .6,
-      '27': .65,
-      '38': .47,
-      '70': .45,
-      '32': .4,
-      '31': .4,
-      '42': .5,
-      '71': .45,
-      '72': .55,
-      '73': .45,
-      '74': .4,
-      '68': 1.6,
-      '9': .48,
-      '10': .58,
-      '11': 1.5,
-      '20': .50,
-      '82': 2,
-      '22': 2,
-      '33': 2,
-      '98': 2,
-      '32': .45,
-      '43': .5,
-      '44': 1.8,
-      '53': .3,
-      '54': .5,
-      '55': 2,
-      '57': 1.9,
-      '58': 1.9,
-      '59': 1.9}
-
-
-dic = {'16': .7,
-        '5': .50,
-        '49': .7,
-        '27': .56,
-        '38': .68}
 
 def check():
     for i in record.find():
@@ -236,8 +159,7 @@ def inn():
         if post.is_comment() == False and author in whitelist:
             print("A new post has been found and thrown into database.\nAuthor: {}".format(author))
             link = {"link": permlink}
-            record.insert_one(link)
-"""            
+            record.insert_one(link)           
 def send(market_id, seller, card_price):
     stm = Steem(node="https://steemd.minnowsupportproject.org", keys=AF)
     acc = Account("svirus",steem_instance=stm)   
@@ -289,7 +211,36 @@ def send(market_id, seller, card_price):
     except Exception as e:
         print("Error in send: {}".format(e))
 """
-    
+
+def thumbnail_generator(edition, name):
+    try:
+        name_parts = name.split(" ")
+        lent = len(name_parts)
+        if edition == "Beta" or edition == "Reward":
+            check = 0
+            link = "https://s3.amazonaws.com/steemmonsters/cards_beta/"
+            for i in b:
+                check += 1
+                link += i
+                if check == lent:
+                    link += ".png"
+                else:
+                    link += "%20"
+            return link
+        else:
+            check = 0
+            link = "https://s3.amazonaws.com/steemmonsters/cards_v2.2/"
+            for i in b:
+                check += 1
+                link += i
+                if check == lent:
+                    link += ".png"
+                else:
+                    link += "%20"
+            return link
+    except Exception as e:
+        print("Error in thumbnail generation: {}.\nCard edition: {} and Card name: {}".format(e,edition,name))
+       
 
 def st():
     car_name_by_id = {"1": "Goblin Shaman",
@@ -466,26 +417,25 @@ def st():
                         per = 10
                         if percent > per:
                             if second_min > 0.06:
-                                sbd_price = requests.get("https://steemmonsters.com/purchases/settings").json()['sbd_price']
+                                price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
+                                sbd_price = price_resp['sbd_price']
+                                steem_price = price_resp['steem_price']
                                 sbd_send = round(card_price / sbd_price, 3)
-                                message = """/....
-
-**Card name**: {}
-**Card id**: {}
-**Price**: **{}**
-**Cheaper**: **{}%**
-**Second Lowest**: {}
-**Seller**: {}
-**Edition**: {}
-**Gold**: {}
-<@397972596207124480>
-
-**Buy instant for 3% cashback**: `..transfer {} sbd svirus sm_market_purchase:{}`
-**Verify**: `..verify {}`
-
-..../""".format(name, card_id, card_price, percent, second_min, seller, edition, is_gold, sbd_send, market_id, market_id)
-                                webhook = DiscordWebhook(url=MU, content=message)
-                                webhook.execute()
+                                stmc_sbd = str(sbd_send) + " SBD"
+                                steem_send = round(card_price / steem_price, 3)
+                                stmc_steem = str(steem_send) + " STEEM"
+                                memo = "sm_market_purchase:{}".format(market_id)
+                                stmconnect = SteemConnect()
+                                steem_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus", "amount": stmc_steem, "memo": memo})
+                                sbd_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus", "amount": stmc_sbd, "memo": memo})
+                                thumbnail_link = thumbnail_generator(edition, name)
+                                embed = Embed(color=15105817)
+                                embed.add_field(name="**{}**".format(name), value="{} by @{}\n Edition: **{}** Gold: **{}**\nPrice: **{}$** Cheaper: **{}%** Second Lowest: {}$".format(card_id, seller, edition, is_gold, card_price, percent, second_min))
+                                embed.set_thumbnail(thumbnail_link)
+                                embed.add_field(name="**Commands to buy(3% cashback)**", value="**STEEM**: `..transfer {} steem svirus sm_market_purchase:e6fdb3e5f1e70bd7b40355fed3541110ae03f783-0`\n\n**SBD**: `..transfer {} sbd svirus sm_market_purchase:e6fdb3e5f1e70bd7b40355fed3541110ae03f783-0`".format(steem_send, sbd_send))
+                                embed.add_field(name="**Steemconnect link to buy(3% cashback)**", value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link, sbd_link))
+                                hook.send(embed=embed)
+                                hook.close()
         except Exception as e:
             print("Error found: {}".format(e))
 
