@@ -384,6 +384,7 @@ def st():
             if detail['id'] == 'sm_sell_cards':
                 listtt = ast.literal_eval(detail['json'])
                 for i in listtt:
+                    card_price = float(i['price'])
                     cardddd = i['cards'][0]
                     linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
                     res = requests.get(linkk)
@@ -394,15 +395,11 @@ def st():
                         try:
                             market_id = ii['market_id']
                         except Exception as e:
+                            print("Breaking from market_id {}.\nSeller: {}".format(e, seller))
                             break
                         card_number = str(ii['card_detail_id'])
                         is_gold = ii['gold']
                         edit = ii['edition']
-                        try:
-                            card_price = float(ii['buy_price'])
-                        except Exception as e:
-                            print("Breaking due to {}.\nSeller: {}".format(e, seller))
-                            break
                         if int(edit) == 0:
                             edition = "Alpha"
                         elif int(edit) == 1:
