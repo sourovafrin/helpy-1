@@ -24,7 +24,7 @@ client = MongoClient(MD)
 db = client.get_database("wls_db")
 record = db.wls_link
 hook = Webhook(url= MU)
-ghook = hook = Webhook(url= WB)
+ghook = Webhook(url= WB)
 """
 #wls = Steem(node='ws://wls.fullnode.nl:8090')
 #blockchain = Blockchain(steem_instance=wls, mode='head')
@@ -444,12 +444,13 @@ def st():
                                 embed.add_field(name="**Commands to buy(3% cashback)**", value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(steem_send, memo, sbd_send, memo))
                                 embed.add_field(name="**Steemconnect link to buy(3% cashback)**", value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link, sbd_link))
                                 embed.add_field(name="**Verification**", value="**Verify**: `..verify {}`".format(market_id))
-                                if is_gold is True:
-                                    ghook.send(embed=embed)
-                                    ghook.close()
-                                else:
+                                if is_gold == False:
                                     hook.send(embed=embed)
                                     hook.close()
+                                else:
+                                    ghook.send(embed=embed)
+                                    ghook.close()
+                                    
         except Exception as e:
             print("Error found: {}".format(e))
 
