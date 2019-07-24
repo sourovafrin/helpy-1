@@ -6,7 +6,8 @@ from beem.utils import construct_authorperm
 from pymongo import MongoClient
 from datetime import timedelta
 from threading import Thread
-from discord_webhook import DiscordWebhook
+from dhooks import Webhook, Embed
+from beem.steemconnect import SteemConnect
 import requests
 import ast
 import time
@@ -22,95 +23,15 @@ MU = os.environ.get('MU')
 client = MongoClient(MD)
 db = client.get_database("wls_db")
 record = db.wls_link
-
+hook = Webhook(url= MU)
+ghook = Webhook(url= WB)
+"""
 #wls = Steem(node='ws://wls.fullnode.nl:8090')
 #blockchain = Blockchain(steem_instance=wls, mode='head')
 whitelist = ['anritco','samest','karinxxl', 'heyimsnuffles', 'chrisrendon', 'theunion', 'zhanavic69', 'al-desnudo', 'uche-nna', 'samprock', 'marinella', 'joseph1956', 'stackin','thebugiq','zakaria','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','caminante','backpackingmonk','termite','peman85','heeyahnuh']
 cmnt = ['thebugiq', 'haejin', 'backpackingmonk', 'marinella', 'al-desnudo', 'sardart']
 special = ['anritco', 'heyimsnuffles', 'marinella', 'joseph1956', 'thebugiq', 'ladyfont', 'muh543', 'haejin', 'backpackingmonk']
 
-"""
-alric = 16
-infarno = 5
-zinter = 49
-lyanna = 27
-tyrus = 38
-talia = 70
-jarlax = 74
-seachan = 71
-foxwood = 72
-kiara = 73
-plado = 110
-Valnamor = 111
-Rennyn = 112
-Peakrider = 113
-Mancer = 109
-Selenia = 56
-62: Elven Cutthroat
-64: Cocatrice
-66: Enchanted Pixie
-68: Magi Sphinx
-9: Fire Demon
-10: Serpent of the Flame
-11: Elemental Phoenix
-20: Mischievous Mermaid
-21: Naga Warrior
-22: Frost Giant
-32: Swamp Thing
-33: Spirit of the Forest
-42: Defender of Truth
-43: Air Elemental
-44: Angel of Light
-53: Dark Enchantress
-54: Screaming Banshee
-55: Lord of Darkness
-57: Lightning Dragon
-58: Chromatic Dragon
-59: Gold Dragon
-"""
-
-
-di = {'16': .6,
-       '5': .4,
-      '49': .6,
-      '27': .6,
-      '38': .47,
-      '70': .45,
-      '32': .4,
-      '31': .4,
-      '42': .5,
-      '71': .45,
-      '72': .55,
-      '73': .45,
-      '74': .4,
-      '62': .14,
-      '64': .13,
-      '66': .13,
-      '68': 1.35,
-      '9': .38,
-      '10': .38,
-      '11': 1.5,
-      '20': .50,
-      '82': 2,
-      '22': 1.5,
-      '33': 2,
-      '98': 2,
-      '32': .35,
-      '43': .5,
-      '44': 1.8,
-      '53': .25,
-      '54': .25,
-      '55': 1.5,
-      '57': 1.5,
-      '58': 1.5,
-      '59': 1.5}
-
-
-dic = {'16': .7,
-        '5': .50,
-        '49': .7,
-        '27': .56,
-        '38': .68}
 
 def check():
     for i in record.find():
@@ -239,20 +160,18 @@ def inn():
         if post.is_comment() == False and author in whitelist:
             print("A new post has been found and thrown into database.\nAuthor: {}".format(author))
             link = {"link": permlink}
-            record.insert_one(link)
-            
+            record.insert_one(link)           
 def send(market_id, seller, card_price):
-    stm = Steem(node="https://steemd.minnowsupportproject.org/", keys=AF)
+    stm = Steem(node="https://steemd.minnowsupportproject.org", keys=AF)
     acc = Account("svirus",steem_instance=stm)   
     try:
         b = True
+        time.sleep(5)
         lin = "https://steemmonsters.com/market/status?id=" + market_id
         while b:
             lock = str(requests.get(lin).json()['locked_by'])
             buyer = str(requests.get(lin).json()['purchaser'])
-            if lock == 'None':
-                webhook = DiscordWebhook(url=WB,content='<@397972596207124480> None. ID: {}'.format(market_id))
-            elif lock == 'sourovafrin' and buyer == 'None':
+            if lock == 'sourovafrin' and buyer == 'None':
                 ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
                 am = round(card_price / ra, 3)
                 memoo = "sm_market_sale:" + market_id + ":sourovafrin"
@@ -268,17 +187,67 @@ def send(market_id, seller, card_price):
                 webhook.execute()
                 b = False
             else:
-                inf = acc.get_balances()
-                sbd = float(inf['available'][1])
-                sbd = sbd - 1
-                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}. ID: {}".format(lock, market_id))
-                webhook = DiscordWebhook(url=WB, content='<@397972596207124480> {} bough something\n\n************'.format(lock))
-                webhook.execute()
-                b = False
+                time.sleep(10)
+                if buyer == 'None':
+                    webhook = DiscordWebhook(url=WB, content='<@397972596207124480> None. ID: {}'.format(market_id))
+                    webhook.execute()
+                    time.sleep(35)
+                    webhook = DiscordWebhook(url=WB,content='..verify {}'.format(market_id))
+                    webhook.execute()
+                    webhook = DiscordWebhook(url=WB,content='```..transfer 1 sbd sm-market sm_market_purchase:{}```'.format(market_id))
+                    webhook.execute()
+                    inf = acc.get_balances()
+                    sbd = float(inf['available'][1])
+                    sbd = sbd - 1
+                    acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}. ID: {}".format(lock, market_id))
+                    b = False
+                else:
+                    inf = acc.get_balances()
+                    sbd = float(inf['available'][1])
+                    sbd = sbd - 1
+                    acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}. ID: {}".format(lock, market_id))
+                    webhook = DiscordWebhook(url=WB, content='<@397972596207124480> {} locked something\n\n************'.format(lock))
+                    webhook.execute()
+                    b = False
     except Exception as e:
         print("Error in send: {}".format(e))
+"""
 
-    
+def thumbnail_generator(edition, name, is_gold):
+    try:
+        name_parts = name.split(" ")
+        lent = len(name_parts)
+        if edition == "Beta" or edition == "Reward":
+            check = 0
+            link = "https://s3.amazonaws.com/steemmonsters/cards_beta/"
+            for i in name_parts:
+                check += 1
+                link += i
+                if check == lent:
+                    if is_gold is True:
+                        link += "_gold.png"
+                    else:
+                        link += ".png"
+                else:
+                    link += "%20"
+            return link
+        else:
+            check = 0
+            link = "https://s3.amazonaws.com/steemmonsters/cards_v2.2/"
+            for i in name_parts:
+                check += 1
+                link += i
+                if check == lent:
+                    if is_gold is True:
+                        link += "_gold.png"
+                    else:
+                        link += ".png"
+                else:
+                    link += "%20"
+            return link
+    except Exception as e:
+        print("Error in thumbnail generation: {}.\nCard edition: {} and Card name: {}".format(e,edition,name))
+       
 
 def st():
     car_name_by_id = {"1": "Goblin Shaman",
@@ -414,7 +383,7 @@ def st():
                       }
 
     
-    stm = Steem(node="https://api.steemit.com")
+    stm = Steem(node="https://anyx.io")
     chain = Blockchain(stm, "head")
     print("started sm")
     for detail in chain.stream(['custom_json']):
@@ -422,38 +391,24 @@ def st():
             if detail['id'] == 'sm_sell_cards':
                 listtt = ast.literal_eval(detail['json'])
                 for i in listtt:
-                    res = requests.get("https://steemmonsters.com/cards/find?ids=" + i['cards'][0]).json()
+                    card_price = float(i['price'])
+                    cardddd = i['cards'][0]
+                    linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
+                    res = requests.get(linkk)
+                    res = res.json()
                     for ii in res:
                         card_id = ii['uid']
                         seller = ii['player']
                         try:
                             market_id = ii['market_id']
                         except Exception as e:
+                            print("Breaking from market_id {}.\nSeller: {}".format(e, seller))
+                            break
+                        if market_id is None:
                             break
                         card_number = str(ii['card_detail_id'])
                         is_gold = ii['gold']
                         edit = ii['edition']
-                        try:
-                            card_price = float(ii['buy_price'])
-                        except Exception as e:
-                            print("Breaking due to None. Seller: {}".format(seller))
-                            stm = Steem(node="https://anyx.io", keys=AF)
-                            acc = Account("svirus",steem_instance=stm)
-                            inf = acc.get_balances()
-                            sbd = float(inf['available'][1])
-                            sbd = sbd - 1
-                            acc.transfer('sourovafrin', sbd, 'SBD', "Broke due to none")
-                            break
-                        try:
-                            if card_number in di:
-                                if card_price <= di[card_number]:
-                                    time.sleep(4)
-                                    t3 = Thread(target=send, args=(market_id, seller, card_price))
-                                    t3.start()
-                                else:
-                                   pass
-                        except Exception as e:
-                            pass
                         if int(edit) == 0:
                             edition = "Alpha"
                         elif int(edit) == 1:
@@ -471,27 +426,31 @@ def st():
                         per = 10
                         if percent > per:
                             if second_min > 0.06:
-                                sbd_price = requests.get("https://steemmonsters.com/purchases/settings").json()['sbd_price']
+                                price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
+                                sbd_price = price_resp['sbd_price']
+                                steem_price = price_resp['steem_price']
                                 sbd_send = round(card_price / sbd_price, 3)
-                                message = """/....
-
-**Card name**: {}
-**Card id**: {}
-**Price**: **{}**
-**Cheaper**: **{}%**
-**Second Lowest**: {}
-**Seller**: {}
-**Edition**: {}
-**Gold**: {}
-<@397972596207124480>
-
-**Buy instant**: `..transfer {} sbd sm-market sm_market_purchase:{}`
-**For admin only:** `..transfer {} sbd svirus sm_market_purchase:{}`
-**Verify**: `..verify {}`
-
-..../""".format(name, card_id, card_price, percent, second_min, seller, edition, is_gold, sbd_send, market_id, sbd_send, market_id, market_id)
-                                webhook = DiscordWebhook(url=MU, content=message)
-                                webhook.execute()
+                                stmc_sbd = str(sbd_send) + " SBD"
+                                steem_send = round(card_price / steem_price, 3)
+                                stmc_steem = str(steem_send) + " STEEM"
+                                memo = "sm_market_purchase:{}".format(market_id)
+                                stmconnect = SteemConnect()
+                                steem_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus", "amount": stmc_steem, "memo": memo})
+                                sbd_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus", "amount": stmc_sbd, "memo": memo})
+                                thumbnail_link = thumbnail_generator(edition, name, is_gold)
+                                embed = Embed(color=15105817)
+                                embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller), value="Edition: **{}**,  Gold: **{}**\nPrice: **{}$**,  Cheaper: **{}%**,  Second Lowest: {}$".format(edition, is_gold, card_price, percent, second_min))
+                                embed.set_thumbnail(thumbnail_link)
+                                embed.add_field(name="**Commands to buy(3% cashback)**", value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(steem_send, memo, sbd_send, memo))
+                                embed.add_field(name="**Steemconnect link to buy(3% cashback)**", value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link, sbd_link))
+                                embed.add_field(name="**Verification**", value="**Verify**: `..verify {}`".format(market_id))
+                                if is_gold == False:
+                                    hook.send(embed=embed)
+                                    hook.close()
+                                else:
+                                    ghook.send(embed=embed)
+                                    ghook.close()
+                                    
         except Exception as e:
             print("Error found: {}".format(e))
 
