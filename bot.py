@@ -704,14 +704,12 @@ def st():
                             else:
                                 for each in market_detail:
                                     if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
-                                        second_min = float(each['low_price_bcx'])
                                         second_mi = float(each['low_price'])
                                 one_card_price = round(card_price / bcx, 3)
                                 one_percent = round(100 - (one_card_price / second_mi * 100), 2)
-                                percent = round(100 - (card_price / second_min * 100), 2)
                                 per = 10
-                                if one_percent > per and percent > 1:
-                                    if second_min > 0.06:
+                                if one_percent > per:
+                                    if second_mi > 0.06:
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
                                         sbd_price = price_resp['sbd_price']
                                         steem_price = price_resp['steem_price']
@@ -725,7 +723,7 @@ def st():
                                         sbd_link = stmconnect.create_hot_sign_url("transfer",{"to": "svirus", "amount": stmc_sbd,"memo": memo})
                                         thumbnail_link = thumbnail_generator(edition, name, is_gold)
                                         embed = Embed(color=15105817)
-                                        embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller), value="Edition: **{}**,  Gold: **{}**, Bcx: **{}**, Level: **{}**\nPrice: **{}$**, Cheaper by multi bcx: **{}%**, Second Lowest by multi bcx: {}$\nPer bcx price: **{}**, Cheaper by single bcx: **{}%**, Second lowest by single bcx: **{}**".format(edition, is_gold, bcx, level, card_price, percent, second_min, one_card_price, one_percent, second_mi))
+                                        embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller), value="Edition: **{}**,  Gold: **{}**, Bcx: **{}**, Level: **{}**\nPrice: **{}$**, Per bcx price: **{}**\nCheaper by single bcx: **{}%**, Second lowest by single bcx: **{}**".format(edition, is_gold, bcx, level, card_price, one_card_price, one_percent, second_mi))
                                         embed.set_thumbnail(thumbnail_link)
                                         embed.add_field(name="**Commands to buy(3% cashback)**", value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(steem_send, memo, sbd_send, memo))
                                         embed.add_field(name="**Steemconnect link to buy(3% cashback)**",value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link,sbd_link))
