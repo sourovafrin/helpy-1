@@ -707,7 +707,7 @@ def st():
                                         second_min = float(each['low_price_bcx'])
                                         second_mi = float(each['low_price'])
                                 one_card_price = round(card_price / bcx, 3)
-                                one_percent = round(100 - (card_price / second_mi * 100), 2)
+                                one_percent = round(100 - (one_card_price / second_mi * 100), 2)
                                 percent = round(100 - (card_price / second_min * 100), 2)
                                 per = 10
                                 if one_percent > per and percent > 1:
