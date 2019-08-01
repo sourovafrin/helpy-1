@@ -19,12 +19,19 @@ MD = os.environ.get('MD')
 AF = os.environ.get('AF')
 WB = os.environ.get('WB')
 MU = os.environ.get('MU')
+AU = os.environ.get('AU')
+MLU = os.environ.get('MLU')
 
 client = MongoClient(MD)
 db = client.get_database("wls_db")
 record = db.wls_link
-hook = Webhook(url= MU)
+
+ahook = Webhook(url= AU)
+bhook = Webhook(url= MU)
+mhook = Webhook(url= MLU)
 ghook = Webhook(url= WB)
+
+
 """
 #wls = Steem(node='ws://wls.fullnode.nl:8090')
 #blockchain = Blockchain(steem_instance=wls, mode='head')
@@ -213,6 +220,247 @@ def send(market_id, seller, card_price):
         print("Error in send: {}".format(e))
 """
 
+def get_level(edition, rarity, bcx, gold):
+    if edition == 1 or edition == 2 or edition == 3:
+        if rarity == 1:
+            if gold is False:
+                if bcx < 3:
+                    return 1
+                elif bcx < 5:
+                    return 2
+                elif bcx < 12:
+                    return 3
+                elif bcx < 25:
+                    return 4
+                elif bcx < 52:
+                    return 5
+                elif bcx < 105:
+                    return 6
+                elif bcx < 172:
+                    return 7
+                elif bcx < 305:
+                    return 8
+                elif bcx < 505:
+                    return 9
+                else:
+                    return 10
+            else:
+                if bcx < 2:
+                    return 4
+                elif bcx < 4:
+                    return 5
+                elif bcx < 8:
+                    return 6
+                elif bcx < 13:
+                    return 7
+                elif bcx < 23:
+                    return 8
+                elif bcx < 38:
+                    return 9
+                else:
+                    return 10
+        elif rarity == 2:
+            if gold is False:
+                if bcx < 3:
+                    return 1
+                if bcx < 5:
+                    return 2
+                if bcx < 11:
+                    return 3
+                if bcx < 21:
+                    return 4
+                if bcx < 35:
+                    return 5
+                if bcx < 61:
+                    return 6
+                if bcx < 115:
+                    return 7
+                else:
+                    return 8
+            else:
+                if bcx < 2:
+                    return 3
+                if bcx < 4:
+                    return 4
+                if bcx < 7:
+                    return 5
+                if bcx < 12:
+                    return 6
+                if bcx < 22:
+                    return 7
+                else:
+                    return 8
+        elif rarity == 3:
+            if gold is False:
+                if bcx < 3:
+                    return 1
+                if bcx < 6:
+                    return 2
+                if bcx < 11:
+                    return 3
+                if bcx < 23:
+                    return 4
+                if bcx < 46:
+                    return 5
+                else:
+                    return 6
+            else:
+                if bcx < 3:
+                    return 3
+                if bcx < 5:
+                    return 4
+                if bcx < 10:
+                    return 5
+                else:
+                    return 6
+        elif rarity == 4:
+            if gold is False:
+                if bcx < 3:
+                    return 1
+                if bcx < 5:
+                    return 2
+                if bcx < 11:
+                    return 3
+                else:
+                    return 4
+            else:
+                if bcx < 2:
+                    return 2
+                if bcx < 4:
+                    return 3
+                else:
+                    return 4
+    elif edition == 0:
+        if rarity == 1:
+            if gold is False:
+                if bcx < 2:
+                    return 1
+                elif bcx < 4:
+                    return 2
+                elif bcx < 9:
+                    return 3
+                elif bcx < 19:
+                    return 4
+                elif bcx < 39:
+                    return 5
+                elif bcx < 79:
+                    return 6
+                elif bcx < 129:
+                    return 7
+                elif bcx < 229:
+                    return 8
+                elif bcx < 379:
+                    return 9
+                else:
+                    return 10
+            else:
+                if bcx < 2:
+                    return 4
+                elif bcx < 4:
+                    return 5
+                elif bcx < 7:
+                    return 6
+                elif bcx < 11:
+                    return 7
+                elif bcx < 19:
+                    return 8
+                elif bcx < 31:
+                    return 9
+                else:
+                    return 10
+        if rarity == 2:
+            if gold is False:
+                if bcx < 2:
+                    return 1
+                if bcx < 4:
+                    return 2
+                if bcx < 8:
+                    return 3
+                if bcx < 16:
+                    return 4
+                if bcx < 26:
+                    return 5
+                if bcx < 46:
+                    return 6
+                if bcx < 86:
+                    return 7
+                else:
+                    return 8
+            else:
+                if bcx < 2:
+                    return 3
+                if bcx < 3:
+                    return 4
+                if bcx < 5:
+                    return 5
+                if bcx < 9:
+                    return 6
+                if bcx < 17:
+                    return 7
+                else:
+                    return 8
+        elif rarity == 3:
+            if gold is False:
+                if bcx < 2:
+                    return 1
+                if bcx < 4:
+                    return 2
+                if bcx < 8:
+                    return 3
+                if bcx < 16:
+                    return 4
+                if bcx < 32:
+                    return 5
+                else:
+                    return 6
+            else:
+                if bcx < 2:
+                    return 3
+                if bcx < 4:
+                    return 4
+                if bcx < 8:
+                    return 5
+                else:
+                    return 6
+        elif rarity == 4:
+            if gold is False:
+                if bcx < 2:
+                    return 1
+                if bcx < 4:
+                    return 2
+                if bcx < 8:
+                    return 3
+                else:
+                    return 4
+            else:
+                if bcx < 2:
+                    return 2
+                if bcx < 3:
+                    return 3
+                else:
+                    return 4
+
+def get_bcx(details):
+    bcx_dict = {0: {1: 20, 2: 100, 3: 250, 4: 1000}, 1: {1: 15, 2: 75, 3: 175, 4: 750}}
+    gold_bcx_dict = {0: {1: 250, 2: 500, 3: 1000, 4: 2500}, 1: {1: 200, 2: 400, 3: 800, 4: 2000}}
+    if details['gold']:
+        if details['edition'] == 1 or details['edition'] == 3:
+            return details['xp'] / gold_bcx_dict[1][details['details']['rarity']]
+        if details['edition'] == 0:
+            return details['xp'] / gold_bcx_dict[0][details['details']['rarity']]
+        if details['edition'] == 2 and details['card_detail_id'] > 100:
+            return details['xp'] / gold_bcx_dict[1][details['details']['rarity']]
+        if details['edition'] == 2 and details['card_detail_id'] < 100:
+            return details['xp'] / gold_bcx_dict[0][details['details']['rarity']]
+    if details['edition'] == 1 or details['edition'] == 3:
+        return details['xp'] / bcx_dict[1][details['details']['rarity']] + 1
+    if details['edition'] == 0:
+        return details['xp'] / bcx_dict[0][details['details']['rarity']] + 1
+    if details['edition'] == 2 and details['card_detail_id'] > 100:
+        return details['xp'] / bcx_dict[1][details['details']['rarity']] + 1
+    if details['edition'] == 2 and details['card_detail_id'] < 100:
+        return details['xp'] / bcx_dict[0][details['details']['rarity']] + 1
+
 def thumbnail_generator(edition, name, is_gold):
     try:
         name_parts = name.split(" ")
@@ -246,8 +494,8 @@ def thumbnail_generator(edition, name, is_gold):
                     link += "%20"
             return link
     except Exception as e:
-        print("Error in thumbnail generation: {}.\nCard edition: {} and Card name: {}".format(e,edition,name))
-       
+        print("Error in thumbnail generation: {}.\nCard edition: {} and Card name: {}".format(e, edition, name))
+
 
 def st():
     car_name_by_id = {"1": "Goblin Shaman",
@@ -382,84 +630,125 @@ def st():
                       "117": "Red Dragon"
                       }
 
-    
     stm = Steem(node="https://anyx.io")
     chain = Blockchain(stm, "head")
     print("started sm")
     for detail in chain.stream(['custom_json']):
         try:
             if detail['id'] == 'sm_sell_cards':
+                transactor = detail['required_posting_auths']
                 listtt = ast.literal_eval(detail['json'])
                 for i in listtt:
-                    card_price = float(i['price'])
                     cardddd = i['cards'][0]
+                    time.sleep(8)
                     linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
-                    res = requests.get(linkk)
-                    res = res.json()
-                    for ii in res:
-                        card_id = ii['uid']
-                        seller = ii['player']
-                        try:
-                            market_id = ii['market_id']
-                        except Exception as e:
-                            print("Breaking from market_id {}.\nSeller: {}".format(e, seller))
-                            break
-                        if market_id is None:
-                            break
-                        card_number = str(ii['card_detail_id'])
-                        is_gold = ii['gold']
-                        edit = ii['edition']
-                        if int(edit) == 0:
-                            edition = "Alpha"
-                        elif int(edit) == 1:
-                            edition = "Beta"
-                        elif int(edit) == 2:
-                            edition = "Promo"
-                        else:
-                            edition = "Reward"
-                        name = car_name_by_id[str(card_number)]
-                        market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
-                        for each in market_detail:
-                            if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
-                                second_min = float(each['low_price'])
-                        percent = round(100 - (card_price / second_min * 100), 3)
-                        per = 10
-                        if percent > per:
-                            if second_min > 0.06:
-                                price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
-                                sbd_price = price_resp['sbd_price']
-                                steem_price = price_resp['steem_price']
-                                sbd_send = round(card_price / sbd_price, 3)
-                                stmc_sbd = str(sbd_send) + " SBD"
-                                steem_send = round(card_price / steem_price, 3)
-                                stmc_steem = str(steem_send) + " STEEM"
-                                memo = "sm_market_purchase:{}".format(market_id)
-                                stmconnect = SteemConnect()
-                                steem_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus", "amount": stmc_steem, "memo": memo})
-                                sbd_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus", "amount": stmc_sbd, "memo": memo})
-                                thumbnail_link = thumbnail_generator(edition, name, is_gold)
-                                embed = Embed(color=15105817)
-                                embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller), value="Edition: **{}**,  Gold: **{}**\nPrice: **{}$**,  Cheaper: **{}%**,  Second Lowest: {}$".format(edition, is_gold, card_price, percent, second_min))
-                                embed.set_thumbnail(thumbnail_link)
-                                embed.add_field(name="**Commands to buy(3% cashback)**", value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(steem_send, memo, sbd_send, memo))
-                                embed.add_field(name="**Steemconnect link to buy(3% cashback)**", value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link, sbd_link))
-                                embed.add_field(name="**Verification**", value="**Verify**: `..verify {}`".format(market_id))
-                                if is_gold == False:
-                                    hook.send(embed=embed)
-                                    hook.close()
-                                else:
-                                    ghook.send(embed=embed)
-                                    ghook.close()
-                                    
+                    res = requests.get(linkk).json()
+                    res = res[0]
+                    seller = res['player']
+                    if seller == transactor:
+                        card_id = res['uid']
+                        market_id = res['market_id']
+                        if market_id is not None:
+                            card_price = float(res['buy_price'])
+                            card_number = str(res['card_detail_id'])
+                            is_gold = bool(res['gold'])
+                            edit = int(res['edition'])
+                            rarity = int(res['details']['rarity'])
+                            name = car_name_by_id[str(card_number)]
+                            if edit == 0:
+                                edition = "Alpha"
+                            elif edit == 1:
+                                edition = "Beta"
+                            elif edit == 2:
+                                edition = "Promo"
+                            else:
+                                edition = "Reward"
+                            bcx = get_bcx(res)
+                            level = get_level(edit, rarity, bcx, is_gold)
+                            market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
+                            if bcx == 1:
+                                for each in market_detail:
+                                    if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
+                                        second_min = float(each['low_price'])
+                                percent = round(100 - (card_price / second_min * 100), 2)
+                                per = 10
+                                if percent > per:
+                                    if second_min > 0.06:
+                                        price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
+                                        sbd_price = price_resp['sbd_price']
+                                        steem_price = price_resp['steem_price']
+                                        sbd_send = round(card_price / sbd_price, 3)
+                                        stmc_sbd = str(sbd_send) + " SBD"
+                                        steem_send = round(card_price / steem_price, 3)
+                                        stmc_steem = str(steem_send) + " STEEM"
+                                        memo = "sm_market_purchase:{}".format(market_id)
+                                        stmconnect = SteemConnect()
+                                        steem_link = stmconnect.create_hot_sign_url("transfer",{"to": "svirus","amount": stmc_steem,"memo": memo})
+                                        sbd_link = stmconnect.create_hot_sign_url("transfer",{"to": "svirus", "amount": stmc_sbd,"memo": memo})
+                                        thumbnail_link = thumbnail_generator(edition, name, is_gold)
+                                        embed = Embed(color=15105817)
+                                        embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller),value="Edition: **{}**,  Gold: **{}**, Bcx: **{}**, Level: **{}**\nPrice: **{}$**,  Cheaper: **{}%**,  Second Lowest: {}$".format(edition, is_gold, bcx, level, card_price, percent, second_min))
+                                        embed.set_thumbnail(thumbnail_link)
+                                        embed.add_field(name="**Commands to buy(3% cashback)**",value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(steem_send, memo, sbd_send, memo))
+                                        embed.add_field(name="**Steemconnect link to buy(3% cashback)**",value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link,sbd_link))
+                                        embed.add_field(name="**Verification**",value="**Verify**: `..verify {}`".format(market_id))
+                                        if is_gold == True:
+                                            ghook.send(embed=embed)
+                                            ghook.close()
+                                        elif edit == 0:
+                                            ahook.send(embed=embed)
+                                            ahook.close()
+                                        else:
+                                            bhook.send(embed=embed)
+                                            bhook.close()
+                                            
+                            else:
+                                for each in market_detail:
+                                    if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
+                                        second_min = float(each['low_price_bcx'])
+                                        second_mi = float(each['low_price'])
+                                one_card_price = round(card_price / bcx, 3)
+                                one_percent = round(100 - (card_price / second_mi * 100), 2)
+                                percent = round(100 - (card_price / second_min * 100), 2)
+                                per = 10
+                                if one_percent > per and percent > 1:
+                                    if second_min > 0.06:
+                                        price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
+                                        sbd_price = price_resp['sbd_price']
+                                        steem_price = price_resp['steem_price']
+                                        sbd_send = round(card_price / sbd_price, 3)
+                                        stmc_sbd = str(sbd_send) + " SBD"
+                                        steem_send = round(card_price / steem_price, 3)
+                                        stmc_steem = str(steem_send) + " STEEM"
+                                        memo = "sm_market_purchase:{}".format(market_id)
+                                        stmconnect = SteemConnect()
+                                        steem_link = stmconnect.create_hot_sign_url("transfer",{"to": "svirus","amount": stmc_steem,"memo": memo})
+                                        sbd_link = stmconnect.create_hot_sign_url("transfer",{"to": "svirus", "amount": stmc_sbd,"memo": memo})
+                                        thumbnail_link = thumbnail_generator(edition, name, is_gold)
+                                        embed = Embed(color=15105817)
+                                        embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller), value="Edition: **{}**,  Gold: **{}**, Bcx: **{}**, Level: **{}**\nPrice: **{}$**, Cheaper by multi bcx: **{}%**, Second Lowest by multi bcx: {}$\nPer bcx price: **{}**, Cheaper by single bcx: **{}%**, Second lowest by single bcx: **{}**".format(edition, is_gold, bcx, level, card_price, percent, second_min, one_card_price, one_percent, second_mi))
+                                        embed.set_thumbnail(thumbnail_link)
+                                        embed.add_field(name="**Commands to buy(3% cashback)**", value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(steem_send, memo, sbd_send, memo))
+                                        embed.add_field(name="**Steemconnect link to buy(3% cashback)**",value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link,sbd_link))
+                                        embed.add_field(name="**Verification**",value="**Verify**: `..verify {}`".format(market_id))
+                                        if is_gold == True:
+                                            ghook.send(embed=embed)
+                                            ghook.close()
+                                        elif bcx > 1:
+                                            mhook.send(embed=embed)
+                                            mhook.close()
+                                        elif edit == 0:
+                                            ahook.send(embed=embed)
+                                            ahook.close()
+                                        else:
+                                            bhook.send(embed=embed)
+                                            bhook.close()
         except Exception as e:
             print("Error found: {}".format(e))
 
 
-            
-
-
 if __name__ == '__main__':
-    #t1 = Thread(target=inn, args=())
-    #t1.start()
-    t2= Thread(target=st, args=())
+    # t1 = Thread(target=inn, args=())
+    # t1.start()
+    t2 = Thread(target=st, args=())
     t2.start()
