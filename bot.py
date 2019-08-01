@@ -636,7 +636,7 @@ def st():
     for detail in chain.stream(['custom_json']):
         try:
             if detail['id'] == 'sm_sell_cards':
-                transactor = detail['required_posting_auths']
+                transactor = detail['required_posting_auths'][0]
                 listtt = ast.literal_eval(detail['json'])
                 for i in listtt:
                     cardddd = i['cards'][0]
