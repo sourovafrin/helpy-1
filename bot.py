@@ -663,7 +663,7 @@ def st():
                                 edition = "Promo"
                             else:
                                 edition = "Reward"
-                            bcx = get_bcx(res)
+                            bcx = int(get_bcx(res))
                             level = get_level(edit, rarity, bcx, is_gold)
                             market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
                             if bcx == 1:
