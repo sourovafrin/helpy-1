@@ -5,7 +5,6 @@ from beem.comment import Comment
 from beem.utils import construct_authorperm
 from pymongo import MongoClient
 from datetime import timedelta
-from threading import Thread
 from dhooks import Webhook, Embed
 from beem.steemconnect import SteemConnect
 import requests
@@ -630,7 +629,7 @@ def st():
                       "117": "Red Dragon"
                       }
 
-    stm = Steem(node="https://steemd.minnowsupportproject.org")
+    stm = Steem(node=["https://steemd.minnowsupportproject.org", "https://anyx.io", "https://api.steemit.com"])
     chain = Blockchain(stm, "head")
     print("started sm")
     for detail in chain.stream(['custom_json']):
@@ -748,7 +747,4 @@ def st():
 
 
 if __name__ == '__main__':
-    # t1 = Thread(target=inn, args=())
-    # t1.start()
-    t2 = Thread(target=st, args=())
-    t2.start()
+    st()
