@@ -630,7 +630,7 @@ def st():
                       "117": "Red Dragon"
                       }
 
-    stm = Steem(node="https://anyx.io")
+    stm = Steem(node="https://steemd.minnowsupportproject.org")
     chain = Blockchain(stm, "head")
     print("started sm")
     for detail in chain.stream(['custom_json']):
