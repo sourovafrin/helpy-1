@@ -639,7 +639,6 @@ def st():
                 listtt = ast.literal_eval(detail['json'])
                 for i in listtt:
                     cardddd = i['cards'][0]
-                    time.sleep(15)
                     linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
                     res = requests.get(linkk).json()
                     res = res[0]
@@ -672,7 +671,12 @@ def st():
                                 percent = round(100 - (card_price / second_min * 100), 2)
                                 print(card_price, second_min, percent)
                                 if percent > 10:
-                                    if second_min > 0.06:
+                                    time.sleep(13)
+                                    linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
+                                    ress = requests.get(linkk).json()
+                                    ress = ress[0]
+                                    mk_id = bool(ress['market_id'])
+                                    if second_min > 0.06 and mk_id is not None:
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
                                         sbd_price = price_resp['sbd_price']
                                         steem_price = price_resp['steem_price']
@@ -708,7 +712,12 @@ def st():
                                 one_card_price = round(card_price / bcx, 3)
                                 one_percent = round(100 - (one_card_price / second_mi * 100), 2)
                                 if one_percent > 10:
-                                    if second_mi > 0.06:
+                                    time.sleep(13)
+                                    linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
+                                    ress = requests.get(linkk).json()
+                                    ress = ress[0]
+                                    mk_id = bool(ress['market_id'])
+                                    if second_mi > 0.06 and mk_id is not None:
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
                                         sbd_price = price_resp['sbd_price']
                                         steem_price = price_resp['steem_price']
