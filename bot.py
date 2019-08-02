@@ -644,7 +644,12 @@ def st():
                     res = requests.get(linkk).json()
                     res = res[0]
                     seller = res['player']
-                    if seller == transactor or seller == trans:
+                    success = 0
+                    if seller == transactor:
+                        success = 1
+                    elif seller == trans:
+                        success = 1
+                    if success == 1:
                         card_id = res['uid']
                         market_id = res['market_id']
                         if market_id is not None:
