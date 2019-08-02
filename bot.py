@@ -636,6 +636,7 @@ def st():
         try:
             if detail['id'] == 'sm_sell_cards':
                 transactor = detail['required_posting_auths'][0]
+                trans = detail['required_auths'][0]
                 listtt = ast.literal_eval(detail['json'])
                 for i in listtt:
                     cardddd = i['cards'][0]
@@ -643,7 +644,7 @@ def st():
                     res = requests.get(linkk).json()
                     res = res[0]
                     seller = res['player']
-                    if seller == transactor:
+                    if seller == transactor or seller == trans:
                         card_id = res['uid']
                         market_id = res['market_id']
                         if market_id is not None:
