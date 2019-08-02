@@ -670,6 +670,7 @@ def st():
                                     if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
                                         second_min = float(each['low_price'])                              
                                 percent = round(100 - (card_price / second_min * 100), 2)
+                                print(percent)
                                 if percent > 10:
                                     if second_min > 0.06:
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
