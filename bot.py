@@ -682,9 +682,7 @@ def st():
                                 percent = round(100 - (card_price / second_min * 100), 2)
                                 print(card_price, second_min, percent)
                                 if percent > 10:
-                                    print(time.time())
-                                    time.sleep(15)
-                                    print(time.time())
+                                    time.sleep(20)
                                     linkk = "https://steemmonsters.com/market/status?id=" + market_id
                                     ress = requests.get(linkk).json()
                                     buyer = ress['purchaser']
@@ -725,9 +723,7 @@ def st():
                                 one_card_price = round(card_price / bcx, 3)
                                 one_percent = round(100 - (one_card_price / second_mi * 100), 2)
                                 if one_percent > 10:
-                                    print(time.time())
-                                    time.sleep(15)
-                                    print(time.time())
+                                    time.sleep(20)
                                     linkk = "https://steemmonsters.com/market/status?id=" + market_id
                                     ress = requests.get(linkk).json()
                                     buyer = ress['purchaser']
