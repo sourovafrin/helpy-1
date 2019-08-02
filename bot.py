@@ -639,7 +639,7 @@ def st():
                 listtt = ast.literal_eval(detail['json'])
                 for i in listtt:
                     cardddd = i['cards'][0]
-                    time.sleep(13)
+                    time.sleep(15)
                     linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
                     res = requests.get(linkk).json()
                     res = res[0]
