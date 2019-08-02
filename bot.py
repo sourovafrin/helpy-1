@@ -677,6 +677,7 @@ def st():
                                     linkk = "https://steemmonsters.com/market/status?id=" + market_id
                                     ress = requests.get(linkk).json()
                                     buyer = str(ress['purchaser'])
+                                    print(buyer)
                                     if second_min > 0.06 and buyer == "null":
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
                                         sbd_price = price_resp['sbd_price']
