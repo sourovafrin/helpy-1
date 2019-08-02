@@ -671,12 +671,13 @@ def st():
                                 percent = round(100 - (card_price / second_min * 100), 2)
                                 print(card_price, second_min, percent)
                                 if percent > 10:
+                                    print(time.time())
                                     time.sleep(15)
-                                    linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
+                                    print(time.time())
+                                    linkk = "https://steemmonsters.com/market/status?id=" + market_id
                                     ress = requests.get(linkk).json()
-                                    ress = ress[0]
-                                    mk_id = bool(ress['market_id'])
-                                    if second_min > 0.06 and mk_id is not None:
+                                    buyer = str(ress['purchaser'])
+                                    if second_min > 0.06 and buyer == "null":
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
                                         sbd_price = price_resp['sbd_price']
                                         steem_price = price_resp['steem_price']
@@ -712,12 +713,13 @@ def st():
                                 one_card_price = round(card_price / bcx, 3)
                                 one_percent = round(100 - (one_card_price / second_mi * 100), 2)
                                 if one_percent > 10:
+                                    print(time.time())
                                     time.sleep(15)
-                                    linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
+                                    print(time.time())
+                                    linkk = "https://steemmonsters.com/market/status?id=" + market_id
                                     ress = requests.get(linkk).json()
-                                    ress = ress[0]
-                                    mk_id = bool(ress['market_id'])
-                                    if second_mi > 0.06 and mk_id is not None:
+                                    buyer = str(ress['purchaser'])
+                                    if second_mi > 0.06 and buyer == "null":
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
                                         sbd_price = price_resp['sbd_price']
                                         steem_price = price_resp['steem_price']
