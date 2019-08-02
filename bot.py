@@ -676,7 +676,7 @@ def st():
                                 print(percent)
                                 if percent > per:
                                     if second_min > 0.06:
-                                        print("dukchi)
+                                        print("dukchi")
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
                                         sbd_price = price_resp['sbd_price']
                                         steem_price = price_resp['steem_price']
