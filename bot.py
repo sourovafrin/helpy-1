@@ -636,8 +636,13 @@ def st():
         try:
             if detail['id'] == 'sm_sell_cards':
                 transactor = detail['required_posting_auths'][0]
-                trans = detail['required_auths'][0]
-                listtt = ast.literal_eval(detail['json'])
+                trans = ""
+                transactor = ""
+                try:
+                    transactor = detail['required_posting_auths'][0]
+                    trans = detail['required_auths'][0]
+                except:
+                    pass
                 for i in listtt:
                     cardddd = i['cards'][0]
                     linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
