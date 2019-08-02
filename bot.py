@@ -635,7 +635,6 @@ def st():
     for detail in chain.stream(['custom_json']):
         try:
             if detail['id'] == 'sm_sell_cards':
-                print(detail)
                 transactor = detail['required_posting_auths'][0]
                 listtt = ast.literal_eval(detail['json'])
                 for i in listtt:
@@ -666,19 +665,13 @@ def st():
                             bcx = int(get_bcx(res))
                             level = get_level(edit, rarity, bcx, is_gold)
                             market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
-                            print(bcx)
                             if bcx == 1:
                                 for each in market_detail:
                                     if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
-                                        second_min = float(each['low_price'])
-                                print(second_min, card_price)
-                                
+                                        second_min = float(each['low_price'])                              
                                 percent = round(100 - (card_price / second_min * 100), 2)
-                                per = 10
-                                print(percent)
-                                if percent > per:
+                                if percent > 10:
                                     if second_min > 0.06:
-                                        print("dukchi")
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
                                         sbd_price = price_resp['sbd_price']
                                         steem_price = price_resp['steem_price']
@@ -713,8 +706,7 @@ def st():
                                         second_mi = float(each['low_price'])
                                 one_card_price = round(card_price / bcx, 3)
                                 one_percent = round(100 - (one_card_price / second_mi * 100), 2)
-                                per = 10
-                                if one_percent > per:
+                                if one_percent > 10:
                                     if second_mi > 0.06:
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
                                         sbd_price = price_resp['sbd_price']
