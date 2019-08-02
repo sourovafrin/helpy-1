@@ -643,6 +643,7 @@ def st():
                     trans = detail['required_auths'][0]
                 except:
                     pass
+                listtt = ast.literal_eval(detail['json'])
                 for i in listtt:
                     cardddd = i['cards'][0]
                     linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
