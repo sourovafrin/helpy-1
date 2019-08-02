@@ -676,9 +676,9 @@ def st():
                                     print(time.time())
                                     linkk = "https://steemmonsters.com/market/status?id=" + market_id
                                     ress = requests.get(linkk).json()
-                                    buyer = str(ress['purchaser'])
+                                    buyer = ress['purchaser']
                                     print(buyer)
-                                    if second_min > 0.06 and buyer == "null":
+                                    if second_min > 0.06 and buyer is None:
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
                                         sbd_price = price_resp['sbd_price']
                                         steem_price = price_resp['steem_price']
@@ -719,8 +719,8 @@ def st():
                                     print(time.time())
                                     linkk = "https://steemmonsters.com/market/status?id=" + market_id
                                     ress = requests.get(linkk).json()
-                                    buyer = str(ress['purchaser'])
-                                    if second_mi > 0.06 and buyer == "null":
+                                    buyer = ress['purchaser']
+                                    if second_mi > 0.06 and buyer is None:
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
                                         sbd_price = price_resp['sbd_price']
                                         steem_price = price_resp['steem_price']
