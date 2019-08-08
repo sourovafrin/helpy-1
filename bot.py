@@ -690,8 +690,8 @@ def st():
                                     print(buyer)
                                     if second_min > 0.06 and buyer is None:
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
-                                        sbd_price = price_resp['sbd_price']
-                                        steem_price = price_resp['steem_price']
+                                        sbd_price = price_resp['sbd_price'] - 0.02
+                                        steem_price = price_resp['steem_price'] - 0.01
                                         sbd_send = round(card_price / sbd_price, 3)
                                         stmc_sbd = str(sbd_send) + " SBD"
                                         steem_send = round(card_price / steem_price, 3)
@@ -741,8 +741,8 @@ def st():
                                     buyer = ress['purchaser']
                                     if second_mi > 0.06 and buyer is None:
                                         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
-                                        sbd_price = price_resp['sbd_price']
-                                        steem_price = price_resp['steem_price']
+                                        sbd_price = price_resp['sbd_price'] - 0.02
+                                        steem_price = price_resp['steem_price'] - 0.01
                                         sbd_send = round(card_price / sbd_price, 3)
                                         stmc_sbd = str(sbd_send) + " SBD"
                                         steem_send = round(card_price / steem_price, 3)
