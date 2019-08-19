@@ -643,6 +643,7 @@ def st():
                 except:
                     pass
                 listtt = ast.literal_eval(detail['json'])
+                li_lenth = len(listtt)
                 for i in listtt:
                     cardddd = i['cards'][0]
                     linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
@@ -677,13 +678,18 @@ def st():
                             market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
                             if bcx == 1:
                                 for each in market_detail:
-                                    if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(
-                                            each['edition']) == int(edit):
+                                    if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
                                         second_min = float(each['low_price'])
                                 percent = round(100 - (card_price / second_min * 100), 2)
                                 print(card_price, second_min, percent)
                                 if percent > 10:
-                                    time.sleep(20)
+                                    if li_lenth > 1:
+                                        time.sleep(20)
+                                        li_lenth = 0.1
+                                    elif li_lenth == 0.1:
+                                        pass
+                                    else:
+                                        time.sleep(20)
                                     linkk = "https://steemmonsters.com/market/status?id=" + market_id
                                     ress = requests.get(linkk).json()
                                     buyer = ress['purchaser']
