@@ -644,6 +644,8 @@ def st():
                     pass
                 listtt = ast.literal_eval(detail['json'])
                 li_lenth = len(listtt)
+                time.sleep(1)
+                checkn = True
                 for i in listtt:
                     cardddd = i['cards'][0]
                     linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
@@ -679,17 +681,19 @@ def st():
                             if bcx == 1:
                                 for each in market_detail:
                                     if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
-                                        second_min = float(each['low_price'])
+                                        if checkn is True:
+                                            second_min = float(each['low_price'])
+                                            checkn = False
                                 percent = round(100 - (card_price / second_min * 100), 2)
                                 print(card_price, second_min, percent)
                                 if percent > 10:
                                     if li_lenth > 1:
-                                        time.sleep(20)
+                                        time.sleep(18)
                                         li_lenth = 0.1
                                     elif li_lenth == 0.1:
                                         pass
                                     else:
-                                        time.sleep(20)
+                                        time.sleep(18)
                                     linkk = "https://steemmonsters.com/market/status?id=" + market_id
                                     ress = requests.get(linkk).json()
                                     buyer = ress['purchaser']
@@ -735,13 +739,20 @@ def st():
     
                             else:
                                 for each in market_detail:
-                                    if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(
-                                            each['edition']) == int(edit):
-                                        second_mi = float(each['low_price'])
+                                    if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
+                                        if checkn is True:
+                                            second_mi = float(each['low_price'])
+                                            checkn = False
                                 one_card_price = round(card_price / bcx, 3)
                                 one_percent = round(100 - (one_card_price / second_mi * 100), 2)
                                 if one_percent > 10:
-                                    time.sleep(20)
+                                    if li_lenth > 1:
+                                        time.sleep(18)
+                                        li_lenth = 0.1
+                                    elif li_lenth == 0.1:
+                                        pass
+                                    else:
+                                        time.sleep(18)
                                     linkk = "https://steemmonsters.com/market/status?id=" + market_id
                                     ress = requests.get(linkk).json()
                                     buyer = ress['purchaser']
