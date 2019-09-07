@@ -344,6 +344,9 @@ async def wait(market_id, second_min, edition, name, is_gold, card_id, seller, b
         if is_gold == True:
             ghook.send(embed=embed)
             ghook.close()
+        elif bcx > 1:
+            mhook.send(embed=embed)
+            mhook.close()
         elif edit == 0:
             ahook.send(embed=embed)
             ahook.close()
