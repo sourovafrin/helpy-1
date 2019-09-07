@@ -343,6 +343,7 @@ async def wait(market_id, second_min, edition, name, is_gold, card_id, seller, b
             embed.add_field(name="**Verification**",
                             value="**Verify**: `..verify {}`".format(market_id))
         else:
+            one_card_price = card_price / bcx
             price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
             sbd_price = price_resp['sbd_price'] - 0.02
             steem_price = price_resp['steem_price'] - 0.01
