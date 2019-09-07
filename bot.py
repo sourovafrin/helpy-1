@@ -501,6 +501,7 @@ async def st():
             for i in listtt:
                 cardddd = i['cards'][0]
                 linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
+                await asyncio.sleep(3)
                 res = requests.get(linkk).json()
                 res = res[0]
                 seller = res['player']
