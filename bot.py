@@ -529,7 +529,9 @@ async def st():
                             edition = "Reward"
                         bcx = int(get_bcx(res))
                         level = get_level(edit, rarity, bcx, is_gold)
-                        market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
+                        market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped')
+                        print(market_detail)
+                        market_detail = market_detail.json()
                         if bcx == 1:
                             for each in market_detail:
                                 if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
@@ -596,7 +598,9 @@ async def st():
                             edition = "Reward"
                         bcx = int(get_bcx(res))
                         level = get_level(edit, rarity, bcx, is_gold)
-                        market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
+                        market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped')
+                        print(market_detail)
+                        market_detail = market_detail.json()
                         if bcx == 1:
                             for each in market_detail:
                                 if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(
