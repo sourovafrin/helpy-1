@@ -364,7 +364,7 @@ async def wait(market_id, second_min, edition, name, is_gold, card_id, seller, b
             embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller),
                             value="Edition: **{}**,  Gold: **{}**, Bcx: **{}**, Level: **{}**\nPrice: **{}$**, Per bcx price: **{}$**, Second lowest by single bcx: **{}$**\nCheaper by single bcx: **{}%**".format(
                                 edition, is_gold, bcx, level, card_price, one_card_price,
-                                second_mi, one_percent))
+                                second_min, percent))
             embed.set_thumbnail(thumbnail_link)
             embed.add_field(name="**Commands to buy(3% cashback)**",
                             value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(
