@@ -7,6 +7,7 @@ import requests
 import json
 import time
 import os
+import asyncio
 
 CH = os.environ.get('CH')
 SV = os.environ.get('SV')
@@ -308,6 +309,7 @@ async def wait(market_id, second_min, edition, name, is_gold, card_id, seller, b
     linkk = "https://steemmonsters.com/market/status?id=" + market_id
     ress = requests.get(linkk).json()
     buyer = ress['purchaser']
+    print("Purchaser: {}".format(buyer))
     if second_min > 0.06 and buyer is None:
         price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
         sbd_price = price_resp['sbd_price']
