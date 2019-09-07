@@ -536,6 +536,7 @@ async def st():
                                     second_min = float(each['low_price'])
                             percent = round(100 - (card_price / second_min * 100), 2)
                             if percent > 10:
+                                print("test")
                                 loop.create_task(wait(market_id, second_min, edition, name, is_gold, card_id, seller, bcx, level, card_price, percent, edit))
                         else:
                             for each in market_detail:
