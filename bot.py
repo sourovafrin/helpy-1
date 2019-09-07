@@ -1,14 +1,10 @@
 from beem.steem import Steem
-from beem.account import Account
 from beem.blockchain import Blockchain
-from beem.comment import Comment
-from beem.utils import construct_authorperm
-from pymongo import MongoClient
 from datetime import timedelta
 from dhooks import Webhook, Embed
 from beem.steemconnect import SteemConnect
 import requests
-import ast
+import json
 import time
 import os
 
@@ -21,203 +17,12 @@ MU = os.environ.get('MU')
 AU = os.environ.get('AU')
 MLU = os.environ.get('MLU')
 
-client = MongoClient(MD)
-db = client.get_database("wls_db")
-record = db.wls_link
 
 ahook = Webhook(url= AU)
 bhook = Webhook(url= MU)
 mhook = Webhook(url= MLU)
 ghook = Webhook(url= WB)
 
-
-"""
-#wls = Steem(node='ws://wls.fullnode.nl:8090')
-#blockchain = Blockchain(steem_instance=wls, mode='head')
-whitelist = ['anritco','samest','karinxxl', 'heyimsnuffles', 'chrisrendon', 'theunion', 'zhanavic69', 'al-desnudo', 'uche-nna', 'samprock', 'marinella', 'joseph1956', 'stackin','thebugiq','zakaria','newenx','ladyfont','azizbd','muh543','chilix','sardart','xawi','rehan12','haejin','tezzmax','caminante','backpackingmonk','termite','peman85','heeyahnuh']
-cmnt = ['thebugiq', 'haejin', 'backpackingmonk', 'marinella', 'al-desnudo', 'sardart']
-special = ['anritco', 'heyimsnuffles', 'marinella', 'joseph1956', 'thebugiq', 'ladyfont', 'muh543', 'haejin', 'backpackingmonk']
-
-
-def check():
-    for i in record.find():
-        perms = i['link']
-        wls = Steem(node='ws://wls.fullnode.nl:8090')
-        post = Comment(perms, steem_instance=wls)
-        age = post.time_elapsed()
-        au = str(post.author)
-        if au == 'haejin':
-            thresold = timedelta(minutes=22)
-        else:
-            thresold = timedelta(minutes=29)
-        if age > thresold:
-            wls = Steem(node='ws://wls.fullnode.nl:8090', keys=[CH, SV])
-            if au in special:
-                post.clear_cache()
-                post.refresh()
-                reward = float(post.reward)
-                print("Post link: {}".format(perms))
-                print("Time elapsed {}".format(age))
-                print("Reward before upvote {}".format(reward))
-                if reward <= 0.05:
-                    wt = 80
-                elif reward <= 0.1:
-                    wt = 60
-                elif reward <= 0.3:
-                    wt = 40
-                elif reward <= 0.4:
-                    wt = 30
-                elif reward <= 1:
-                    wt = 20
-                elif reward <= 1.5:
-                    wt = 15
-                elif reward <= 2:
-                    wt = 10
-                else:
-                    wt = 1
-                try:
-                    list = (post.get_votes(True))
-                    voters = []
-                    for i in list:
-                        voters.append(i['voter'])
-                    if wt == 1:
-                        record.delete_one({"link": perms})
-                        print("xxxxxxxxxxxxxxxxxxxxxxxxx\nDidn't upvoted\nxxxxxxxxxxxxxxxxxxxxxxxxx")
-                    elif 'sourov' in voters:
-                        record.delete_one({"link": perms})
-                    else:
-                        
-                        post.upvote(weight=wt, voter='sourov')
-                        time.sleep(1)
-                        post.upvote(weight=45, voter='mrcheisen')
-                        if post.author not in cmnt:
-                            post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌\nReply `@sourov stop` in case you don't want comment anymore.", author="mrcheisen")
-                        print("Upvoted\n\n*************************")
-                        record.delete_one({"link": perms})
-                except Exception as e:
-                    e = str(e)
-                    print("Following error :{}".format(e))
-                    if e == 'You have already voted in a similar way.':
-                        record.delete_one({"link": perms})
-                    elif e == 'You may only comment once every 20 seconds.':
-                        time.sleep(18)
-                        post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌\nReply `@sourov stop` in case you don't want comment anymore.", author="mrcheisen")
-            else:
-                post.clear_cache()
-                post.refresh()
-                reward = float(post.reward)
-                print("Post link: {}".format(perms))
-                print("Time elapsed {}".format(age))
-                print("Reward before upvote {}".format(reward))
-                if reward <= 0.1:
-                    wt = 50
-                elif reward <= 0.2:
-                    wt = 35
-                elif reward <= 0.3:
-                    wt = 20
-                elif reward <= 0.4:
-                    wt = 15
-                elif reward <= 1:
-                    wt = 10
-                else:
-                    wt = 1
-                try:
-                    list = (post.get_votes(True))
-                    voters = []
-                    for i in list:
-                        voters.append(i['voter'])
-                    if wt == 1:
-                        record.delete_one({"link": perms})
-                        print("xxxxxxxxxxxxxxxxxxxxxxxxx\nDidn't upvoted\nxxxxxxxxxxxxxxxxxxxxxxxxx")
-                    elif 'sourov' in voters:
-                        record.delete_one({"link": perms})
-                    else:
-                        post.upvote(weight=45, voter='mrcheisen')
-                        time.sleep(1)
-                        post.upvote(weight=wt, voter='sourov')
-                        if post.author not in cmnt:
-                            post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌\nReply `@sourov stop` in case you don't want comment anymore.", author="mrcheisen")
-                        print("Upvoted\n\n*************************")
-                        record.delete_one({"link": perms})
-                except Exception as e:
-                    e = str(e)
-                    print("Following error :{}".format(e))
-                    if e == 'You have already voted in a similar way.':
-                        record.delete_one({"link": perms})
-                    elif e == 'You may only comment once every 20 seconds.':
-                        time.sleep(18)
-                        post.reply("Ahoi, Your post has been upvoted by me and `@sourov`. Keep up the good work ✌\nReply `@sourov stop` in case you don't want comment anymore.", author="mrcheisen")
-        else:
-            break
-
-
-def inn():
-    print("start wls")
-    for data in blockchain.stream('comment'):
-        if int(record.count_documents({})) > 0:
-            Thread(target=check, args=()).start()
-        else:
-            time.sleep(1)
-        author = data['author']
-        perm = data['permlink']
-        permlink = construct_authorperm(author, perm)
-        post = Comment(permlink, steem_instance=wls)
-
-        if post.is_comment() == False and author in whitelist:
-            print("A new post has been found and thrown into database.\nAuthor: {}".format(author))
-            link = {"link": permlink}
-            record.insert_one(link)           
-def send(market_id, seller, card_price):
-    stm = Steem(node="https://steemd.minnowsupportproject.org", keys=AF)
-    acc = Account("svirus",steem_instance=stm)   
-    try:
-        b = True
-        time.sleep(5)
-        lin = "https://steemmonsters.com/market/status?id=" + market_id
-        while b:
-            lock = str(requests.get(lin).json()['locked_by'])
-            buyer = str(requests.get(lin).json()['purchaser'])
-            if lock == 'sourovafrin' and buyer == 'None':
-                ra = float(requests.get('https://steemmonsters.com/settings').json()['sbd_price'])
-                am = round(card_price / ra, 3)
-                memoo = "sm_market_sale:" + market_id + ":sourovafrin"
-                amm = round(am - am * 0.05, 3)
-                acc.transfer(seller, amm, 'SBD', memoo)
-                time.sleep(2)
-                acc = Account("svirus",steem_instance=stm)
-                inf = acc.get_balances()
-                sbd = float(inf['available'][1])
-                sbd = sbd - 1
-                acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by sourovafrin. ID: {}".format(market_id))
-                webhook = DiscordWebhook(url=WB,content='<@397972596207124480> I bough something. ID: {}\n\n************'.format(market_id))
-                webhook.execute()
-                b = False
-            else:
-                time.sleep(10)
-                if buyer == 'None':
-                    webhook = DiscordWebhook(url=WB, content='<@397972596207124480> None. ID: {}'.format(market_id))
-                    webhook.execute()
-                    time.sleep(35)
-                    webhook = DiscordWebhook(url=WB,content='..verify {}'.format(market_id))
-                    webhook.execute()
-                    webhook = DiscordWebhook(url=WB,content='```..transfer 1 sbd sm-market sm_market_purchase:{}```'.format(market_id))
-                    webhook.execute()
-                    inf = acc.get_balances()
-                    sbd = float(inf['available'][1])
-                    sbd = sbd - 1
-                    acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}. ID: {}".format(lock, market_id))
-                    b = False
-                else:
-                    inf = acc.get_balances()
-                    sbd = float(inf['available'][1])
-                    sbd = sbd - 1
-                    acc.transfer('sourovafrin', sbd, 'SBD', "Card is locked by {}. ID: {}".format(lock, market_id))
-                    webhook = DiscordWebhook(url=WB, content='<@397972596207124480> {} locked something\n\n************'.format(lock))
-                    webhook.execute()
-                    b = False
-    except Exception as e:
-        print("Error in send: {}".format(e))
-"""
 
 def get_level(edition, rarity, bcx, gold):
     if edition == 1 or edition == 2 or edition == 3:
@@ -439,6 +244,7 @@ def get_level(edition, rarity, bcx, gold):
                 else:
                     return 4
 
+
 def get_bcx(details):
     bcx_dict = {0: {1: 20, 2: 100, 3: 250, 4: 1000}, 1: {1: 15, 2: 75, 3: 175, 4: 750}}
     gold_bcx_dict = {0: {1: 250, 2: 500, 3: 1000, 4: 2500}, 1: {1: 200, 2: 400, 3: 800, 4: 2000}}
@@ -459,6 +265,7 @@ def get_bcx(details):
         return details['xp'] / bcx_dict[1][details['details']['rarity']] + 1
     if details['edition'] == 2 and details['card_detail_id'] < 100:
         return details['xp'] / bcx_dict[0][details['details']['rarity']] + 1
+
 
 def thumbnail_generator(edition, name, is_gold):
     try:
@@ -496,7 +303,54 @@ def thumbnail_generator(edition, name, is_gold):
         print("Error in thumbnail generation: {}.\nCard edition: {} and Card name: {}".format(e, edition, name))
 
 
-def st():
+async def wait(market_id, second_min, edition, name, is_gold, card_id, seller, bcx, level, card_price, percent, edit):
+    await asyncio.sleep(15)
+    linkk = "https://steemmonsters.com/market/status?id=" + market_id
+    ress = requests.get(linkk).json()
+    buyer = ress['purchaser']
+    if second_min > 0.06 and buyer is None:
+        price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
+        sbd_price = price_resp['sbd_price']
+        steem_price = price_resp['steem_price']
+        sbd_send = round(card_price / sbd_price, 3)
+        stmc_sbd = str(sbd_send) + " SBD"
+        steem_send = round(card_price / steem_price, 3)
+        stmc_steem = str(steem_send) + " STEEM"
+        memo = "sm_market_purchase:{}".format(market_id)
+        stmconnect = SteemConnect()
+        steem_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus",
+                                                                 "amount": stmc_steem,
+                                                                 "memo": memo})
+        sbd_link = stmconnect.create_hot_sign_url("transfer",
+                                                  {"to": "svirus", "amount": stmc_sbd,
+                                                   "memo": memo})
+        thumbnail_link = thumbnail_generator(edition, name, is_gold)
+        embed = Embed(color=15105817)
+        embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller),
+                        value="Edition: **{}**,  Gold: **{}**, Bcx: **{}**, Level: **{}**\nPrice: **{}$**,  Cheaper: **{}%**,  Second Lowest: {}$".format(
+                            edition, is_gold, bcx, level, card_price, percent,
+                            second_min))
+        embed.set_thumbnail(thumbnail_link)
+        embed.add_field(name="**Commands to buy(3% cashback)**",
+                        value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(
+                            steem_send, memo, sbd_send, memo))
+        embed.add_field(name="**Steemconnect link to buy(3% cashback)**",
+                        value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link,
+                                                                    sbd_link))
+        embed.add_field(name="**Verification**",
+                        value="**Verify**: `..verify {}`".format(market_id))
+        if is_gold == True:
+            ghook.send(embed=embed)
+            ghook.close()
+        elif edit == 0:
+            ahook.send(embed=embed)
+            ahook.close()
+        else:
+            bhook.send(embed=embed)
+            bhook.close()
+
+
+async def st():
     car_name_by_id = {"1": "Goblin Shaman",
                       "2": "Giant Roc",
                       "3": "Kobold Miner",
@@ -629,180 +483,144 @@ def st():
                       "117": "Red Dragon"
                       }
 
-    stm = Steem(node=["https://api.steemit.com", "https://anyx.io"])
+    stm = Steem(node=[ "https://api.steemit.com", "https://steemd.minnowsupportproject.org", "https://anyx.io"])
     chain = Blockchain(stm, "head")
     print("started sm")
     for detail in chain.stream(['custom_json']):
-        try:
-            if detail['id'] == 'sm_sell_cards':
-                trans = ""
-                transactor = ""
+        if detail['id'] == 'sm_sell_cards':
+            print(detail)
+            trans = ""
+            transactor = ""
+            try:
+                transactor = detail['required_posting_auths'][0]
+                trans = detail['required_auths'][0]
+            except:
+                pass
+            listtt = json.loads(detail['json'])
+            for i in listtt:
+                cardddd = i['cards'][0]
+                linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
+                res = requests.get(linkk).json()
+                res = res[0]
+                seller = res['player']
+                success = 0
+                if seller == transactor:
+                    success = 1
+                elif seller == trans:
+                    success = 1
+                if success == 1:
+                    card_id = res['uid']
+                    market_id = res['market_id']
+                    if market_id is not None:
+                        card_price = float(res['buy_price'])
+                        card_number = str(res['card_detail_id'])
+                        is_gold = bool(res['gold'])
+                        edit = int(res['edition'])
+                        rarity = int(res['details']['rarity'])
+                        name = car_name_by_id[str(card_number)]
+                        if edit == 0:
+                            edition = "Alpha"
+                        elif edit == 1:
+                            edition = "Beta"
+                        elif edit == 2:
+                            edition = "Promo"
+                        else:
+                            edition = "Reward"
+                        bcx = int(get_bcx(res))
+                        level = get_level(edit, rarity, bcx, is_gold)
+                        market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
+                        if bcx == 1:
+                            for each in market_detail:
+                                if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
+                                    second_min = float(each['low_price'])
+                            percent = round(100 - (card_price / second_min * 100), 2)
+                            print(card_price, second_min, percent)
+                            if percent > 10:
+                                loop.create_task(wait(market_id, second_min, edition, name, is_gold, card_id, seller, bcx, level, card_price, percent, edit))
+                        else:
+                            for each in market_detail:
+                                if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
+                                    second_mi = float(each['low_price'])
+                            one_card_price = round(card_price / bcx, 3)
+                            one_percent = round(100 - (one_card_price / second_mi * 100), 2)
+                            print(one_percent)
+                            if one_percent > 10:
+                                loop.create_task(wait(market_id, second_mi, edition, name, is_gold, card_id, seller, bcx, level, card_price, percent, edit))
+        elif detail['id'] == "sm_update_price":
+            print(detail)
+            info = json.loads(detail['json'])
+            ids = info['ids']
+            cards = []
+            for market_id in ids:
+                link = "https://steemmonsters.com/market/status?id=" + market_id
+                res = requests.get(link).json()
                 try:
-                    transactor = detail['required_posting_auths'][0]
-                    trans = detail['required_auths'][0]
-                except:
+                    card_uid = str(res['cards'][0]['uid'])
+                    cards.append(card_uid)
+                except KeyError:
                     pass
-                listtt = ast.literal_eval(detail['json'])
-                li_lenth = len(listtt)
-                time.sleep(1)
-                checkn = True
-                for i in listtt:
-                    cardddd = i['cards'][0]
-                    linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
-                    res = requests.get(linkk).json()
-                    res = res[0]
-                    seller = res['player']
-                    success = 0
-                    if seller == transactor:
-                        success = 1
-                    elif seller == trans:
-                        success = 1
-                    if success == 1:
-                        card_id = res['uid']
-                        market_id = res['market_id']
-                        if market_id is not None:
-                            card_price = float(res['buy_price'])
-                            card_number = str(res['card_detail_id'])
-                            is_gold = bool(res['gold'])
-                            edit = int(res['edition'])
-                            rarity = int(res['details']['rarity'])
-                            name = car_name_by_id[str(card_number)]
-                            if edit == 0:
-                                edition = "Alpha"
-                            elif edit == 1:
-                                edition = "Beta"
-                            elif edit == 2:
-                                edition = "Promo"
-                            else:
-                                edition = "Reward"
-                            bcx = int(get_bcx(res))
-                            level = get_level(edit, rarity, bcx, is_gold)
-                            market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
-                            if bcx == 1:
-                                for each in market_detail:
-                                    if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
-                                        if checkn is True:
-                                            second_min = float(each['low_price'])
-                                            checkn = False
-                                percent = round(100 - (card_price / second_min * 100), 2)
-                                print(card_price, second_min, percent)
-                                if percent > 10:
-                                    if li_lenth > 1:
-                                        time.sleep(25)
-                                        li_lenth = 0.1
-                                    elif li_lenth == 0.1:
-                                        pass
-                                    else:
-                                        time.sleep(20)
-                                    linkk = "https://steemmonsters.com/market/status?id=" + market_id
-                                    ress = requests.get(linkk).json()
-                                    buyer = ress['purchaser']
-                                    print(buyer)
-                                    if second_min > 0.06 and buyer is None:
-                                        price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
-                                        sbd_price = price_resp['sbd_price'] - 0.02
-                                        steem_price = price_resp['steem_price'] - 0.01
-                                        sbd_send = round(card_price / sbd_price, 3)
-                                        stmc_sbd = str(sbd_send) + " SBD"
-                                        steem_send = round(card_price / steem_price, 3)
-                                        stmc_steem = str(steem_send) + " STEEM"
-                                        memo = "sm_market_purchase:{}".format(market_id)
-                                        stmconnect = SteemConnect()
-                                        steem_link = stmconnect.create_hot_sign_url("transfer",
-                                                                                    {"to": "svirus", "amount": stmc_steem,
-                                                                                     "memo": memo})
-                                        sbd_link = stmconnect.create_hot_sign_url("transfer",
-                                                                                  {"to": "svirus", "amount": stmc_sbd,
-                                                                                   "memo": memo})
-                                        thumbnail_link = thumbnail_generator(edition, name, is_gold)
-                                        embed = Embed(color=15105817)
-                                        embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller),
-                                                        value="Edition: **{}**,  Gold: **{}**, Bcx: **{}**, Level: **{}**\nPrice: **{}$**,  Cheaper: **{}%**,  Second Lowest: {}$".format(
-                                                            edition, is_gold, bcx, level, card_price, percent, second_min))
-                                        embed.set_thumbnail(thumbnail_link)
-                                        embed.add_field(name="**Commands to buy(3% cashback)**",
-                                                        value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(
-                                                            steem_send, memo, sbd_send, memo))
-                                        embed.add_field(name="**Steemconnect link to buy(3% cashback)**",
-                                                        value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link, sbd_link))
-                                        embed.add_field(name="**Verification**",
-                                                        value="**Verify**: `..verify {}`".format(market_id))
-                                        if is_gold == True:
-                                            ghook.send(embed=embed)
-                                            ghook.close()
-                                        elif edit == 0:
-                                            ahook.send(embed=embed)
-                                            ahook.close()
-                                        else:
-                                            bhook.send(embed=embed)
-                                            bhook.close()
-    
-                            else:
-                                for each in market_detail:
-                                    if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
-                                        if checkn is True:
-                                            second_mi = float(each['low_price'])
-                                            checkn = False
-                                one_card_price = round(card_price / bcx, 3)
-                                one_percent = round(100 - (one_card_price / second_mi * 100), 2)
-                                if one_percent > 10:
-                                    if li_lenth > 1:
-                                        time.sleep(25)
-                                        li_lenth = 0.1
-                                    elif li_lenth == 0.1:
-                                        pass
-                                    else:
-                                        time.sleep(20)
-                                    linkk = "https://steemmonsters.com/market/status?id=" + market_id
-                                    ress = requests.get(linkk).json()
-                                    buyer = ress['purchaser']
-                                    if second_mi > 0.06 and buyer is None:
-                                        price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
-                                        sbd_price = price_resp['sbd_price'] - 0.02
-                                        steem_price = price_resp['steem_price'] - 0.01
-                                        sbd_send = round(card_price / sbd_price, 3)
-                                        stmc_sbd = str(sbd_send) + " SBD"
-                                        steem_send = round(card_price / steem_price, 3)
-                                        stmc_steem = str(steem_send) + " STEEM"
-                                        memo = "sm_market_purchase:{}".format(market_id)
-                                        stmconnect = SteemConnect()
-                                        steem_link = stmconnect.create_hot_sign_url("transfer",
-                                                                                    {"to": "svirus", "amount": stmc_steem,
-                                                                                     "memo": memo})
-                                        sbd_link = stmconnect.create_hot_sign_url("transfer",
-                                                                                  {"to": "svirus", "amount": stmc_sbd,
-                                                                                   "memo": memo})
-                                        thumbnail_link = thumbnail_generator(edition, name, is_gold)
-                                        embed = Embed(color=15105817)
-                                        embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller),
-                                                        value="Edition: **{}**,  Gold: **{}**, Bcx: **{}**, Level: **{}**\nPrice: **{}$**, Per bcx price: **{}$**, Second lowest by single bcx: **{}$**\nCheaper by single bcx: **{}%**".format(
-                                                            edition, is_gold, bcx, level, card_price, one_card_price,
-                                                            second_mi, one_percent))
-                                        embed.set_thumbnail(thumbnail_link)
-                                        embed.add_field(name="**Commands to buy(3% cashback)**",
-                                                        value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(
-                                                            steem_send, memo, sbd_send, memo))
-                                        embed.add_field(name="**Steemconnect link to buy(3% cashback)**",
-                                                        value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link, sbd_link))
-                                        embed.add_field(name="**Verification**",
-                                                        value="**Verify**: `..verify {}`".format(market_id))
-                                        if is_gold == True:
-                                            ghook.send(embed=embed)
-                                            ghook.close()
-                                        elif bcx > 1:
-                                            mhook.send(embed=embed)
-                                            mhook.close()
-                                        elif edit == 0:
-                                            ahook.send(embed=embed)
-                                            ahook.close()
-                                        else:
-                                            bhook.send(embed=embed)
-                                            bhook.close()
-        except Exception as e:
-            print("Error found: {}".format(e))
+            trans = ""
+            transactor = ""
+            try:
+                transactor = detail['required_posting_auths'][0]
+                trans = detail['required_auths'][0]
+            except:
+                pass
+            for i in cards:
+                cardddd = i
+                linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
+                res = requests.get(linkk).json()
+                res = res[0]
+                seller = res['player']
+                success = 0
+                if seller == transactor:
+                    success = 1
+                elif seller == trans:
+                    success = 1
+                if success == 1:
+                    card_id = res['uid']
+                    market_id = res['market_id']
+                    if market_id is not None:
+                        card_price = float(res['buy_price'])
+                        card_number = str(res['card_detail_id'])
+                        is_gold = bool(res['gold'])
+                        edit = int(res['edition'])
+                        rarity = int(res['details']['rarity'])
+                        name = car_name_by_id[str(card_number)]
+                        if edit == 0:
+                            edition = "Alpha"
+                        elif edit == 1:
+                            edition = "Beta"
+                        elif edit == 2:
+                            edition = "Promo"
+                        else:
+                            edition = "Reward"
+                        bcx = int(get_bcx(res))
+                        level = get_level(edit, rarity, bcx, is_gold)
+                        market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
+                        if bcx == 1:
+                            for each in market_detail:
+                                if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(
+                                        each['edition']) == int(edit):
+                                    second_min = float(each['low_price'])
+                            percent = round(100 - (card_price / second_min * 100), 2)
+                            print(card_price, second_min, percent)
+                            if percent > 10:
+                                loop.create_task(wait(market_id, second_min, edition, name, is_gold, card_id, seller, bcx, level,card_price, percent, edit))
+                        else:
+                            for each in market_detail:
+                                if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(
+                                        each['edition']) == int(edit):
+                                    second_mi = float(each['low_price'])
+                            one_card_price = round(card_price / bcx, 3)
+                            one_percent = round(100 - (one_card_price / second_mi * 100), 2)
+                            print(one_percent)
+                            if one_percent > 10:
+                                loop.create_task(wait(market_id, second_mi, edition, name, is_gold, card_id, seller, bcx, level,card_price, percent, edit))
 
-
+        await asyncio.sleep(0)
 
 
 if __name__ == '__main__':
-    st()
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(st())
