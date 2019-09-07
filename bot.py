@@ -530,13 +530,14 @@ async def st():
                         bcx = int(get_bcx(res))
                         level = get_level(edit, rarity, bcx, is_gold)
                         market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped')
-                        print(market_detail)
+                        print(market_detail, bcx)
                         market_detail = market_detail.json()
                         if bcx == 1:
                             for each in market_detail:
                                 if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
                                     second_min = float(each['low_price'])
                             percent = round(100 - (card_price / second_min * 100), 2)
+                            print(second_min, percent)
                             if percent > 10:
                                 print("test")
                                 loop.create_task(wait(market_id, second_min, edition, name, is_gold, card_id, seller, bcx, level, card_price, percent, edit))
