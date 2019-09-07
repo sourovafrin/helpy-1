@@ -305,7 +305,7 @@ def thumbnail_generator(edition, name, is_gold):
 
 
 async def wait(market_id, second_min, edition, name, is_gold, card_id, seller, bcx, level, card_price, percent, edit):
-    await asyncio.sleep(15)
+    await asyncio.sleep(13)
     linkk = "https://steemmonsters.com/market/status?id=" + market_id
     ress = requests.get(linkk).json()
     buyer = ress['purchaser']
@@ -498,10 +498,10 @@ async def st():
             except:
                 pass
             listtt = json.loads(detail['json'])
+            await asyncio.sleep(5)
             for i in listtt:
                 cardddd = i['cards'][0]
                 linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
-                await asyncio.sleep(3)
                 res = requests.get(linkk).json()
                 res = res[0]
                 seller = res['player']
@@ -530,9 +530,7 @@ async def st():
                             edition = "Reward"
                         bcx = int(get_bcx(res))
                         level = get_level(edit, rarity, bcx, is_gold)
-                        market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped')
-                        print(market_detail, bcx)
-                        market_detail = market_detail.json()
+                        market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
                         if bcx == 1:
                             for each in market_detail:
                                 if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
@@ -569,6 +567,7 @@ async def st():
                 trans = detail['required_auths'][0]
             except:
                 pass
+            await asyncio.sleep(5)
             for i in cards:
                 cardddd = i
                 linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
@@ -600,9 +599,7 @@ async def st():
                             edition = "Reward"
                         bcx = int(get_bcx(res))
                         level = get_level(edit, rarity, bcx, is_gold)
-                        market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped')
-                        print(market_detail)
-                        market_detail = market_detail.json()
+                        market_detail = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
                         if bcx == 1:
                             for each in market_detail:
                                 if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(
