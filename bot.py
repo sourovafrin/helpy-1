@@ -539,9 +539,7 @@ async def st():
                                 if str(each['card_detail_id']) == card_number and each['gold'] == is_gold and int(each['edition']) == int(edit):
                                     second_min = float(each['low_price'])
                             percent = round(100 - (card_price / second_min * 100), 2)
-                            print(second_min, percent)
                             if percent > 10:
-                                print("test")
                                 loop.create_task(wait(market_id, second_min, edition, name, is_gold, card_id, seller, bcx, level, card_price, percent, edit))
                         else:
                             for each in market_detail:
@@ -550,7 +548,7 @@ async def st():
                             one_card_price = round(card_price / bcx, 3)
                             one_percent = round(100 - (one_card_price / second_mi * 100), 2)
                             if one_percent > 10:
-                                loop.create_task(wait(market_id, second_mi, edition, name, is_gold, card_id, seller, bcx, level, card_price, percent, edit))
+                                loop.create_task(wait(market_id, second_mi, edition, name, is_gold, card_id, seller, bcx, level, card_price, one_percent, edit))
         elif detail['id'] == "sm_update_price":
             info = json.loads(detail['json'])
             ids = info['ids']
@@ -619,7 +617,7 @@ async def st():
                             one_card_price = round(card_price / bcx, 3)
                             one_percent = round(100 - (one_card_price / second_mi * 100), 2)
                             if one_percent > 10:
-                                loop.create_task(wait(market_id, second_mi, edition, name, is_gold, card_id, seller, bcx, level,card_price, percent, edit))
+                                loop.create_task(wait(market_id, second_mi, edition, name, is_gold, card_id, seller, bcx, level,card_price, one_percent, edit))
 
         await asyncio.sleep(0)
 
