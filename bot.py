@@ -1,13 +1,12 @@
 from beem.steem import Steem
 from beem.blockchain import Blockchain
-from datetime import timedelta
 from dhooks import Webhook, Embed
 from beem.steemconnect import SteemConnect
 import requests
 import json
-import time
 import os
 import asyncio
+import base64
 
 CH = os.environ.get('CH')
 SV = os.environ.get('SV')
@@ -19,10 +18,10 @@ AU = os.environ.get('AU')
 MLU = os.environ.get('MLU')
 
 
-ahook = Webhook(url= AU)
-bhook = Webhook(url= MU)
-mhook = Webhook(url= MLU)
-ghook = Webhook(url= WB)
+ahook = Webhook(url=AU)
+bhook = Webhook(url=MU)
+mhook = Webhook(url=MLU)
+ghook = Webhook(url=WB)
 
 
 def get_level(edition, rarity, bcx, gold):
@@ -311,69 +310,42 @@ async def wait(market_id, second_min, edition, name, is_gold, card_id, seller, b
     buyer = ress['purchaser']
     print("Purchaser: {}".format(buyer))
     if second_min > 0.06 and buyer is None:
+        price_resp = requests.get("https://steemmonsters.com/settings").json()
+        sbd_price = price_resp['sbd_price'] - 0.02
+        steem_price = price_resp['steem_price'] - 0.01
+        dec_price = price_resp['dec_price']
+        dec_send = round(card_price / dec_price, 3)
+        sbd_send = round(card_price / sbd_price, 3)
+        stmc_sbd = str(sbd_send) + " SBD"
+        steem_send = round(card_price / steem_price, 3)
+        stmc_steem = str(steem_send) + " STEEM"
+        dec = """["custom_json",{"required_auths":["__signer"],"required_posting_auths":[],"id":"sm_market_purchase","json":"{\\"items\\":[\\"@\\"],\\"purchaser\\":\\"__signer\\",\\"market\\":\\"svirus\\"}"}]"""
+        dec = dec.split("@")
+        dec = dec[0] + market_id + dec[1]
+        encoded_dec = base64.b64encode(bytes(dec, "utf-8"))
+        string = encoded_dec.decode("utf-8")
+        final_dec = "https://beta.steemconnect.com/sign/op/" + string.replace("=", ".") + "?authority=active"
+        memo = "sm_market_purchase:{}".format(market_id)
+        stmconnect = SteemConnect()
+        steem_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus", "amount": stmc_steem, "memo": memo})
+        sbd_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus", "amount": stmc_sbd, "memo": memo})
+        thumbnail_link = thumbnail_generator(edition, name, is_gold)
         if bcx == 1:
-            price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
-            sbd_price = price_resp['sbd_price']
-            steem_price = price_resp['steem_price']
-            sbd_send = round(card_price / sbd_price, 3)
-            stmc_sbd = str(sbd_send) + " SBD"
-            steem_send = round(card_price / steem_price, 3)
-            stmc_steem = str(steem_send) + " STEEM"
-            memo = "sm_market_purchase:{}".format(market_id)
-            stmconnect = SteemConnect()
-            steem_link = stmconnect.create_hot_sign_url("transfer", {"to": "svirus",
-                                                                     "amount": stmc_steem,
-                                                                     "memo": memo})
-            sbd_link = stmconnect.create_hot_sign_url("transfer",
-                                                      {"to": "svirus", "amount": stmc_sbd,
-                                                       "memo": memo})
-            thumbnail_link = thumbnail_generator(edition, name, is_gold)
             embed = Embed(color=15105817)
-            embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller),
-                            value="Edition: **{}**,  Gold: **{}**, Bcx: **{}**, Level: **{}**\nPrice: **{}$**,  Cheaper: **{}%**,  Second Lowest: {}$".format(
-                                edition, is_gold, bcx, level, card_price, percent,
-                                second_min))
+            embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller), value="Edition: **{}**,  Gold: **{}**, Bcx: **{}**, Level: **{}**\nPrice: **{}$**,  Cheaper: **{}%**,  Second Lowest: {}$".format(edition, is_gold, bcx, level, card_price, percent, second_min))
             embed.set_thumbnail(thumbnail_link)
-            embed.add_field(name="**Commands to buy(3% cashback)**",
-                            value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(
-                                steem_send, memo, sbd_send, memo))
-            embed.add_field(name="**Steemconnect link to buy(3% cashback)**",
-                            value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link,
-                                                                        sbd_link))
-            embed.add_field(name="**Verification**",
-                            value="**Verify**: `..verify {}`".format(market_id))
+            embed.add_field(name="**Command to purchase**", value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(steem_send, memo, sbd_send, memo))
+            embed.add_field(name="**Steemconnect link to purchase**",value="**STEEM**: [{} STEEM]({})\n**SBD**: [{} SBD]({})\n**DEC**: [{} DEC]({})".format(steem_send, steem_link, sbd_send, sbd_link, dec_send, final_dec))
+            embed.add_field(name="**Verification**", value="**Verify**: `..verify {}`".format(market_id))
         else:
             one_card_price = round(card_price / bcx, 3)
-            price_resp = requests.get("https://steemmonsters.com/purchases/settings").json()
-            sbd_price = price_resp['sbd_price'] - 0.02
-            steem_price = price_resp['steem_price'] - 0.01
-            sbd_send = round(card_price / sbd_price, 3)
-            stmc_sbd = str(sbd_send) + " SBD"
-            steem_send = round(card_price / steem_price, 3)
-            stmc_steem = str(steem_send) + " STEEM"
-            memo = "sm_market_purchase:{}".format(market_id)
-            stmconnect = SteemConnect()
-            steem_link = stmconnect.create_hot_sign_url("transfer",
-                                                        {"to": "svirus", "amount": stmc_steem,
-                                                         "memo": memo})
-            sbd_link = stmconnect.create_hot_sign_url("transfer",
-                                                      {"to": "svirus", "amount": stmc_sbd,
-                                                       "memo": memo})
-            thumbnail_link = thumbnail_generator(edition, name, is_gold)
             embed = Embed(color=15105817)
-            embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller),
-                            value="Edition: **{}**,  Gold: **{}**, Bcx: **{}**, Level: **{}**\nPrice: **{}$**, Per bcx price: **{}$**, Second lowest by single bcx: **{}$**\nCheaper by single bcx: **{}%**".format(
-                                edition, is_gold, bcx, level, card_price, one_card_price,
-                                second_min, percent))
+            embed.add_field(name="**{}\n{} by @{}**".format(name, card_id, seller), value="Edition: **{}**,  Gold: **{}**, Bcx: **{}**, Level: **{}**\nPrice: **{}$**, Per bcx price: **{}$**, Second lowest by single bcx: **{}$**\nCheaper by single bcx: **{}%**".format(edition, is_gold, bcx, level, card_price, one_card_price, second_min, percent))
             embed.set_thumbnail(thumbnail_link)
-            embed.add_field(name="**Commands to buy(3% cashback)**",
-                            value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(
-                                steem_send, memo, sbd_send, memo))
-            embed.add_field(name="**Steemconnect link to buy(3% cashback)**",
-                            value="**STEEM**: {}\n\n**SBD**: {}".format(steem_link, sbd_link))
-            embed.add_field(name="**Verification**",
-                            value="**Verify**: `..verify {}`".format(market_id))
-        if is_gold == True:
+            embed.add_field(name="**Command to purchase**", value="**STEEM**: `..transfer {} steem svirus {}`\n\n**SBD**: `..transfer {} sbd svirus {}`".format(steem_send, memo, sbd_send, memo))
+            embed.add_field(name="**Steemconnect link to purchase**", value="**STEEM**: [{} STEEM]({})\n**SBD**: [{} SBD]({})\n**DEC**: [{} DEC]({})".format(steem_send, steem_link, sbd_send, sbd_link, dec_send, final_dec))
+            embed.add_field(name="**Verification**", value="**Verify**: `..verify {}`".format(market_id))
+        if is_gold is True:
             ghook.send(embed=embed)
             ghook.close()
         elif bcx > 1:
