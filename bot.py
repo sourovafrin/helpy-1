@@ -505,7 +505,7 @@ async def st():
             except:
                 pass
             listtt = json.loads(detail['json'])
-            await asyncio.sleep(5)
+            await asyncio.sleep(7)
             for i in listtt:
                 cardddd = i['cards'][0]
                 linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
