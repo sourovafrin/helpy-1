@@ -304,7 +304,7 @@ def thumbnail_generator(edition, name, is_gold):
 
 
 async def wait(market_id, second_min, edition, name, is_gold, card_id, seller, bcx, level, card_price, percent, edit):
-    await asyncio.sleep(15)
+    await asyncio.sleep(20)
     linkk = "https://steemmonsters.com/market/status?id=" + market_id
     ress = requests.get(linkk).json()
     buyer = ress['purchaser']
@@ -505,7 +505,6 @@ async def st():
             except:
                 pass
             listtt = json.loads(detail['json'])
-            await asyncio.sleep(7)
             for i in listtt:
                 cardddd = i['cards'][0]
                 linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
