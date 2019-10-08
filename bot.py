@@ -489,7 +489,12 @@ async def st():
                       "114": "Delwyn Dragonscale",
                       "115": "Dragonling Bowman",
                       "116": "Fiendish Harpy",
-                      "117": "Red Dragon"
+                      "117": "Red Dragon",
+                      "132": "Fallen Specter",
+                      "133": "Beetle Queen",
+                      "131": "Furious Chicken",
+                      "134": "Naga Windmaster",
+                      "116": "Fiendish Harpy",
                       }
 
     stm = Steem(node=[ "https://api.steemit.com", "https://steemd.minnowsupportproject.org", "https://anyx.io"])
