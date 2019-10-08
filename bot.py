@@ -308,7 +308,7 @@ async def wait(market_id, second_min, edition, name, is_gold, card_id, seller, b
     linkk = "https://steemmonsters.com/market/status?id=" + market_id
     ress = requests.get(linkk).json()
     buyer = ress['purchaser']
-    print(f"Purchaser: {buyer} || Price: {second_min} || Name: {name}")
+    print(f"Purchaser: {buyer} || Price: {card_price} || Name: {name}")
     if second_min > 0.06 and buyer is None:
         price_resp = requests.get("https://steemmonsters.com/settings").json()
         sbd_price = price_resp['sbd_price'] - 0.02
