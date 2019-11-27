@@ -304,12 +304,7 @@ def thumbnail_generator(edition, name, is_gold):
 
 
 async def wait(market_id, second_min, edition, name, is_gold, card_id, seller, bcx, level, card_price, percent, edit):
-    await asyncio.sleep(20)
-    linkk = "https://steemmonsters.com/market/status?id=" + market_id
-    ress = requests.get(linkk).json()
-    buyer = ress['purchaser']
-    print(f"Purchaser: {buyer} || Price: {card_price} || Name: {name}")
-    if second_min > 0.06 and buyer is None:
+    if second_min > 0.06:
         price_resp = requests.get("https://steemmonsters.com/settings").json()
         sbd_price = price_resp['sbd_price'] - 0.02
         steem_price = price_resp['steem_price'] - 0.01
