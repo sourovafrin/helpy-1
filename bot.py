@@ -506,7 +506,10 @@ async def st():
                 pass
             listtt = json.loads(detail['json'])
             for i in listtt:
-                cardddd = i['cards'][0]
+                try:
+                    cardddd = i['cards'][0]
+                except:
+                    continue
                 linkk = "https://steemmonsters.com/cards/find?ids=" + cardddd
                 res = requests.get(linkk).json()
                 res = res[0]
