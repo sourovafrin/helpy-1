@@ -291,72 +291,80 @@ def send_message(market_id, second_min, edition, name, is_gold, card_uid, seller
                 bhook.send(embed=embed)
                 bhook.close()
         except Exception as e:
-            print(e)
+            print(f"Error in message sending: {e}")
 
 
 def process(json_data, user_perm_posting, user_perm_active):
-    for card in json_data:
-        try:
-            card_uid = card['cards'][0]
-        except:
-            card_uid = card
-        response_json = requests.get(f"https://steemmonsters.com/cards/find?ids={card_uid}").json()[0]
-        seller = response_json['player']
-        if seller == user_perm_posting or seller == user_perm_active:
-            market_id = response_json['market_id']
-            if market_id is not None:
-                card_price = float(response_json['buy_price'])
-                card_detail_id = str(response_json['card_detail_id'])
-                is_gold = bool(response_json['gold'])
-                edition = int(response_json['edition'])
-                rarity = int(response_json['details']['rarity'])
-                name = card_dict[card_detail_id]
-                bcx = int(get_bcx(response_json))
-                level = get_level(edition, rarity, bcx, is_gold)
-                market_group_sale = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
+    try:
+        for card in json_data:
+            try:
+                card_uid = card['cards'][0]
+            except:
+                card_uid = card
+            response_json = requests.get(f"https://steemmonsters.com/cards/find?ids={card_uid}").json()[0]
+            seller = response_json['player']
+            if seller == user_perm_posting or seller == user_perm_active:
+                market_id = response_json['market_id']
+                if market_id is not None:
+                    card_price = float(response_json['buy_price'])
+                    card_detail_id = str(response_json['card_detail_id'])
+                    is_gold = bool(response_json['gold'])
+                    edition = int(response_json['edition'])
+                    rarity = int(response_json['details']['rarity'])
+                    name = card_dict[card_detail_id]
+                    bcx = int(get_bcx(response_json))
+                    level = get_level(edition, rarity, bcx, is_gold)
+                    market_group_sale = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
 
-                for info in market_group_sale:
-                    if str(info['card_detail_id']) == card_detail_id and info['gold'] == is_gold and int(
-                            info['edition']) == int(edition):
-                        next_price = float(info['low_price'])
-                percent = round(100 - (card_price / next_price * 100), 2)
-                if percent > 10:
-                    send_message(market_id, next_price, edition, name, is_gold, card_uid, seller, bcx, level, card_price, percent)
-
+                    for info in market_group_sale:
+                        if str(info['card_detail_id']) == card_detail_id and info['gold'] == is_gold and int(
+                                info['edition']) == int(edition):
+                            next_price = float(info['low_price'])
+                    percent = round(100 - (card_price / next_price * 100), 2)
+                    if percent > 10:
+                        send_message(market_id, next_price, edition, name, is_gold, card_uid, seller, bcx, level, card_price, percent)
+    except Exception as e:
+        print(f"Following error in process: {e}")
+           
+            
 def stream():
-    stm = Steem(node=["https://api.steemit.com", "https://steemd.minnowsupportproject.org", "https://anyx.io"])
-    chain = Blockchain(stm, "head")
-    for tx in chain.stream(['custom_json']):
-        if tx['id'] == 'sm_sell_cards':
-            user_perm_posting = ""
-            user_perm_active = ""
-            try:
-                user_perm_posting = tx['required_posting_auths'][0]
-                user_perm_active = tx['required_auths'][0]
-            except:
-                pass
-            json_data = json.loads(tx['json'])
-            process(json_data, user_perm_posting, user_perm_active)
-
-        elif tx['id'] == 'sm_update_price':
-            market_id_list = json.loads(tx['json'])['ids']
-            card_uid_dict = []
-            for market_id in market_id_list:
-                response_json = requests.get(f"https://steemmonsters.com/market/status?id={market_id}").json()
+    try:
+        stm = Steem(node=["https://api.steemit.com", "https://steemd.minnowsupportproject.org", "https://anyx.io"])
+        chain = Blockchain(stm, "head")
+        for tx in chain.stream(['custom_json']):
+            if tx['id'] == 'sm_sell_cards':
+                user_perm_posting = ""
+                user_perm_active = ""
                 try:
-                    card_uid = response_json['cards'][0]['uid']
-                    card_uid_dict.append(card_uid)
-                except KeyError:
+                    user_perm_posting = tx['required_posting_auths'][0]
+                    user_perm_active = tx['required_auths'][0]
+                except:
                     pass
-            user_perm_posting = ""
-            user_perm_active = ""
-            try:
-                user_perm_posting = tx['required_posting_auths'][0]
-                user_perm_active = tx['required_auths'][0]
-            except:
-                pass
-            process(card_uid_dict, user_perm_posting, user_perm_active)
+                json_data = json.loads(tx['json'])
+                process(json_data, user_perm_posting, user_perm_active)
 
+            elif tx['id'] == 'sm_update_price':
+                market_id_list = json.loads(tx['json'])['ids']
+                card_uid_dict = []
+                for market_id in market_id_list:
+                    response_json = requests.get(f"https://steemmonsters.com/market/status?id={market_id}").json()
+                    try:
+                        card_uid = response_json['cards'][0]['uid']
+                        card_uid_dict.append(card_uid)
+                    except KeyError:
+                        pass
+                user_perm_posting = ""
+                user_perm_active = ""
+                try:
+                    user_perm_posting = tx['required_posting_auths'][0]
+                    user_perm_active = tx['required_auths'][0]
+                except:
+                    pass
+                process(card_uid_dict, user_perm_posting, user_perm_active)
+    except Exception as e:
+        print(f"Following error in stream: {e}")
+        
+        
 if __name__ == '__main__':
     print("process started")
     stream()
