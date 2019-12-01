@@ -336,7 +336,7 @@ def stream():
             process(json_data, user_perm_posting, user_perm_active)
 
         elif tx['id'] == 'sm_update_price':
-            market_id_list = json.loads(detail['json'])['ids']
+            market_id_list = json.loads(tx['json'])['ids']
             card_uid_dict = []
             for market_id in market_id_list:
                 response_json = requests.get(f"https://steemmonsters.com/market/status?id={market_id}").json()
