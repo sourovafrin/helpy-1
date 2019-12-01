@@ -274,21 +274,24 @@ def send_message(market_id, second_min, edition, name, is_gold, card_uid, seller
             embed.set_title(f"Edition: **{edition_txt}**, Gold: **{is_gold}**, Bcx: **{bcx}**, Level: **{level}**\nPrice: {card_price}$, Per bcx price: {one_card_price}$, Cheaper by single bcx: {percent}%, Second Lowest by single bcx: {second_min}")
             embed.add_field(name=f"**---------------------------**",
                             value=f"Command to purchase:\n**STEEM**: `..transfer {steem_send} steem svirus {memo}`\n**SBD**: `..transfer {sbd_send} sbd svirus {memo}`\n\nSteemconnect link to purchase:\n**STEEM**: [{steem_send} STEEM]({steem_link})\n**SBD**: [{sbd_send} SBD]({sbd_link})\n**DEC**: [{dec_send} DEC]({final_dec})\n\n**Verify**: `..verify {market_id}`")
-        if bcx > 1:
-            mhook.send(embed=embed)
-            mhook.close()
-        elif is_gold is True:
-            ghook.send(embed=embed)
-            ghook.close()
-        elif edition == 0:
-            ahook.send(embed=embed)
-            ahook.close()
-        elif edition == 4:
-            uhook.send(embed=embed)
-            uhook.close()
-        else:
-            bhook.send(embed=embed)
-            bhook.close()
+        try:
+            if bcx > 1:
+                mhook.send(embed=embed)
+                mhook.close()
+            elif is_gold is True:
+                ghook.send(embed=embed)
+                ghook.close()
+            elif edition == 0:
+                ahook.send(embed=embed)
+                ahook.close()
+            elif edition == 4:
+                uhook.send(embed=embed)
+                uhook.close()
+            else:
+                bhook.send(embed=embed)
+                bhook.close()
+        except:
+            pass
 
 
 def process(json_data, user_perm_posting, user_perm_active):
