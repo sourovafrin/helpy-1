@@ -1,5 +1,2 @@
-beem==0.20.23
-pymongo==3.7.2
-dnspython==1.16.0
+beem==beem 0.21.1
 dhooks==1.1.0
-
