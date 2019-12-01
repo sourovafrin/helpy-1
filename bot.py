@@ -265,15 +265,15 @@ def send_message(market_id, second_min, edition, name, is_gold, card_uid, seller
         if bcx == 1:
             embed.set_thumbnail(thumbnail_link)
             embed.set_author(f"{name}\n{card_uid} by @{seller}")
-            embed.set_title(f"Edition: **{edition_txt}**, Gold: **{is_gold}**, Bcx: **{bcx}**, Level: **{level}**\nPrice: {card_price}$, Cheaper: {percent}%, Second Lowest: {second_min}")
-            embed.add_field(name=f"**---------------------------**",
-                            value=f"Command to purchase:\n**STEEM**: `..transfer {steem_send} steem svirus {memo}`\n**SBD**: `..transfer {sbd_send} sbd svirus {memo}`\n\nSteemconnect link to purchase:\n**STEEM**: [{steem_send} STEEM]({steem_link})\n**SBD**: [{sbd_send} SBD]({sbd_link})\n**DEC**: [{dec_send} DEC]({final_dec})\n\n**Verify**: `..verify {market_id}`")
+            embed.set_title(f"Edition: {edition_txt}, Gold: {is_gold}, Bcx: {bcx}, Level: {level}\nPrice: {card_price}$, Cheaper: {percent}%, Second Lowest: {second_min}")
+            embed.add_field(name=".",
+                            value=f"Commands:\n**STEEM**: `..transfer {steem_send} steem svirus {memo}`\n**SBD**: `..transfer {sbd_send} sbd svirus {memo}`\n\nSteemconnect:\n[{steem_send} STEEM]({steem_link})\n[{sbd_send} SBD]({sbd_link})\n[{dec_send} DEC]({final_dec})\n\n**Verify**: `..verify {market_id}`")
         else:
             one_card_price = round(card_price / bcx, 3)
             embed.set_author(f"{name}\n{card_uid} by @{seller}")
-            embed.set_title(f"Edition: **{edition_txt}**, Gold: **{is_gold}**, Bcx: **{bcx}**, Level: **{level}**\nPrice: {card_price}$, Per bcx price: {one_card_price}$, Cheaper by single bcx: {percent}%, Second Lowest by single bcx: {second_min}")
-            embed.add_field(name=f"**---------------------------**",
-                            value=f"Command to purchase:\n**STEEM**: `..transfer {steem_send} steem svirus {memo}`\n**SBD**: `..transfer {sbd_send} sbd svirus {memo}`\n\nSteemconnect link to purchase:\n**STEEM**: [{steem_send} STEEM]({steem_link})\n**SBD**: [{sbd_send} SBD]({sbd_link})\n**DEC**: [{dec_send} DEC]({final_dec})\n\n**Verify**: `..verify {market_id}`")
+            embed.set_title(f"Edition: {edition_txt}, Gold: {is_gold}, Bcx: {bcx}, Level: {level}\nPrice: {card_price}$, Per bcx: {one_card_price}$, Cheaper: {percent}%, Second Lowest: {second_min}")
+            embed.add_field(name=".",
+                            value=f"Commands:\n**STEEM**: `..transfer {steem_send} steem svirus {memo}`\n**SBD**: `..transfer {sbd_send} sbd svirus {memo}`\n\nSteemconnect:\n[{steem_send} STEEM]({steem_link})\n[{sbd_send} SBD]({sbd_link})\n[{dec_send} DEC]({final_dec})\n\n**Verify**: `..verify {market_id}`")
         try:
             if bcx > 1:
                 mhook.send(embed=embed)
@@ -290,8 +290,8 @@ def send_message(market_id, second_min, edition, name, is_gold, card_uid, seller
             else:
                 bhook.send(embed=embed)
                 bhook.close()
-        except:
-            pass
+        except Exception as e:
+            print(e)
 
 
 def process(json_data, user_perm_posting, user_perm_active):
