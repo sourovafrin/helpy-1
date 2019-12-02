@@ -318,12 +318,11 @@ def process(json_data, user_perm_posting, user_perm_active):
                     market_group_sale = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
 
                     for info in market_group_sale:
-                        if str(info['card_detail_id']) == card_detail_id and info['gold'] == is_gold and int(
-                                info['edition']) == int(edition):
+                        if str(info['card_detail_id']) == card_detail_id and info['gold'] == is_gold and int(info['edition']) == int(edition):
                             next_price = float(info['low_price'])
-                    percent = round(100 - (card_price / next_price * 100), 2)
-                    if percent > 10:
-                        send_message(market_id, next_price, edition, name, is_gold, card_uid, seller, bcx, level, card_price, percent)
+                            percent = round(100 - (card_price / next_price * 100), 2)
+                            if percent > 10:
+                                send_message(market_id, next_price, edition, name, is_gold, card_uid, seller, bcx, level, card_price, percent)
     except Exception as e:
         print(f"Following error in process: {e}")
            
