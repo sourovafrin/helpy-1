@@ -268,8 +268,7 @@ def send_message(market_id, second_min, edition, name, is_gold, card_uid, seller
             embed.set_title(f"Edition: {edition_txt}, Gold: {is_gold}, Bcx: {bcx}, Level: {level}\nPrice: {card_price}$, Cheaper: {percent}%, Second Lowest: {second_min}")
             embed.add_field(name=".",value=f"Commands:\n**STEEM**: `..transfer {steem_send} steem svirus {memo}`\n**SBD**: `..transfer {sbd_send} sbd svirus {memo}`\n\nSteemconnect:\n[{steem_send} STEEM]({steem_link})\n[{sbd_send} SBD]({sbd_link})\n[{dec_send} DEC]({final_dec})\n\n**Verify**: `..verify {market_id}`")
         else:
-            one_card_price = round(card_price / bcx, 3)
-            percent = round(100 - (one_card_price / next_price * 100), 2)
+            percent = round(100 - (card_price / next_price * 100), 2)
             embed.set_author(f"{name}\n{card_uid} by @{seller}")
             embed.set_title(f"Edition: {edition_txt}, Gold: {is_gold}, Bcx: {bcx}, Level: {level}\nPrice: {card_price}$, Per bcx: {one_card_price}$, Cheaper: {percent}%, Second Lowest: {second_min}")
             embed.add_field(name=".", value=f"Commands:\n**STEEM**: `..transfer {steem_send} steem svirus {memo}`\n**SBD**: `..transfer {sbd_send} sbd svirus {memo}`\n\nSteemconnect:\n[{steem_send} STEEM]({steem_link})\n[{sbd_send} SBD]({sbd_link})\n[{dec_send} DEC]({final_dec})\n\n**Verify**: `..verify {market_id}`")
@@ -317,6 +316,8 @@ def process(json_data, user_perm_posting, user_perm_active):
 
                     for info in market_group_sale:
                         if str(info['card_detail_id']) == card_detail_id and info['gold'] == is_gold and int(info['edition']) == int(edition):
+                            if bcx > 1:
+                                card_price = round(card_price / bcx, 3)
                             next_price = float(info['low_price'])
                             percent = round(100 - (card_price / next_price * 100), 2)
                             if percent > 10:
