@@ -7,6 +7,7 @@ import json
 import os
 import base64
 import traceback
+import time
 from util import get_bcx, get_level, thumbnail_generator
 
 WB = os.environ.get('WB')
