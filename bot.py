@@ -293,39 +293,36 @@ def send_message(market_id, second_min, edition, name, is_gold, card_uid, seller
 
 
 def process(json_data, user_perm_posting, user_perm_active):
-    try:
-        for card in json_data:
-            try:
-                card_uid = card['cards'][0]
-            except:
-                card_uid = card
-            response_json = requests.get(f"https://steemmonsters.com/cards/find?ids={card_uid}").json()[0]
-            seller = response_json['player']
-            if seller == user_perm_posting or seller == user_perm_active:
-                market_id = response_json['market_id']
-                if market_id is not None:
-                    card_price = float(response_json['buy_price'])
-                    card_detail_id = str(response_json['card_detail_id'])
-                    is_gold = bool(response_json['gold'])
-                    edition = int(response_json['edition'])
-                    rarity = int(response_json['details']['rarity'])
-                    name = card_dict[card_detail_id]
-                    bcx = int(get_bcx(response_json))
-                    level = get_level(edition, rarity, bcx, is_gold)
-                    market_group_sale = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
+    for card in json_data:
+        try:
+            card_uid = card['cards'][0]
+        except:
+            card_uid = card
+        response_json = requests.get(f"https://steemmonsters.com/cards/find?ids={card_uid}").json()[0]
+        seller = response_json['player']
+        if seller == user_perm_posting or seller == user_perm_active:
+            market_id = response_json['market_id']
+            if market_id is not None:
+                card_price = float(response_json['buy_price'])
+                card_detail_id = str(response_json['card_detail_id'])
+                is_gold = bool(response_json['gold'])
+                edition = int(response_json['edition'])
+                rarity = int(response_json['details']['rarity'])
+                name = card_dict[card_detail_id]
+                bcx = int(get_bcx(response_json))
+                level = get_level(edition, rarity, bcx, is_gold)
+                market_group_sale = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
 
-                    for info in market_group_sale:
-                        if str(info['card_detail_id']) == card_detail_id and info['gold'] == is_gold and int(info['edition']) == int(edition):
-                            if bcx > 1:
-                                card_price = round(card_price / bcx, 3)
-                            next_price = float(info['low_price'])
-                            percent = round(100 - (card_price / next_price * 100), 2)
-                            if percent > 10:
-                                send_message(market_id, next_price, edition, name, is_gold, card_uid, seller, bcx, level, card_price, percent)
-    except Exception as e:
-        print(f"Following error in process: {e}")
+                for info in market_group_sale:
+                    if str(info['card_detail_id']) == card_detail_id and info['gold'] == is_gold and int(info['edition']) == int(edition):
+                        if bcx > 1:
+                            card_price = round(card_price / bcx, 3)
+                        next_price = float(info['low_price'])
+                        percent = round(100 - (card_price / next_price * 100), 2)
+                        if percent > 10:
+                            send_message(market_id, next_price, edition, name, is_gold, card_uid, seller, bcx, level, card_price, percent)
            
-            
+  
 def stream():
     try:
         stm = Steem(node=["https://api.steemit.com", "https://steemd.minnowsupportproject.org", "https://anyx.io"])
