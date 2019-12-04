@@ -365,7 +365,7 @@ def stream():
                 except:
                     pass
                 process(card_uid_dict, user_perm_posting, user_perm_active)
-    except Exception as e:
+    except:
         print(traceback.format_exc())
         
         
