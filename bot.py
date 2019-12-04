@@ -271,6 +271,7 @@ def send_message(market_id, second_min, edition, name, is_gold, card_uid, seller
             embed.add_field(name=".",value=f"Commands:\n**STEEM**: `..transfer {steem_send} steem svirus {memo}`\n**SBD**: `..transfer {sbd_send} sbd svirus {memo}`\n\nSteemconnect:\n[{steem_send} STEEM]({steem_link})\n[{sbd_send} SBD]({sbd_link})\n[{dec_send} DEC]({final_dec})\n\n**Verify**: `..verify {market_id}`")
         else:
             one_card_price = round(card_price / bcx, 3)
+            embed.set_thumbnail(thumbnail_link)
             embed.set_author(f"{name}\n{card_uid} by @{seller}")
             embed.set_title(f"Edition: {edition_txt}, Gold: {is_gold}, Bcx: {bcx}, Level: {level}\nPrice: {card_price}$, Per bcx: {one_card_price}$, Cheaper: {percent}%, Second Lowest: {second_min}")
             embed.add_field(name=".", value=f"Commands:\n**STEEM**: `..transfer {steem_send} steem svirus {memo}`\n**SBD**: `..transfer {sbd_send} sbd svirus {memo}`\n\nSteemconnect:\n[{steem_send} STEEM]({steem_link})\n[{sbd_send} SBD]({sbd_link})\n[{dec_send} DEC]({final_dec})\n\n**Verify**: `..verify {market_id}`")
