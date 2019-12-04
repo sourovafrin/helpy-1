@@ -6,6 +6,7 @@ import requests
 import json
 import os
 import base64
+import traceback
 from util import get_bcx, get_level, thumbnail_generator
 
 WB = os.environ.get('WB')
@@ -288,8 +289,8 @@ def send_message(market_id, second_min, edition, name, is_gold, card_uid, seller
             else:
                 bhook.send(embed=embed)
                 bhook.close()
-        except Exception as e:
-            print(f"Error in message sending: {e}")
+        except:
+            print(traceback.format_exc())
 
 
 def process(json_data, user_perm_posting, user_perm_active):
@@ -324,8 +325,8 @@ def process(json_data, user_perm_posting, user_perm_active):
                                 percent = round(100 - (card_price / next_price * 100), 2)
                             if percent > 10:
                                 send_message(market_id, next_price, edition, name, is_gold, card_uid, seller, bcx, level, card_price, percent)
-    except Exception as e:
-            print(f"Error in process: {e}")     
+    except:
+            print(traceback.format_exc())    
   
 def stream():
     try:
@@ -365,7 +366,7 @@ def stream():
                     pass
                 process(card_uid_dict, user_perm_posting, user_perm_active)
     except Exception as e:
-        print(f"Following error in stream: {e}")
+        print(traceback.format_exc())
         
         
 if __name__ == '__main__':
