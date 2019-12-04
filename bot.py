@@ -303,7 +303,13 @@ def process(json_data, user_perm_posting, user_perm_active):
             response_json = requests.get(f"https://steemmonsters.com/cards/find?ids={card_uid}").json()[0]
             seller = response_json['player']
             if seller == user_perm_posting or seller == user_perm_active:
-                market_id = response_json['market_id']
+                for i in range(5):
+                    try:
+                        market_id = response_json['market_id']
+                        break
+                    except:
+                        response_json = requests.get(f"https://steemmonsters.com/cards/find?ids={card_uid}").json()[0]
+                        time.sleep(1)
                 if market_id is not None:
                     card_price = float(response_json['buy_price'])
                     card_detail_id = str(response_json['card_detail_id'])
