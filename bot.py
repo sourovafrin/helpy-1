@@ -15,12 +15,14 @@ MU = os.environ.get('MU')
 AU = os.environ.get('AU')
 MLU = os.environ.get('MLU')
 UN = os.environ.get('UN')
+FO = os.environ.get('FO')
 
 ahook = Webhook(url=AU)
 bhook = Webhook(url=MU)
 mhook = Webhook(url=MLU)
 ghook = Webhook(url=WB)
 uhook = Webhook(url=UN)
+fhook = Webhook(url=FO)
 
 card_dict = {'1': "Goblin Shaman",
 '2': "Giant Roc",
@@ -229,7 +231,8 @@ card_dict = {'1': "Goblin Shaman",
 '205': "Prince Julian",
 '206': "Boogeyman",
 '207': "Spirit Miner",
-'208': "Battle Orca",}
+'208': "Battle Orca",
+'209': "Chain Golem"}
 
 def send_message(market_id, second_min, edition, name, is_gold, card_uid, seller, bcx, level, card_price, percent):
     if second_min > 0.05:
@@ -276,6 +279,9 @@ def send_message(market_id, second_min, edition, name, is_gold, card_uid, seller
             embed.set_title(f"Edition: {edition_txt}, Gold: {is_gold}, Bcx: {bcx}, Level: {level}\nPrice: {card_price}$, Per bcx: {one_card_price}$, Cheaper: {percent}%, Second Lowest: {second_min}")
             embed.add_field(name=".", value=f"Commands:\n**STEEM**: `..transfer {steem_send} steem svirus {memo}`\n**SBD**: `..transfer {sbd_send} sbd svirus {memo}`\n\nSteemconnect:\n[{steem_send} STEEM]({steem_link})\n[{sbd_send} SBD]({sbd_link})\n[{dec_send} DEC]({final_dec})\n\n**Verify**: `..verify {market_id}`")
         try:
+            if percent > 40:
+                fhook.send(embed=embed)
+                fhook.close()
             if bcx > 1:
                 mhook.send(embed=embed)
                 mhook.close()
