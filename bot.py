@@ -284,7 +284,7 @@ def send_message(market_id, second_min, edition, name, is_gold, card_uid, seller
             if percent > 40:
                 fhook.send(embed=embed)
                 fhook.close()
-            if bcx > 1:
+            elif bcx > 1:
                 mhook.send(embed=embed)
                 mhook.close()
             elif is_gold is True:
