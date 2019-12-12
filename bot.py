@@ -313,7 +313,7 @@ async def process(json_data, user_perm_posting, user_perm_active):
                 card_uid = card
             response_json = requests.get(f"https://steemmonsters.com/cards/find?ids={card_uid}").json()[0]
             seller = response_json['player']
-            print(seller)
+            print(seller, user_perm_posting, user_perm_active)
             if seller == user_perm_posting or seller == user_perm_active:
                 for i in range(5):
                     try:
