@@ -370,6 +370,7 @@ async def stream():
                 market_id_list = json.loads(tx['json'])['ids']
                 card_uid_dict = []
                 for market_id in market_id_list:
+                    time.sleep(2)
                     response_json = requests.get(f"https://steemmonsters.com/market/status?id={market_id}").json()
                     try:
                         card_uid = response_json['cards'][0]['uid']
