@@ -313,7 +313,6 @@ async def process(json_data, user_perm_posting, user_perm_active):
                 card_uid = card
             response_json = requests.get(f"https://steemmonsters.com/cards/find?ids={card_uid}").json()[0]
             seller = response_json['player']
-            print(card_uid)
             if seller == user_perm_posting or seller == user_perm_active:
                 for i in range(5):
                     try:
@@ -323,7 +322,6 @@ async def process(json_data, user_perm_posting, user_perm_active):
                     except:
                         response_json = requests.get(f"https://steemmonsters.com/cards/find?ids={card_uid}").json()[0]
                         time.sleep(1)
-                print(market_id, purchaser)
                 if market_id is not None and purchaser is None:
                     card_price = float(response_json['buy_price'])
                     card_detail_id = str(response_json['card_detail_id'])
@@ -335,15 +333,15 @@ async def process(json_data, user_perm_posting, user_perm_active):
                     level = get_level(edition, rarity, bcx, is_gold)
                     market_group_sale = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
                     for info in market_group_sale:
-                        if str(info['card_detail_id']) == card_detail_id and info['gold'] == is_gold and int(
-                                info['edition']) == int(edition):
+                        if str(info['card_detail_id']) == card_detail_id and info['gold'] == is_gold and int(info['edition']) == int(edition):
                             next_price = float(info['low_price'])
                             if bcx > 1:
                                 one_card_price = round(card_price / bcx, 3)
+                                print(one_card_price)
                                 percent = round(100 - (one_card_price / next_price * 100), 2)
                             else:
                                 percent = round(100 - (card_price / next_price * 100), 2)
-                            print(percent)
+                            print(card_uid, bcx, percent, next_price)
                             if percent > 10:
                                 send_message(market_id, next_price, edition, name, is_gold, card_uid, seller, bcx, level, card_price, percent)
     except:
@@ -372,7 +370,6 @@ async def stream():
                 market_id_list = json.loads(tx['json'])['ids']
                 card_uid_dict = []
                 for market_id in market_id_list:
-                    print(market_id)
                     response_json = requests.get(f"https://steemmonsters.com/market/status?id={market_id}").json()
                     try:
                         card_uid = response_json['cards'][0]['uid']
@@ -386,7 +383,6 @@ async def stream():
                     user_perm_active = tx['required_auths'][0]
                 except:
                     pass
-                print(card_uid_dict)
                 loop.create_task(process(card_uid_dict, user_perm_posting, user_perm_active))
             await asyncio.sleep(0)
     except:
