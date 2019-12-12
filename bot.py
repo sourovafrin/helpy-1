@@ -323,7 +323,7 @@ async def process(json_data, user_perm_posting, user_perm_active):
                     except:
                         response_json = requests.get(f"https://steemmonsters.com/cards/find?ids={card_uid}").json()[0]
                         time.sleep(1)
-                print(market_id purchaser)
+                print(market_id, purchaser)
                 if market_id is not None and purchaser is None:
                     card_price = float(response_json['buy_price'])
                     card_detail_id = str(response_json['card_detail_id'])
