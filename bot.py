@@ -382,6 +382,7 @@ async def stream():
                     user_perm_active = tx['required_auths'][0]
                 except:
                     pass
+                print(card_uid_dict)
                 loop.create_task(process(card_uid_dict, user_perm_posting, user_perm_active))
             await asyncio.sleep(0)
     except:
