@@ -337,7 +337,6 @@ async def process(json_data, user_perm_posting, user_perm_active):
                             next_price = float(info['low_price'])
                             if bcx > 1:
                                 one_card_price = round(card_price / bcx, 3)
-                                print(one_card_price)
                                 percent = round(100 - (one_card_price / next_price * 100), 2)
                             else:
                                 percent = round(100 - (card_price / next_price * 100), 2)
