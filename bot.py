@@ -386,6 +386,9 @@ async def stream():
                 user_perm_active = ""
                 try:
                     user_perm_posting = tx['required_posting_auths'][0]
+                except:
+                    pass
+                try:
                     user_perm_active = tx['required_auths'][0]
                 except:
                     pass
