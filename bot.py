@@ -313,6 +313,7 @@ async def process(json_data, user_perm_posting, user_perm_active):
                 card_uid = card
             response_json = requests.get(f"https://steemmonsters.com/cards/find?ids={card_uid}").json()[0]
             seller = response_json['player']
+            print(seller)
             if seller == user_perm_posting or seller == user_perm_active:
                 for i in range(5):
                     try:
@@ -332,6 +333,7 @@ async def process(json_data, user_perm_posting, user_perm_active):
                     bcx = int(get_bcx(response_json))
                     level = get_level(edition, rarity, bcx, is_gold)
                     market_group_sale = requests.get('https://steemmonsters.com/market/for_sale_grouped').json()
+                    print(card_uid)
                     for info in market_group_sale:
                         if str(info['card_detail_id']) == card_detail_id and info['gold'] == is_gold and int(info['edition']) == int(edition):
                             next_price = float(info['low_price'])
